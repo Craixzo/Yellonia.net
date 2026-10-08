@@ -220,6 +220,14 @@ a { color: inherit; }
   color: var(--gold);
 }
 
+/* Small heading inside a dropdown (not a link) */
+.dropdown-label {
+  padding: 10px 18px 4px;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--text-dim);
+}
 
 /* ---------- 7. MOBILE MENU ---------- */
 /* The checkbox + "Menu" label are hidden on wide screens */
