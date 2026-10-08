@@ -1,0 +1,325 @@
+/* ==============================================================
+   YELLONIA - style.css
+
+   CONTENTS (same order as index.html)
+     1. SETTINGS ......... colors, font, sizes. Change these first.
+     2. BASE ............. page-wide defaults
+     3. TOPBAR ........... the bar itself + flag stripe
+     4. LOGO ............. emblem + "Yellonia" text
+     5. NAV LINKS ........ the top-level items
+     6. DROPDOWNS ........ the menus that open under each item
+     7. MOBILE MENU ...... what happens on small screens
+     8. PAGE CONTENT ..... placeholder area under the topbar
+   ============================================================== */
+
+
+/* ---------- 1. SETTINGS ---------- */
+:root {
+  /* Colors (the last four are sampled from the coat of arms) */
+  --bar-bg:        #10202f;   /* topbar background */
+  --menu-bg:       #18304a;   /* dropdown background */
+  --page-bg:       #0b1722;   /* page background */
+  --text:          #eef3f7;   /* normal text */
+  --text-dim:      #a9bccb;   /* quieter text */
+  --gold:          #f5cf0a;   /* accent: hover, current page, Join button */
+  --flag-lime:     #b5cd1a;
+  --flag-blue:     #3f95ce;
+  --flag-green:    #5db54a;
+
+  /* Type */
+  --font:          "Barlow Semi Condensed", "Arial Narrow", Arial, sans-serif;
+  --nav-size:      1.0625rem; /* top-level link size */
+  --menu-size:     1rem;      /* dropdown link size */
+
+  /* Sizes */
+  --bar-height:    64px;      /* topbar height */
+  --logo-size:     44px;      /* emblem width/height */
+  --site-width:    1200px;    /* max width of the bar's contents */
+  --side-gap:      20px;      /* space at the left/right edges */
+  --nav-gap:       4px;       /* space between top-level items */
+  --menu-width:    220px;     /* dropdown width */
+  --stripe:        2px;       /* thickness of EACH flag stripe (0 = none) */
+}
+
+
+/* ---------- 2. BASE ---------- */
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--page-bg);
+  color: var(--text);
+  font-family: var(--font);
+  font-size: 1.0625rem;
+  line-height: 1.5;
+}
+
+a { color: inherit; }
+
+:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+}
+
+
+/* ---------- 3. TOPBAR ---------- */
+.topbar {
+  position: sticky;           /* stays at the top while scrolling; use "static" to turn off */
+  top: 0;
+  z-index: 100;
+  background: var(--bar-bg);
+}
+
+/* Flag stripe under the bar: lime / blue / green, like the emblem */
+.topbar::after {
+  content: "";
+  display: block;
+  height: calc(var(--stripe) * 3);
+  background: linear-gradient(
+    to bottom,
+    var(--flag-lime)  0 33.33%,
+    var(--flag-blue)  33.33% 66.66%,
+    var(--flag-green) 66.66% 100%
+  );
+}
+
+.topbar-inner {
+  max-width: var(--site-width);
+  min-height: var(--bar-height);
+  margin: 0 auto;
+  padding: 0 var(--side-gap);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+
+/* ---------- 4. LOGO ---------- */
+.logo {
+  display: flex;
+  align-items: center;
+  min-height: var(--bar-height);
+  gap: 12px;
+  text-decoration: none;
+}
+
+.logo img {
+  width: var(--logo-size);
+  height: var(--logo-size);
+  display: block;
+}
+
+.logo-text {                  /* delete the <span> in the HTML to show the emblem alone */
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--text);
+}
+
+
+/* ---------- 5. NAV LINKS ---------- */
+.nav-list,
+.dropdown {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-list {
+  display: flex;
+  align-items: center;
+  gap: var(--nav-gap);
+}
+
+.nav-list > li { position: relative; }
+
+.nav-list > li > a {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  height: var(--bar-height);
+  padding: 0 12px;
+  font-size: var(--nav-size);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+  color: var(--text);
+  white-space: nowrap;
+}
+
+.nav-list > li > a:hover,
+.nav-list > li:focus-within > a,
+.nav-list > li > a.current {
+  color: var(--gold);
+}
+
+/* Small arrow next to items that have a dropdown */
+.has-dropdown > a::after {
+  content: "";
+  border: 4px solid transparent;
+  border-top-color: currentColor;
+  border-bottom-width: 0;
+  opacity: 0.7;
+}
+
+/* Gold button style (used on "Join") */
+.nav-list > li > a.nav-cta {
+  height: 38px;
+  margin-left: 8px;
+  padding: 0 16px;
+  background: var(--gold);
+  color: #14202b;
+  border-radius: 3px;
+}
+
+.nav-list > li > a.nav-cta:hover,
+.nav-list > li:focus-within > a.nav-cta {
+  color: #14202b;
+  background: #ffe04a;
+}
+
+
+/* ---------- 6. DROPDOWNS ---------- */
+.dropdown {
+  display: none;              /* hidden until its parent is hovered or focused */
+  position: absolute;
+  top: 100%;
+  left: 0;
+  min-width: var(--menu-width);
+  padding: 6px 0;
+  background: var(--menu-bg);
+  border-top: 2px solid var(--gold);
+  box-shadow: 0 12px 24px rgba(3, 10, 18, 0.5);
+}
+
+/* Opens on mouse hover AND on keyboard Tab (no JavaScript needed) */
+.has-dropdown:hover > .dropdown,
+.has-dropdown:focus-within > .dropdown {
+  display: block;
+}
+
+/* The last menu opens leftwards so it doesn't run off the screen */
+.nav-list > li:last-child > .dropdown {
+  left: auto;
+  right: 0;
+}
+
+.dropdown a {
+  display: block;
+  padding: 9px 18px;
+  font-size: var(--menu-size);
+  font-weight: 500;
+  text-decoration: none;
+  color: var(--text);
+}
+
+.dropdown a:hover,
+.dropdown a:focus-visible {
+  background: rgba(245, 207, 10, 0.12);
+  color: var(--gold);
+}
+
+
+/* ---------- 7. MOBILE MENU ---------- */
+/* The checkbox + "Menu" label are hidden on wide screens */
+.nav-toggle {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.nav-button { display: none; }
+
+@media (max-width: 1120px) {  /* <- screen width where the bar collapses into "Menu" */
+
+  .nav-button {
+    display: block;
+    padding: 8px 14px;
+    font-weight: 600;
+    color: var(--text);
+    border: 1px solid var(--text-dim);
+    border-radius: 3px;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .nav-toggle:focus-visible + .nav-button {
+    outline: 2px solid var(--gold);
+    outline-offset: 2px;
+  }
+
+  .nav-toggle:checked + .nav-button {
+    color: var(--gold);
+    border-color: var(--gold);
+  }
+
+  /* Nav is hidden until "Menu" is tapped */
+  .nav {
+    display: none;
+    width: 100%;
+    padding-bottom: 12px;
+    max-height: calc(100vh - var(--bar-height));
+    overflow-y: auto;
+  }
+
+  .nav-toggle:checked ~ .nav { display: block; }
+
+  .nav-list {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+  }
+
+  .nav-list > li { border-top: 1px solid rgba(169, 188, 203, 0.2); }
+
+  .nav-list > li > a {
+    height: auto;
+    padding: 12px 4px;
+  }
+
+  .has-dropdown > a::after { display: none; }
+
+  /* On phones the sub-links are simply listed under each heading */
+  .dropdown,
+  .nav-list > li:last-child > .dropdown {
+    display: block;
+    position: static;
+    min-width: 0;
+    padding: 0 0 8px 14px;
+    background: none;
+    border: 0;
+    box-shadow: none;
+  }
+
+  .dropdown a {
+    padding: 8px 4px;
+    color: var(--text-dim);
+  }
+
+  .nav-list > li > a.nav-cta {
+    display: inline-flex;
+    height: 38px;
+    margin: 12px 0 8px;
+    padding: 0 16px;
+  }
+}
+
+
+/* ---------- 8. PAGE CONTENT (placeholder) ---------- */
+.page {
+  max-width: var(--site-width);
+  margin: 0 auto;
+  padding: 48px var(--side-gap);
+}
+
+.page h1 {
+  margin: 0 0 8px;
+  font-size: 2.25rem;
+  line-height: 1.15;
+}
+
+.page p {
+  margin: 0;
+  color: var(--text-dim);
+}
