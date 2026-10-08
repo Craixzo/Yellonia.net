@@ -29,7 +29,7 @@
   /* Type */
   --font:          "Barlow Semi Condensed", "Arial Narrow", Arial, sans-serif;
   --nav-size:      1.0625rem; /* top-level link size */
-  --menu-size:     1rem;      /* dropdown link size */
+  --menu-size:     0.75rem;      /* dropdown link size */
 
   /* Sizes */
   --bar-height:    64px;      /* topbar height */
