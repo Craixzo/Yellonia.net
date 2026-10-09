@@ -387,12 +387,17 @@
     watcher.observe(strip);
   })();
 </script>
-<!-- CAROUSEL SCRIPT: makes the arrow buttons move one slide left or right -->
+<!-- CAROUSEL SCRIPT: arrow buttons move one slide; the carousel also moves on by itself every few seconds -->
 <script>
   (function () {
     var carousel = document.querySelector('.carousel');
     if (!carousel) return;
     var track = carousel.querySelector('.carousel-track');
+    var WAIT = 6000;                                             /* time each slide stays up, in milliseconds */
+    var still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var timer = null;
+    var onScreen = false;
+    var hovering = false;
 
     function move(direction) {
       var slide = track.clientWidth;                             /* width of one slide */
@@ -403,8 +408,27 @@
       track.scrollTo({ left: next });
     }
 
-    carousel.querySelector('.carousel-prev').addEventListener('click', function () { move(-1); });
-    carousel.querySelector('.carousel-next').addEventListener('click', function () { move(1); });
+    /* Runs the timer only while the carousel is on screen and nobody is pointing at it */
+    function update() {
+      clearInterval(timer);
+      timer = null;
+      if (!still && onScreen && !hovering) {
+        timer = setInterval(function () { move(1); }, WAIT);
+      }
+    }
+
+    carousel.querySelector('.carousel-prev').addEventListener('click', function () { move(-1); update(); });
+    carousel.querySelector('.carousel-next').addEventListener('click', function () { move(1); update(); });
+
+    carousel.addEventListener('mouseenter', function () { hovering = true; update(); });
+    carousel.addEventListener('mouseleave', function () { hovering = false; update(); });
+    carousel.addEventListener('focusin', function () { hovering = true; update(); });
+    carousel.addEventListener('focusout', function () { hovering = false; update(); });
+
+    new IntersectionObserver(function (entries) {
+      onScreen = entries[0].isIntersecting;
+      update();
+    }, { threshold: 0.5 }).observe(carousel);
   })();
 </script>
 <!-- LOGO STRIP SCRIPT: repeats the row of logos once so the scroll loops without a gap -->
@@ -422,6 +446,30 @@
       for (var j = 0; j < links.length; j++) links[j].setAttribute('tabindex', '-1');
     }
     track.classList.add('logo-track-moving');
+  })();
+</script>
+<!-- FADE-IN SCRIPT: the heading and buttons in section 3 fade in one after another when scrolled to -->
+<script>
+  (function () {
+    var section = document.querySelector('.pillars');
+    if (!section) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    /* The things that fade in, in order */
+    var items = section.querySelectorAll('h2, .pillar, .minor');
+    for (var i = 0; i < items.length; i++) {
+      items[i].classList.add('fade-item');
+      items[i].style.setProperty('--fade-order', i);
+    }
+    section.classList.add('fade-waiting');                       /* hides them until the section is on screen */
+
+    var watcher = new IntersectionObserver(function (entries) {
+      if (entries[0].isIntersecting) {
+        watcher.disconnect();
+        section.classList.add('fade-go');
+      }
+    }, { threshold: 0.25 });
+    watcher.observe(section);
   })();
 </script>
 </body>
