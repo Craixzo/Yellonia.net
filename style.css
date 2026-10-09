@@ -339,7 +339,7 @@ a { color: inherit; }
   display: flex;
   align-items: center;                    /* up/down position of the text: flex-start, center, flex-end */
   justify-content: center;
-  padding: 40px var(--side-gap);
+   padding: 96px var(--side-gap);
 }
 
 /* The image fills the whole hero, behind the text */
