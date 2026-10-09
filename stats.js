@@ -1,1 +1,1 @@
-const DISCORD_INVITE  = 'https://discord.gg/zYhWhzVcMX';   // the part after discord.gg/
+const DISCORD_INVITE  = 'zYhWhzVcMX';   // the part after discord.gg/
