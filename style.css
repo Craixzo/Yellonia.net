@@ -809,18 +809,32 @@ main { flex: 1; }
 .safety {
   display: flex;
   flex-direction: column;
-  justify-content: center;                /* centers everything up and down */
-  gap: 56px;                              /* space between the text and the logo strip */
+  gap: 48px;                              /* space between the text, the logo strip and Continue */
   min-height: 100vh;                      /* fills the whole window */
-  padding: 64px 0;
+  padding: 48px 0 16px;
   background: var(--bar-bg);
 }
 
+/* The two "auto" margins (here and on Continue below) split the spare height evenly,
+   which keeps the emblem, text and logos centered with Continue at the bottom */
 .safety-text {
   max-width: 720px;
-  margin: 0 auto;
+  margin: auto auto 0;
   padding: 0 var(--side-gap);
   text-align: center;
+}
+
+.safety .next-section {
+  margin-top: auto;
+}
+
+/* The coat of arms above the title */
+.safety-emblem {
+  display: block;
+  width: 112px;                           /* size of the emblem */
+  height: 112px;
+  margin: 0 auto 24px;                    /* last number = space between the emblem and the title */
+  filter: drop-shadow(0 6px 18px rgba(0, 0, 0, 0.5));
 }
 
 .safety-text h2 {
@@ -875,7 +889,7 @@ main { flex: 1; }
   flex-wrap: nowrap;
   justify-content: flex-start;
   width: max-content;
-  animation: logo-scroll 40s linear infinite;   /* 40s = time for one full loop; bigger = slower */
+  animation: logo-scroll 50s linear infinite;   /* 50s = time for one full loop; bigger = slower */
 }
 
 .logo-strip:hover .logo-track-moving {
@@ -897,4 +911,10 @@ main { flex: 1; }
     animation: none;
   }
   .logo-track-moving li[aria-hidden="true"] { display: none; }
+}
+
+
+/* ---------- 18. SECTION 5 (placeholder) ---------- */
+.final {
+  min-height: 60vh;                       /* placeholder height; change once the section has content */
 }
