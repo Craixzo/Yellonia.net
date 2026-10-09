@@ -331,3 +331,54 @@ a { color: inherit; }
   margin: 0;
   color: var(--text-dim);
 }
+
+/* ---------- 9. HOMEPAGE: HERO (image with centered title + text) ---------- */
+.hero {
+  position: relative;
+  min-height: clamp(340px, 50vw, 620px);  /* smallest, scales with screen width, tallest */
+  display: flex;
+  align-items: center;                    /* up/down position of the text: flex-start, center, flex-end */
+  justify-content: center;
+  padding: 40px var(--side-gap);
+}
+
+/* The image fills the whole hero, behind the text */
+.hero img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;                      /* fills the box, cropping instead of stretching */
+  object-position: center 60%;            /* which part stays visible when cropped */
+}
+
+/* Dark tint over the image so the text stays readable */
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(8, 9, 11, 0.45);       /* last number = darkness, 0 (none) to 1 (black) */
+}
+
+.hero-text {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.7);
+}
+
+.hero-text h1 {
+  margin: 0;
+  font-size: clamp(2.25rem, 6vw, 4.5rem); /* smallest, scales with screen width, largest */
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: 0.02em;
+  color: #ffffff;
+}
+
+.hero-text p {
+  max-width: 44ch;
+  margin: 16px auto 0;
+  font-size: clamp(1.0625rem, 2vw, 1.375rem);
+  color: #ffffff;
+}
