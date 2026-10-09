@@ -335,7 +335,7 @@ a { color: inherit; }
 /* ---------- 9. HOMEPAGE: HERO (image with centered title + text) ---------- */
 .hero {
   position: relative;
-  min-height: clamp(340px, 50vw, 620px);  /* smallest, scales with screen width, tallest */
+  min-height: calc(100vh - var(--bar-height) - var(--stripe) * 3);  /* full window height, minus the topbar and its stripe */
   display: flex;
   align-items: center;                    /* up/down position of the text: flex-start, center, flex-end */
   justify-content: center;
