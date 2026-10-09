@@ -22,9 +22,9 @@
   --text:          #dbdee1;   /* normal text */
   --text-dim:      #949ba4;   /* quieter text */
   --gold:          #bed215;   /* accent: hover, current page, Join button */
-  --flag-lime:     #b5cd1a;
-  --flag-blue:     #3f95ce;
-  --flag-green:    #5db54a;
+  --flag-lime:     #bed215;   /* flag yellow */
+  --flag-blue:     #369cd3;   /* flag blue */
+  --flag-green:    #5bbf49;   /* flag green */
 
   /* Type */
   --font:          "Roboto", "Arial Narrow", Arial, sans-serif;
