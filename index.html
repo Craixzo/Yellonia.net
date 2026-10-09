@@ -188,6 +188,55 @@
       </a>
 
     </div>
+
+    <!-- MINOR LINKS: the smaller row under the two big buttons -->
+    <div class="minor-grid">
+
+      <a class="minor" href="economy.html">
+        <h3>Economy</h3>
+        <p>Corporations, the stock market and housing.</p>
+      </a>
+
+      <a class="minor" href="emergency-services.html">
+        <h3>Emergency Services</h3>
+        <p>Police, fire, and parks and wildlife.</p>
+      </a>
+
+      <a class="minor" href="nation.html">
+        <h3>Nation</h3>
+        <p>History, the states and the capital.</p>
+      </a>
+
+    </div>
+
+    <!-- CONTINUE BUTTON: scrolls down to the section with id="safety" -->
+    <a class="next-section" href="#safety">Continue</a>
+  </section>
+
+  <!-- SAFETY: centered title + text, with a slowly scrolling row of logos -->
+  <section class="safety" id="safety">
+    <div class="safety-text">
+      <h2>Safety comes first</h2>
+      <p>Yellonia is meant to be a fair and safe place to play. These are the tools and partners we rely on to catch cheaters, moderate the community and protect our members.</p>
+    </div>
+
+    <!-- LOGO STRIP
+         One <li> per logo. To use a real logo, replace the text inside the <li> with:
+           <img src="filename.png" alt="Name of the tool or partner">
+         To make a logo clickable, wrap the <img> in <a href="https://..."> ... </a>
+         Only list each logo once: the script at the bottom of the page repeats the row so it loops. -->
+    <div class="logo-strip">
+      <ul class="logo-track">
+        <li>Logo 1</li>
+        <li>Logo 2</li>
+        <li>Logo 3</li>
+        <li>Logo 4</li>
+        <li>Logo 5</li>
+        <li>Logo 6</li>
+        <li>Logo 7</li>
+        <li>Logo 8</li>
+      </ul>
+    </div>
   </section>
 
 </main>
@@ -344,6 +393,23 @@
 
     carousel.querySelector('.carousel-prev').addEventListener('click', function () { move(-1); });
     carousel.querySelector('.carousel-next').addEventListener('click', function () { move(1); });
+  })();
+</script>
+<!-- LOGO STRIP SCRIPT: repeats the row of logos once so the scroll loops without a gap -->
+<script>
+  (function () {
+    var track = document.querySelector('.logo-track');
+    if (!track) return;
+    var copies = track.innerHTML;
+    track.insertAdjacentHTML('beforeend', copies);
+    /* hide the repeated logos from screen readers and keyboard users */
+    var items = track.children;
+    for (var i = items.length / 2; i < items.length; i++) {
+      items[i].setAttribute('aria-hidden', 'true');
+      var links = items[i].querySelectorAll('a');
+      for (var j = 0; j < links.length; j++) links[j].setAttribute('tabindex', '-1');
+    }
+    track.classList.add('logo-track-moving');
   })();
 </script>
 </body>
