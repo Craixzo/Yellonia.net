@@ -1191,3 +1191,176 @@ main { flex: 1; }
 .join-short {
   min-height: 56vh;
 }
+
+
+/* ---------- 22. GOVERNMENT PAGE: COLORS, SUB-HEADINGS, PEOPLE CARDS ---------- */
+
+/* Each part's accent color */
+.group-emperor    { --group-color: var(--flag-lime); }
+.group-cabinet    { --group-color: var(--flag-blue); }
+.group-parliament { --group-color: var(--flag-green); }
+.group-court      { --group-color: #dbdee1; }
+.group-ministries { --group-color: #8fd0f0; }
+
+.group-sub {                              /* smaller heading inside a part, e.g. "The Viceroys" */
+  margin: 36px 0 8px;
+  font-size: 1.5rem;
+  line-height: 1.2;
+}
+
+/* A row of people cards; filled in by government.js */
+.people {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  min-height: 104px;                      /* holds the space while the names load */
+}
+
+.person {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  min-width: 260px;
+  padding: 16px 24px 16px 16px;
+  background: var(--bar-bg);
+  border-left: 4px solid var(--group-color);
+  text-decoration: none;
+  color: var(--text);
+  transition: background 0.2s ease;
+}
+
+.person:hover { background: #0a0b0c; }
+
+.person img {
+  width: 72px;                            /* size of the avatar picture */
+  height: 72px;
+  border-radius: 50%;
+  background: var(--page-bg);
+  object-fit: cover;
+}
+
+.person-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.person-name {
+  font-size: 1.25rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.person-title {
+  color: var(--group-color);
+}
+
+.people-note {                            /* shown when a list is empty or can't be loaded */
+  margin: 0;
+  align-self: center;
+  color: var(--text-dim);
+}
+
+.people-note a { color: var(--gold); }
+
+
+/* ---------- 23. PARLIAMENT SEAT CHART ---------- */
+.chamber {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 40px 64px;
+  padding: 32px;
+  background: var(--bar-bg);
+}
+
+/* The chart itself: left side, aisle, right side */
+.chamber-seats {
+  --seat-size: 28px;                      /* size of each seat */
+  --seat-space: 7px;                      /* space between seats */
+  display: flex;
+  min-height: calc(10 * var(--seat-size) + 9 * var(--seat-space));   /* holds the space while it loads */
+}
+
+.chamber-side {
+  display: grid;
+  grid-template-columns: repeat(4, var(--seat-size));
+  grid-template-rows: repeat(10, var(--seat-size));
+  gap: var(--seat-space);
+}
+
+.chamber-aisle {
+  width: 56px;                            /* width of the central aisle */
+}
+
+/* One seat. Plain = not in use (grayed out) */
+.seat {
+  display: block;
+  width: var(--seat-size, 18px);
+  height: var(--seat-size, 18px);
+  border-radius: 3px;
+  background: rgba(148, 155, 164, 0.16);
+}
+
+.seat-open {                              /* open but not held: an outline */
+  background: none;
+  box-shadow: inset 0 0 0 2px rgba(148, 155, 164, 0.7);
+}
+
+/* .seat-held gets its party color from the script */
+
+/* Fade-in: seats appear one after another, nearest the aisle first */
+.chamber-waiting .seat {
+  opacity: 0;
+  transform: scale(0.6);
+}
+
+.chamber-waiting.chamber-go .seat {
+  opacity: 1;
+  transform: none;
+  transition: opacity 0.25s ease, transform 0.25s ease;              /* length of each seat's fade */
+  transition-delay: calc(var(--seat-order) * var(--seat-gap, 12ms)); /* gap between seats is FADE_GAP in government.js */
+}
+
+/* The key beside the chart */
+.chamber-key {
+  flex: 1;
+  min-width: 240px;
+}
+
+.chamber-key h3 {
+  margin: 0 0 12px;
+  font-size: 1.375rem;
+}
+
+.chamber-parties {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.chamber-parties li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(148, 155, 164, 0.2);
+}
+
+.chamber-party-name { flex: 1; }
+
+.chamber-party-seats {
+  font-size: 1.25rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.chamber-note {
+  margin: 14px 0 0;
+  color: var(--text-dim);
+}
+
+@media (max-width: 480px) {
+  .chamber { padding: 20px; }
+  .chamber-seats { --seat-size: 18px; --seat-space: 5px; }
+  .chamber-aisle { width: 28px; }
+}
