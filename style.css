@@ -16,9 +16,9 @@
 /* ---------- 1. SETTINGS ---------- */
 :root {
   /* Colors (the last four are sampled from the coat of arms) */
-  --bar-bg:        ##1e1f22;   /* topbar background */
-  --menu-bg:       #2b2d31;   /* dropdown background */
-  --page-bg:       #313338;   /* page background */
+  --bar-bg:        #111214;   /* topbar background */
+  --menu-bg:       #0a0b0c;   /* dropdown background */
+  --page-bg:       #1a1b1e;   /* page background */
   --text:          #dbdee1;   /* normal text */
   --text-dim:      #949ba4;   /* quieter text */
   --gold:          #f5cf0a;   /* accent: hover, current page, Join button */
