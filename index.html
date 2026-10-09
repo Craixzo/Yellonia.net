@@ -174,5 +174,62 @@
     }, { passive: true });
   })();
 </script>
+<!-- STATS SCRIPT: counts the numbers up, using live figures from /api/stats when available -->
+<script>
+  (function () {
+    var strip = document.querySelector('.stats');
+    if (!strip) return;
+    var items = strip.querySelectorAll('[data-count]');
+    var DURATION = 1500;                         /* length of the count-up, in milliseconds */
+    var still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    /* Ask our own function for the live numbers; give up quietly if it fails */
+    var live = fetch('/api/stats')
+      .then(function (reply) { return reply.ok ? reply.json() : {}; })
+      .catch(function () { return {}; });
+    var giveUp = new Promise(function (done) { setTimeout(function () { done({}); }, 2500); });
+
+    function show(el, n) { el.textContent = n.toLocaleString('en-US'); }
+
+    function countUp(el, target) {
+      if (still) { show(el, target); return; }
+      var began = null;
+      function frame(now) {
+        if (began === null) began = now;
+        var progress = Math.min((now - began) / DURATION, 1);
+        var eased = 1 - Math.pow(1 - progress, 3);     /* fast at first, slows near the end */
+        show(el, Math.round(target * eased));
+        if (progress < 1) requestAnimationFrame(frame);
+      }
+      requestAnimationFrame(frame);
+    }
+
+    function start() {
+      Promise.race([live, giveUp]).then(function (data) {
+        items.forEach(function (el) {
+          var key = el.getAttribute('data-stat');
+          var typed = parseInt(el.textContent.replace(/\D/g, ''), 10) || 0;   /* the number written in the HTML */
+          var target = (key && typeof data[key] === 'number') ? data[key] : typed;
+          countUp(el, target);
+        });
+      });
+      /* If the live numbers arrive late, swap them in once the count-up is done */
+      live.then(function (data) {
+        setTimeout(function () {
+          items.forEach(function (el) {
+            var key = el.getAttribute('data-stat');
+            if (key && typeof data[key] === 'number') show(el, data[key]);
+          });
+        }, DURATION + 2600);
+      });
+    }
+
+    /* Wait until the strip is actually on screen */
+    var watcher = new IntersectionObserver(function (entries) {
+      if (entries[0].isIntersecting) { watcher.disconnect(); start(); }
+    }, { threshold: 0.4 });
+    watcher.observe(strip);
+  })();
+</script>
 </body>
 </html>
