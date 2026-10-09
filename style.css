@@ -483,7 +483,16 @@ html { scrollbar-width: none; }
   line-height: 1.15;
 }
 
+/* Section 3 fills the whole window; the two rows of buttons share the spare height */
+.pillars {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  padding-bottom: 16px;
+}
+
 .pillar-grid {
+  flex: 2;                                /* big buttons take two thirds of the spare height */
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 24px;
@@ -533,6 +542,48 @@ html { scrollbar-width: none; }
 @media (max-width: 700px) {
   .pillar-grid { grid-template-columns: 1fr; }
   .pillar { min-height: 220px; }
+}
+
+
+/* Smaller row of links under the two big buttons */
+.minor-grid {
+  flex: 1;                                /* small buttons take one third of the spare height */
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);  /* number of small buttons per row */
+  gap: 24px;
+  margin-top: 24px;                       /* space between the big row and the small row */
+}
+
+.minor {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 120px;                      /* height of each small button */
+  padding: 20px 24px;
+  background: var(--bar-bg);
+  border-left: 4px solid var(--gold);
+  text-decoration: none;
+  color: var(--text);
+  transition: background 0.2s ease;
+}
+
+.minor h3 {
+  margin: 0 0 4px;
+  font-size: 1.375rem;
+  line-height: 1.2;
+}
+
+.minor p {
+  margin: 0;
+  color: var(--text-dim);
+}
+
+.minor:hover { background: #0a0b0c; }
+
+.minor:hover h3 { color: var(--gold); }
+
+@media (max-width: 700px) {
+  .minor-grid { grid-template-columns: 1fr; }
 }
 
 
@@ -751,4 +802,99 @@ main { flex: 1; }
 
 .next-section:hover::after {
   transform: translateY(4px) rotate(45deg);
+}
+
+
+/* ---------- 17. SAFETY (centered text + scrolling logo strip) ---------- */
+.safety {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;                /* centers everything up and down */
+  gap: 56px;                              /* space between the text and the logo strip */
+  min-height: 100vh;                      /* fills the whole window */
+  padding: 64px 0;
+  background: var(--bar-bg);
+}
+
+.safety-text {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 0 var(--side-gap);
+  text-align: center;
+}
+
+.safety-text h2 {
+  margin: 0 0 16px;
+  font-size: clamp(2rem, 4vw, 3rem);      /* smallest, scales with screen width, largest */
+  line-height: 1.1;
+}
+
+.safety-text p {
+  margin: 0;
+  font-size: 1.125rem;
+  color: var(--text-dim);
+}
+
+/* The window the logos scroll through; the mask fades them out at both edges */
+.logo-strip {
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 15%, #000 85%, transparent);
+          mask-image: linear-gradient(to right, transparent, #000 15%, #000 85%, transparent);
+}
+
+.logo-track {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;                        /* without the script, the logos sit in a centered grid */
+  justify-content: center;
+  gap: 24px 0;
+}
+
+.logo-track li {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 200px;                           /* width of each logo's slot */
+  height: 96px;                           /* height of each logo's slot */
+  margin-right: 48px;                     /* space between logos */
+  color: var(--text-dim);
+  border: 1px dashed rgba(148, 155, 164, 0.4);   /* placeholder outline; delete once real logos are in */
+}
+
+.logo-track img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;                    /* logos keep their shape */
+}
+
+/* Added by the script once the row has been repeated */
+.logo-track-moving {
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  width: max-content;
+  animation: logo-scroll 40s linear infinite;   /* 40s = time for one full loop; bigger = slower */
+}
+
+.logo-strip:hover .logo-track-moving {
+  animation-play-state: paused;           /* pauses while the mouse is over it */
+}
+
+@keyframes logo-scroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+/* Visitors who ask for less motion get a still, centered grid instead */
+@media (prefers-reduced-motion: reduce) {
+  .logo-strip { -webkit-mask-image: none; mask-image: none; }
+  .logo-track-moving {
+    flex-wrap: wrap;
+    justify-content: center;
+    width: auto;
+    animation: none;
+  }
+  .logo-track-moving li[aria-hidden="true"] { display: none; }
 }
