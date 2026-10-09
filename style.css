@@ -438,17 +438,6 @@ html {
   transform: translateY(4px) rotate(45deg);   /* arrow nudges down on hover */
 }
 
-/* ---------- 12. SCROLLBAR ---------- */
-html {
-  scrollbar-width: thin;                              /* thin or auto */
-  scrollbar-color: #4a4d55 var(--bar-bg);             /* handle color, then track color */
-}
-
-/* Safari and older browsers */
-::-webkit-scrollbar { width: 10px; }
-::-webkit-scrollbar-track { background: var(--bar-bg); }
-::-webkit-scrollbar-thumb {
-  background: #4a4d55;
-  border-radius: 5px;
-}
-::-webkit-scrollbar-thumb:hover { background: var(--gold); }
+/* ---------- 12. SCROLLBAR (hidden) ---------- */
+html { scrollbar-width: none; }
+::-webkit-scrollbar { display: none; }
