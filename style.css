@@ -21,10 +21,10 @@
   --page-bg:       #1a1b1e;   /* page background */
   --text:          #dbdee1;   /* normal text */
   --text-dim:      #949ba4;   /* quieter text */
-  --gold:          #f5cf0a;   /* accent: hover, current page, Join button */
-  --flag-lime:     #b5cd1a;
-  --flag-blue:     #3f95ce;
-  --flag-green:    #5db54a;
+  --gold:          #bed215;   /* accent: hover, current page, Join button */
+  --flag-lime:     #5bbf49;
+  --flag-blue:     #369cd3;
+  --flag-green:    #bed215;
 
   /* Type */
   --font:          "Roboto", "Arial Narrow", Arial, sans-serif;
