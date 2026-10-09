@@ -483,17 +483,10 @@ html { scrollbar-width: none; }
   line-height: 1.15;
 }
 
-.pillars {
-  display: flex;
-  flex-direction: column;
-  min-height: calc(100vh - 225px);        /* 225px = the 90px above + the height of the stats strip */
-}
-
 .pillar-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 24px;
-  flex: 1;                                /* buttons stretch to fill the height */
 }
 
 .pillar {
@@ -542,46 +535,7 @@ html { scrollbar-width: none; }
   .pillar { min-height: 220px; }
 }
 
-/* Smaller row of links under the two big buttons */
-.minor-grid {
-  flex: 1;                                /* small buttons take one third of the spare height */
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);  /* number of small buttons per row */
-  gap: 24px;
-  margin-top: 24px;
-}
 
-.minor {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  min-height: 110px;                      /* height of each small button */
-  padding: 20px 24px;
-  background: var(--bar-bg);
-  border-left: 4px solid var(--gold);
-  text-decoration: none;
-  color: var(--text);
-  transition: background 0.2s ease;
-}
-
-.minor h3 {
-  margin: 0 0 4px;
-  font-size: 1.375rem;
-  line-height: 1.2;
-}
-
-.minor p {
-  margin: 0;
-  color: var(--text-dim);
-}
-
-.minor:hover { background: #0a0b0c; }
-
-.minor:hover h3 { color: var(--gold); }
-
-@media (max-width: 700px) {
-  .minor-grid { grid-template-columns: 1fr; }
-}
 /* ---------- 15. FOOTER ---------- */
 /* Keeps the footer at the bottom of the window on short pages */
 body {
@@ -662,3 +616,139 @@ main { flex: 1; }
 }
 
 .footer-bottom p { margin: 0; }
+
+
+/* ---------- 16. ABOUT + CAROUSEL (the second screen, under the stats strip) ---------- */
+.about {
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100vh - 135px);        /* fills the window; 135px = the height of the stats strip */
+  padding-bottom: 16px;
+}
+
+.about h2 {
+  margin: 0 0 12px;
+  font-size: 2rem;
+  line-height: 1.15;
+}
+
+.about .about-text {
+  max-width: 75ch;                        /* keeps lines a comfortable reading length */
+  margin: 0 0 28px;
+  font-size: 1.125rem;
+  color: var(--text);
+}
+
+/* The carousel takes all the height left under the text */
+.carousel {
+  position: relative;
+  flex: 1;
+  min-height: 280px;                      /* smallest the carousel can get */
+  display: flex;
+}
+
+/* The row of slides: scrolls sideways and snaps to one slide at a time */
+.carousel-track {
+  flex: 1;
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+}
+
+.carousel-slide {
+  position: relative;
+  flex: 0 0 100%;                         /* one slide fills the whole carousel */
+  margin: 0;
+  scroll-snap-align: start;
+}
+
+.carousel-slide img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;                      /* fills the slide, cropping instead of stretching */
+}
+
+.carousel-slide figcaption {              /* the caption bar at the bottom of each slide */
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 40px 24px 16px;
+  background: linear-gradient(to top, rgba(8, 9, 11, 0.85), rgba(8, 9, 11, 0));
+  color: #ffffff;
+}
+
+/* Previous / next arrows */
+.carousel-button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1;
+  width: 44px;
+  height: 44px;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(8, 9, 11, 0.6);
+  cursor: pointer;
+}
+
+.carousel-prev { left: 12px; }
+.carousel-next { right: 12px; }
+
+.carousel-button::before {                /* the arrow shape */
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 10px;
+  height: 10px;
+  border-top: 2px solid #ffffff;
+  border-right: 2px solid #ffffff;
+}
+
+.carousel-prev::before { transform: translate(-30%, -50%) rotate(-135deg); }
+.carousel-next::before { transform: translate(-70%, -50%) rotate(45deg); }
+
+.carousel-button:hover { background: var(--gold); }
+
+.carousel-button:hover::before { border-color: #111214; }
+
+@media (prefers-reduced-motion: reduce) {
+  .carousel-track { scroll-behavior: auto; }
+}
+
+/* "Continue" link with a down arrow, at the bottom of the second screen */
+.next-section {
+  align-self: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  margin-top: 16px;                       /* space between the carousel and the link */
+  padding: 8px 16px;
+  font-size: 1.0625rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-decoration: none;
+  color: var(--text);
+}
+
+.next-section::after {                    /* the down arrow */
+  content: "";
+  width: 12px;
+  height: 12px;
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  transform: rotate(45deg);
+  transition: transform 0.2s ease;
+}
+
+.next-section:hover { color: var(--gold); }
+
+.next-section:hover::after {
+  transform: translateY(4px) rotate(45deg);
+}
