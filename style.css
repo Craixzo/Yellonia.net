@@ -472,7 +472,7 @@ html { scrollbar-width: none; }
 }
 
 @media (max-width: 700px) {
-  .stats-list { grid-template-columns: repeat(2, 1fr); }
+  .stats-list { grid-template-columns: repeat(3, 1fr); }
 }
 
 
