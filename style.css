@@ -464,6 +464,7 @@ html { scrollbar-width: none; }
   font-weight: 700;
   line-height: 1.1;
   color: var(--gold);
+  font-variant-numeric: tabular-nums;     /* equal-width digits so the row doesn't wobble while counting */
 }
 
 .stats-list span {                        /* the label under it */
