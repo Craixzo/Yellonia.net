@@ -534,3 +534,83 @@ html { scrollbar-width: none; }
   .pillar-grid { grid-template-columns: 1fr; }
   .pillar { min-height: 220px; }
 }
+/* ---------- 15. FOOTER ---------- */
+/* Keeps the footer at the bottom of the window on short pages */
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+main { flex: 1; }
+
+.footer {
+  background: var(--bar-bg);
+  color: var(--text-dim);
+  font-size: 1rem;
+}
+
+/* Flag stripe on top of the footer, mirroring the topbar */
+.footer::before {
+  content: "";
+  display: block;
+  height: calc(var(--stripe) * 3);
+  background: linear-gradient(
+    to bottom,
+    var(--flag-lime)  0 33.33%,
+    var(--flag-blue)  33.33% 66.66%,
+    var(--flag-green) 66.66% 100%
+  );
+}
+
+.footer-inner {
+  max-width: var(--site-width);
+  margin: 0 auto;
+  padding: 36px var(--side-gap) 28px;   /* top, sides, bottom */
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 32px 48px;
+}
+
+.footer-brand { max-width: 320px; }
+
+.footer-brand p { margin: 10px 0 0; }
+
+.footer-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px 56px;                       /* second number = space between columns */
+}
+
+.footer-links h2 {                      /* column headings */
+  margin: 0 0 8px;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.footer-links ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.footer-links a {
+  display: block;
+  padding: 4px 0;
+  text-decoration: none;
+  color: var(--text-dim);
+}
+
+.footer-links a:hover { color: var(--gold); }
+
+.footer-bottom {
+  max-width: var(--site-width);
+  margin: 0 auto;
+  padding: 16px var(--side-gap) 24px;
+  border-top: 1px solid rgba(148, 155, 164, 0.2);
+  font-size: 0.875rem;
+}
+
+.footer-bottom p { margin: 0; }
