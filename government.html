@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Government | Yellonia</title>
+  <link rel="icon" href="images/TYEcoatofarms.png">
+
+  <!-- FONT: swap the family here AND in style.css (--font) to change it -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- TOPBAR: shared by every page. To change it, edit header.js -->
+<script src="header.js"></script>
+
+
+<!-- ============================================================
+     PAGE CONTENT: Government
+     Lines marked DRAFT were written as placeholders; reword them freely.
+
+     Two things on this page fill themselves in (see government.js):
+       - the people cards, from the Roblox group's ranks
+       - the Parliament seat chart, from the Centurion bot
+     ============================================================ -->
+<main>
+
+  <!-- BANNER: image with the page title on top -->
+  <section class="page-banner">
+    <img src="images/yeloria.png" alt="">
+    <div class="page-banner-text">
+      <h1>Government</h1>
+      <p>How the Empire of Yellonia is governed.</p> <!-- DRAFT -->
+    </div>
+  </section>
+
+  <!-- SECTION LINKS: jump to each part; stays pinned while scrolling.
+       Each href must match the id of a section below. -->
+  <nav class="subnav" aria-label="Parts of government">
+    <ul>
+      <li><a href="#emperor">The Emperor</a></li>
+      <li><a href="#cabinet">Imperial Cabinet</a></li>
+      <li><a href="#parliament">Parliament</a></li>
+      <li><a href="#court">Supreme Court</a></li>
+      <li><a href="#ministries">Ministries</a></li>
+    </ul>
+  </nav>
+
+
+  <!-- THE EMPEROR -->
+  <section class="group group-emperor" id="emperor">
+    <div class="group-inner">
+      <h2>The Emperor</h2>
+      <p class="group-text">The head of state and Commander in Chief of the Armed Forces. The Emperor signs or rejects the laws Parliament passes, and directs changes to government that don't require a law.</p> <!-- DRAFT -->
+
+      <!-- PEOPLE: filled in automatically with whoever holds the "Emperor" rank in the Roblox group -->
+      <div class="people" data-people="emperor" data-title="Emperor"></div>
+
+      <h3 class="group-sub">The Viceroys</h3>
+      <p class="group-text">The Viceroys stand beside the Emperor. If the Emperor steps down or is unavailable, they choose the next Emperor from among themselves.</p> <!-- DRAFT -->
+
+      <!-- PEOPLE: filled in automatically from the "Viceroys" rank -->
+      <div class="people" data-people="viceroys" data-title="Viceroy"></div>
+    </div>
+  </section>
+
+
+  <!-- THE IMPERIAL CABINET -->
+  <section class="group group-cabinet" id="cabinet">
+    <div class="group-inner">
+      <h2>The Imperial Cabinet</h2>
+      <p class="group-text">The Cabinet runs the ministries and carries out the work of government day to day. It is chaired by the Chancellor.</p> <!-- DRAFT -->
+
+      <!-- PEOPLE: filled in automatically from the "Chancellor of Yellonia" rank -->
+      <div class="people" data-people="chancellor" data-title="Chancellor"></div>
+
+      <h3 class="group-sub">Members of the Cabinet</h3>
+
+      <!-- PEOPLE: filled in automatically from the "Government Leadership" rank -->
+      <div class="people" data-people="cabinet" data-title="Cabinet member"></div>
+    </div>
+  </section>
+
+
+  <!-- PARLIAMENT -->
+  <section class="group group-parliament" id="parliament">
+    <div class="group-inner">
+      <h2>Parliament</h2>
+      <p class="group-text">Parliament writes and votes on the laws of the Empire, so that citizens have a say in how the nation is run. It is chaired by the Parliament Speaker. The chamber has 80 seats, of which 17 are currently open to be held.</p> <!-- DRAFT -->
+
+      <!-- SEAT CHART: drawn automatically by government.js from the live seat counts.
+           The chart is laid out like the chamber in the capital: two sides facing a central aisle. -->
+      <div class="chamber">
+        <div class="chamber-seats" id="chamber-seats" role="img" aria-label="Seating chart of Parliament"></div>
+        <div class="chamber-key">
+          <h3>Seats by party</h3>
+          <ul class="chamber-parties" id="chamber-parties"></ul>
+          <p class="chamber-note" id="chamber-note"></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- THE IMPERIAL SUPREME COURT -->
+  <section class="group group-court" id="court">
+    <div class="group-inner">
+      <h2>The Imperial Supreme Court</h2>
+      <p class="group-text">The Court interprets the laws and the Constitution. It has five judges, each put forward by the Chancellor and confirmed by the Emperor.</p> <!-- DRAFT -->
+    </div>
+  </section>
+
+
+  <!-- MINISTRIES -->
+  <section class="group group-ministries" id="ministries">
+    <div class="group-inner">
+      <h2>Ministries</h2>
+      <p class="group-text">Seven ministries carry out the work of government, each overseen by the Imperial Cabinet.</p> <!-- DRAFT -->
+      <div class="unit-grid">
+
+        <article class="unit">
+          <h3>Ministry of Defense</h3>
+          <p>Oversees the Armed Forces and the defense of the Empire.</p> <!-- DRAFT -->
+        </article>
+
+        <article class="unit">
+          <h3>Ministry of Justice</h3>
+          <p>Upholds the law and prosecutes those who break it.</p> <!-- DRAFT -->
+        </article>
+
+        <article class="unit">
+          <h3>Ministry of Intelligence</h3>
+          <p>Gathers intelligence and guards the security of the state.</p> <!-- DRAFT -->
+        </article>
+
+        <article class="unit">
+          <h3>Ministry of Commerce</h3>
+          <p>Oversees trade, corporations and the economy.</p> <!-- DRAFT -->
+        </article>
+
+        <!-- TODO: confirm the name; you have called this both "Relations" and "Foreign Affairs" -->
+        <article class="unit">
+          <h3>Ministry of Foreign Affairs</h3>
+          <p>Manages relations with other nations and groups.</p> <!-- DRAFT -->
+          <ul class="unit-parts">
+            <li>Diplomatic Security Unit</li>
+          </ul>
+        </article>
+
+        <article class="unit">
+          <h3>Ministry of Internal Affairs</h3>
+          <p>Runs the public services citizens rely on every day.</p> <!-- DRAFT -->
+          <ul class="unit-parts">
+            <li>Police Department</li>
+            <li>Fire Service</li>
+            <li>Postal Service</li>
+            <li>Department of Parks and Wildlife</li>
+          </ul>
+        </article>
+
+        <article class="unit">
+          <h3>Ministry of Science</h3>
+          <p>Leads research and development for the Empire.</p> <!-- DRAFT -->
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- JOIN: same closing section as the homepage, at a shorter height -->
+  <section class="join join-short">
+    <img src="images/yeloria.png" alt="">
+    <div class="join-text">
+      <h2>Take part in the Empire</h2>
+      <p>Elections, appointments and announcements all run through our Discord.</p> <!-- DRAFT -->
+      <a class="join-button" href="https://discord.gg/zYhWhzVcMX" target="_blank" rel="noopener">Join the Discord</a>
+    </div>
+  </section>
+
+</main>
+
+
+<!-- FOOTER: shared by every page. To change it, edit footer.js -->
+<script src="footer.js"></script>
+
+<!-- SHARED SCRIPT: topbar hide on scroll. To change it, edit script.js -->
+<script src="script.js"></script>
+
+<!-- THIS PAGE'S SCRIPT: fills in the people cards and draws the seat chart -->
+<script src="government.js"></script>
+
+</body>
+</html>
