@@ -494,6 +494,7 @@ html { scrollbar-width: none; }
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 24px;
+  flex: 1;                                /* buttons stretch to fill the height */
 }
 
 .pillar {
