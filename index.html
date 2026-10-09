@@ -133,6 +133,38 @@
     </ul>
   </section>
 
+  <!-- ABOUT + CAROUSEL: intro text with a screenshot carousel under it -->
+  <section class="page about">
+    <h2>What is Yellonia?</h2>
+    <p class="about-text">Yellonia is a military simulation nation on Roblox. Enlist in the Army, Navy, Air Force, Special Forces or Military Police and serve in a living capital city, in a nation run by its own members through an Emperor, a Parliament and a Supreme Court. Out of uniform, there are player-run corporations, a stock market and housing.</p>
+
+    <!-- CAROUSEL
+         One <figure class="carousel-slide"> per screenshot. Copy a whole <figure> block to add a slide.
+         Change src to the image file, alt to a short description, and the figcaption to the caption. -->
+    <div class="carousel">
+      <div class="carousel-track">
+
+        <figure class="carousel-slide">
+          <img src="yeloria.png" alt="The capital's reflecting pool at dusk">
+          <figcaption>The capital at dusk</figcaption>
+        </figure>
+
+        <figure class="carousel-slide">
+          <img src="yeloria.png" alt="">  <!-- TODO: replace with a second screenshot -->
+          <figcaption>Second screenshot goes here</figcaption>
+        </figure>
+
+        <figure class="carousel-slide">
+          <img src="yeloria.png" alt="">  <!-- TODO: replace with a third screenshot -->
+          <figcaption>Third screenshot goes here</figcaption>
+        </figure>
+
+      </div>
+      <button class="carousel-button carousel-prev" type="button" aria-label="Previous screenshot"></button>
+      <button class="carousel-button carousel-next" type="button" aria-label="Next screenshot"></button>
+    </div>
+  </section>
+
   <!-- PILLARS: the two big buttons -->
   <section class="page pillars">
     <h2>Explore the Empire</h2>
@@ -289,6 +321,26 @@
       if (entries[0].isIntersecting) { watcher.disconnect(); start(); }
     }, { threshold: 0.4 });
     watcher.observe(strip);
+  })();
+</script>
+<!-- CAROUSEL SCRIPT: makes the arrow buttons move one slide left or right -->
+<script>
+  (function () {
+    var carousel = document.querySelector('.carousel');
+    if (!carousel) return;
+    var track = carousel.querySelector('.carousel-track');
+
+    function move(direction) {
+      var slide = track.clientWidth;                             /* width of one slide */
+      var last = track.scrollWidth - slide;                      /* scroll position of the final slide */
+      var next = track.scrollLeft + direction * slide;
+      if (next > last + 5) next = 0;                             /* past the end: wrap to the first slide */
+      if (next < -5) next = last;                                /* before the start: wrap to the last slide */
+      track.scrollTo({ left: next });
+    }
+
+    carousel.querySelector('.carousel-prev').addEventListener('click', function () { move(-1); });
+    carousel.querySelector('.carousel-next').addEventListener('click', function () { move(1); });
   })();
 </script>
 </body>
