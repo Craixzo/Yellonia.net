@@ -445,6 +445,7 @@ html { scrollbar-width: none; }
 /* ---------- 13. STATS STRIP ---------- */
 .stats {
   background: var(--bar-bg);
+   scroll-margin-top: 90px;
 }
 
 .stats-list {
@@ -481,6 +482,12 @@ html { scrollbar-width: none; }
   margin: 0 0 24px;
   font-size: 2rem;
   line-height: 1.15;
+}
+
+.pillars {
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100vh - 225px);        /* 225px = the 90px above + the height of the stats strip */
 }
 
 .pillar-grid {
