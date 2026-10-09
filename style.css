@@ -914,9 +914,88 @@ main { flex: 1; }
 }
 
 
-/* ---------- 18. SECTION 5 (placeholder) ---------- */
-.final {
-  min-height: 60vh;                       /* placeholder height; change once the section has content */
+/* ---------- 18. JOIN (section 5: background image, centered text, big button) ---------- */
+.join {
+  position: relative;
+  min-height: 100vh;                      /* fills the whole window */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 64px var(--side-gap);
+}
+
+/* The image fills the whole section, behind the text */
+.join > img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 60%;
+}
+
+/* Dark tint over the image so the text stays readable */
+.join::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(8, 9, 11, 0.7);        /* last number = darkness, 0 (none) to 1 (black) */
+}
+
+.join-text {
+  position: relative;
+  z-index: 1;
+  max-width: 680px;
+  text-align: center;
+}
+
+.join-text h2 {
+  margin: 0 0 16px;
+  font-size: clamp(2rem, 5vw, 3.5rem);    /* smallest, scales with screen width, largest */
+  line-height: 1.1;
+  text-wrap: balance;                     /* splits the title into even lines when it wraps */
+  color: #ffffff;
+}
+
+.join-text p {
+  margin: 0 0 36px;
+  font-size: 1.1875rem;
+  color: #ffffff;
+}
+
+/* The big Join button */
+.join-button {
+  display: inline-block;
+  padding: 18px 44px;                     /* size of the button: up/down, then left/right */
+  font-size: 1.375rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+  color: #111214;
+  background: var(--gold);
+  border-radius: 4px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.join-button:hover,
+.join-button:focus-visible {
+  transform: scale(1.08);                 /* how much bigger it gets on hover: 1.08 = 8% */
+  box-shadow: 0 10px 30px rgba(190, 210, 21, 0.35);
+}
+
+/* The smaller Roblox link under the button */
+.join-secondary {
+  display: block;
+  width: fit-content;
+  margin: 20px auto 0;
+  color: #ffffff;
+  opacity: 0.85;
+}
+
+.join-secondary:hover { opacity: 1; color: var(--gold); }
+
+@media (prefers-reduced-motion: reduce) {
+  .join-button { transition: none; }
 }
 
 
