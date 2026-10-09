@@ -453,7 +453,7 @@ html { scrollbar-width: none; }
   margin: 0 auto;
   padding: 32px var(--side-gap);
   display: grid;
-  grid-template-columns: repeat(4, 1fr);  /* number of stats per row */
+  grid-template-columns: repeat(3, 1fr);  /* number of stats per row */
   gap: 24px;
   text-align: center;
 }
