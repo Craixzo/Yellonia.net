@@ -27,7 +27,7 @@
   --flag-green:    #5db54a;
 
   /* Type */
-  --font:          "Barlow Semi Condensed", "Arial Narrow", Arial, sans-serif;
+  --font:          "Roboto", "Arial Narrow", Arial, sans-serif;
   --nav-size:      1.0625rem; /* top-level link size */
   --menu-size:     0.75rem;      /* dropdown link size */
 
