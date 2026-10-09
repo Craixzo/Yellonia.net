@@ -875,7 +875,6 @@ main { flex: 1; }
   height: 96px;                           /* height of each logo's slot */
   margin-right: 48px;                     /* space between logos */
   color: var(--text-dim);
-  border: 1px dashed rgba(148, 155, 164, 0.4);   /* placeholder outline; delete once real logos are in */
 }
 
 .logo-track img {
