@@ -1011,3 +1011,183 @@ main { flex: 1; }
   transition: opacity 0.6s ease, transform 0.6s ease, background 0.2s ease;   /* 0.6s = length of each fade */
   transition-delay: calc(var(--fade-order) * 150ms), calc(var(--fade-order) * 150ms), 0s;   /* 150ms = gap between items */
 }
+
+
+/* ---------- 20. INNER PAGES: BANNER + SECTION LINKS ---------- */
+/* Used at the top of pages like armed-forces.html */
+
+/* Banner: a shorter version of the homepage hero */
+.page-banner {
+  position: relative;
+  min-height: 42vh;                       /* height of the banner */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 56px var(--side-gap);
+}
+
+.page-banner > img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 55%;            /* which part of the image stays visible */
+}
+
+.page-banner::after {                     /* dark tint so the title stays readable */
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(8, 9, 11, 0.6);        /* last number = darkness */
+}
+
+.page-banner-text {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  color: #ffffff;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.7);
+}
+
+.page-banner-text h1 {
+  margin: 0;
+  font-size: clamp(2.25rem, 6vw, 4rem);
+  line-height: 1.1;
+}
+
+.page-banner-text p {
+  margin: 12px 0 0;
+  font-size: 1.1875rem;
+}
+
+/* Row of links that jump to each section; pinned under the topbar */
+.subnav {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: var(--menu-bg);
+  border-bottom: 1px solid rgba(148, 155, 164, 0.2);
+  transition: top 0.3s ease;
+}
+
+/* While the topbar is showing, the row sits just under it */
+.topbar:not(.topbar-hidden) ~ main .subnav {
+  top: calc(var(--bar-height) + var(--stripe) * 3);
+}
+
+.subnav ul {
+  list-style: none;
+  max-width: var(--site-width);
+  margin: 0 auto;
+  padding: 0 var(--side-gap);
+  display: flex;
+  gap: 4px;
+  overflow-x: auto;                       /* on phones the row scrolls sideways */
+  scrollbar-width: none;
+}
+
+.subnav a {
+  display: block;
+  padding: 14px 14px;
+  font-weight: 600;
+  white-space: nowrap;
+  text-decoration: none;
+  color: var(--text);
+}
+
+.subnav a:hover { color: var(--gold); }
+
+.page-intro {
+  padding-bottom: 0;
+}
+
+.page-intro p {
+  max-width: 75ch;
+  font-size: 1.125rem;
+  color: var(--text);
+}
+
+
+/* ---------- 21. GROUPS + UNIT CARDS ---------- */
+/* A "group" is one branch (Army, Navy...); a "unit" is one card inside it */
+
+.group {
+  scroll-margin-top: 70px;                /* where a jump link stops, leaving room for the pinned bars */
+}
+
+.group-inner {
+  max-width: var(--site-width);
+  margin: 0 auto;
+  padding: 56px var(--side-gap) 8px;      /* top, sides, bottom */
+}
+
+/* Space between the last branch and the Join section */
+.group + .join {
+  margin-top: 72px;
+}
+
+/* Each branch's accent color */
+.group-army    { --group-color: var(--flag-green); }
+.group-special { --group-color: var(--flag-lime); }
+.group-navy    { --group-color: var(--flag-blue); }
+.group-air     { --group-color: #8fd0f0; }
+.group-police  { --group-color: #dbdee1; }
+
+.group h2 {
+  margin: 0 0 8px;
+  padding-left: 16px;
+  border-left: 5px solid var(--group-color);   /* the colored bar beside the branch name */
+  font-size: 2.25rem;
+  line-height: 1.1;
+}
+
+.group-text {
+  max-width: 70ch;
+  margin: 0 0 24px;
+  font-size: 1.125rem;
+  color: var(--text-dim);
+}
+
+.unit-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));   /* 280px = smallest card width */
+  gap: 20px;
+}
+
+.unit {
+  padding: 24px;
+  background: var(--bar-bg);
+  border-top: 3px solid var(--group-color);
+}
+
+.unit h3 {
+  margin: 0 0 8px;
+  font-size: 1.375rem;
+  line-height: 1.2;
+}
+
+.unit p {
+  margin: 0;
+  color: var(--text-dim);
+}
+
+.unit .unit-motto {
+  margin-bottom: 8px;
+  font-style: italic;
+  color: var(--group-color);
+}
+
+.unit-parts {                             /* the list of sub-units on a card */
+  margin: 14px 0 0;
+  padding: 12px 0 0 18px;
+  border-top: 1px solid rgba(148, 155, 164, 0.2);
+  color: var(--text);
+}
+
+.unit-parts li { padding: 2px 0; }
+
+/* Shorter version of the Join section, for the bottom of inner pages */
+.join-short {
+  min-height: 56vh;
+}
