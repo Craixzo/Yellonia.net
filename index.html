@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Yellonia</title>
-  <link rel="icon" href="logo.png">
+  <link rel="icon" href="TYEcoatofarms.png">
 
   <!-- FONT: swap the family here AND in style.css (--font) to change it -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -15,101 +15,12 @@
 </head>
 <body>
 
-<!-- ============================================================
-     TOPBAR
-     Copy this whole <header> block onto every page of the site.
-     ============================================================ -->
-<header class="topbar">
-  <div class="topbar-inner">
-
-    <!-- LOGO: clicking it goes to the homepage -->
-    <a class="logo" href="index.html">
-      <img src="TYEcoatofarms.png" alt="" width="44" height="44">
-      <span class="logo-text">Yellonia</span>
-    </a>
-
-    <!-- MOBILE MENU BUTTON: only visible on small screens (no JavaScript) -->
-    <input type="checkbox" id="nav-toggle" class="nav-toggle">
-    <label for="nav-toggle" class="nav-button">Menu</label>
-
-    <!-- NAV
-         Plain link:      <li><a href="page.html">Name</a></li>
-         With dropdown:   <li class="has-dropdown"> ... <ul class="dropdown"> ... </ul></li>
-         Add class="current" to the <a> of the page you're on. -->
-    <nav class="nav" aria-label="Main">
-      <ul class="nav-list">
-
-        <!-- NAV: HOME (no dropdown) -->
-        <li><a href="index.html" class="current">Home</a></li>
-
-        <!-- NAV: ORGANIZATION (government + armed forces) -->
-        <li class="has-dropdown">
-          <a href="structure.html">Structure</a>
-          <ul class="dropdown">
-            <li class="dropdown-label">Government</li>
-            <li><a href="government.html#emperor">The Emperor</a></li>
-            <li><a href="government.html#parliament">Parliament</a></li>
-            <li><a href="government.html#court">Imperial Supreme Court</a></li>
-            <li><a href="government.html#ministries">Ministries</a></li>
-            <li class="dropdown-label">Armed Forces</li>
-            <li><a href="armed-forces.html#army">Army</a></li>
-            <li><a href="armed-forces.html#special-forces">Special Forces</a></li>
-            <li><a href="armed-forces.html#navy">Navy</a></li>
-            <li><a href="armed-forces.html#air-force">Air Force</a></li>
-            <li><a href="armed-forces.html#military-police">Military Police</a></li>
-          </ul>
-        </li>
-
-        <!-- NAV: ECONOMY -->
-        <li class="has-dropdown">
-          <a href="economy.html">Economy</a>
-          <ul class="dropdown">
-            <li><a href="economy.html#corporations">Corporations</a></li>
-            <li><a href="economy.html#stock-market">Stock Market</a></li>
-            <li><a href="economy.html#housing">Housing</a></li>
-          </ul>
-        </li>
-
-        <!-- NAV: EMERGENCY SERVICES (placeholder name, change the text below) -->
-        <li class="has-dropdown">
-          <a href="emergency-services.html">Emergency Services</a>
-          <ul class="dropdown">
-            <li><a href="emergency-services.html#police">Police Department</a></li>
-            <li><a href="emergency-services.html#fire">Fire Service</a></li>
-            <li><a href="emergency-services.html#parks">Parks and Wildlife</a></li>
-          </ul>
-        </li>
-
-        <!-- NAV: NATION (history and lore) -->
-        <li class="has-dropdown">
-          <a href="nation.html">Nation</a>
-          <ul class="dropdown">
-            <li><a href="nation.html#history">History</a></li>
-            <li><a href="nation.html#states">States</a></li>
-            <li><a href="nation.html#capital">The Capital</a></li>
-          </ul>
-        </li>
-
-        <!-- NAV: JOIN (add class="nav-cta" to make any item the gold button) -->
-        <li class="has-dropdown">
-          <a href="join.html" class="nav-cta">Join</a>
-          <ul class="dropdown">
-            <li><a href="join.html">How to enlist</a></li>
-            <li><a href="https://www.roblox.com/groups/5801322">Roblox group</a></li>
-            <li><a href="#">Discord</a></li> <!-- TODO: paste your Discord invite link -->
-          </ul>
-        </li>
-
-      </ul>
-    </nav>
-
-  </div>
-</header>
-<!-- ======================= END TOPBAR ======================= -->
+<!-- TOPBAR: shared by every page. To change it, edit header.js -->
+<script src="header.js"></script>
 
 
 <!-- ============================================================
-     PAGE CONTENT (placeholder, replace with the real homepage)
+     PAGE CONTENT: the homepage
      ============================================================ -->
 <main>
 
@@ -258,82 +169,11 @@
 
 </main>
 
-<!-- ============================================================
-     FOOTER
-     Copy this whole <footer> block onto every page of the site.
-     ============================================================ -->
-<footer class="footer">
-  <div class="footer-inner">
-
-    <!-- FOOTER: LOGO + SHORT DESCRIPTION -->
-    <div class="footer-brand">
-      <a class="logo" href="index.html">
-        <img src="TYEcoatofarms.png" alt="" width="44" height="44">
-        <span class="logo-text">Yellonia</span>
-      </a>
-      <p>The official website for Yellonia.</p>
-    </div>
-
-    <!-- FOOTER: LINK COLUMNS (copy a <div> block to add a column) -->
-    <div class="footer-links">
-
-      <!-- COLUMN: SITE -->
-      <div>
-        <h2>Site</h2>
-        <ul>
-          <li><a href="index.html">Home</a></li>
-          <li><a href="structure.html">Structure</a></li>
-          <li><a href="economy.html">Economy</a></li>
-          <li><a href="emergency-services.html">Emergency Services</a></li>
-          <li><a href="nation.html">Nation</a></li>
-        </ul>
-      </div>
-
-      <!-- COLUMN: OTHER YELLONIAN WEBSITES -->
-      <div>
-        <h2>Related Sites</h2>
-        <ul>
-          <li><a href="https://ssd-secure-portal.vercel.app/" target="_blank" rel="noopener">State Security Directorate</a></li>
-          <li><a href="https://catwatcher.org/" target="_blank" rel="noopener">CatWatcher</a></li>
-        </ul>
-      </div>
-
-      <!-- COLUMN: COMMUNITY -->
-      <div>
-        <h2>Community</h2>
-        <ul>
-          <li><a href="https://www.roblox.com/groups/5801322">Roblox group</a></li>
-          <li><a href="https://discord.gg/zYhWhzVcMX">Discord</a></li>
-        </ul>
-      </div>
-
-    </div>
-  </div>
-
-  <!-- FOOTER: BOTTOM LINE -->
-  <div class="footer-bottom">
-    <p>&copy; 2026 Yellonia. A community project, not affiliated with Roblox Corporation.</p>
-  </div>
-</footer>
-<!-- ======================= END FOOTER ======================= -->
+<!-- FOOTER: shared by every page. To change it, edit footer.js -->
+<script src="footer.js"></script>
   
-<!-- TOPBAR SCRIPT: slides the bar up when scrolling down, brings it back when scrolling up -->
-<script>
-  (function () {
-    var bar = document.querySelector('.topbar');
-    var menu = document.getElementById('nav-toggle');
-    var last = window.scrollY;
-    window.addEventListener('scroll', function () {
-      var y = window.scrollY;
-      if (y > last && y > 120 && !menu.checked) {
-        bar.classList.add('topbar-hidden');      /* scrolling down */
-      } else if (y < last) {
-        bar.classList.remove('topbar-hidden');   /* scrolling up */
-      }
-      last = y;
-    }, { passive: true });
-  })();
-</script>
+<!-- SHARED SCRIPT: topbar hide on scroll. To change it, edit script.js -->
+<script src="script.js"></script>
 
 <!-- STATS SCRIPT: counts the numbers up, using live figures from /api/stats when available -->
 <script>
