@@ -120,8 +120,31 @@
       <h1>The Empire of Yellonia</h1>
       <p>The official home of Yellonia, a military simulation nation on Roblox.</p>
     </div>
+        <!-- EXPLORE BUTTON: scrolls down to the section with id="explore" -->
+    <a class="hero-explore" href="#explore">Explore</a>
   </section>
 
+  <section class="page" id="explore">
+    <h2>Next section goes here</h2>
+    <p>Placeholder.</p>
+  </section>
 </main>
+<!-- TOPBAR SCRIPT: slides the bar up when scrolling down, brings it back when scrolling up -->
+<script>
+  (function () {
+    var bar = document.querySelector('.topbar');
+    var menu = document.getElementById('nav-toggle');
+    var last = window.scrollY;
+    window.addEventListener('scroll', function () {
+      var y = window.scrollY;
+      if (y > last && y > 120 && !menu.checked) {
+        bar.classList.add('topbar-hidden');      /* scrolling down */
+      } else if (y < last) {
+        bar.classList.remove('topbar-hidden');   /* scrolling up */
+      }
+      last = y;
+    }, { passive: true });
+  })();
+</script>
 </body>
 </html>
