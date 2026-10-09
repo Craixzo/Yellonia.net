@@ -441,3 +441,95 @@ html {
 /* ---------- 12. SCROLLBAR (hidden) ---------- */
 html { scrollbar-width: none; }
 ::-webkit-scrollbar { display: none; }
+
+/* ---------- 13. STATS STRIP ---------- */
+.stats {
+  background: var(--bar-bg);
+}
+
+.stats-list {
+  list-style: none;
+  max-width: var(--site-width);
+  margin: 0 auto;
+  padding: 32px var(--side-gap);
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);  /* number of stats per row */
+  gap: 24px;
+  text-align: center;
+}
+
+.stats-list strong {                      /* the number */
+  display: block;
+  font-size: 2.5rem;
+  font-weight: 700;
+  line-height: 1.1;
+  color: var(--gold);
+}
+
+.stats-list span {                        /* the label under it */
+  color: var(--text-dim);
+}
+
+@media (max-width: 700px) {
+  .stats-list { grid-template-columns: repeat(2, 1fr); }
+}
+
+
+/* ---------- 14. PILLARS (the two big buttons) ---------- */
+.pillars h2 {
+  margin: 0 0 24px;
+  font-size: 2rem;
+  line-height: 1.15;
+}
+
+.pillar-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+}
+
+.pillar {
+  display: flex;
+  flex-direction: column;
+  min-height: 280px;                      /* height of each button */
+  padding: 32px;
+  background: var(--bar-bg);
+  border-top: 4px solid var(--pillar-color);
+  text-decoration: none;
+  color: var(--text);
+  transition: background 0.2s ease;
+}
+
+.pillar-government { --pillar-color: var(--flag-blue); }   /* each button's accent color */
+.pillar-military   { --pillar-color: var(--flag-green); }
+
+.pillar h3 {
+  margin: 0 0 12px;
+  font-size: 2.25rem;
+  line-height: 1.1;
+}
+
+.pillar p {
+  max-width: 40ch;
+  margin: 0 0 24px;
+  color: var(--text-dim);
+}
+
+.pillar-go {                              /* the line at the bottom of each button */
+  margin-top: auto;
+  font-weight: 600;
+  color: var(--pillar-color);
+}
+
+.pillar:hover {
+  background: #0a0b0c;
+}
+
+.pillar:hover .pillar-go {
+  text-decoration: underline;
+}
+
+@media (max-width: 700px) {
+  .pillar-grid { grid-template-columns: 1fr; }
+  .pillar { min-height: 220px; }
+}
