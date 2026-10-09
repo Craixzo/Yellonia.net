@@ -918,3 +918,18 @@ main { flex: 1; }
 .final {
   min-height: 60vh;                       /* placeholder height; change once the section has content */
 }
+
+
+/* ---------- 19. FADE-IN (section 3's heading and buttons appear one after another) ---------- */
+/* Hidden until the section scrolls into view (the script adds these classes) */
+.fade-waiting .fade-item {
+  opacity: 0;
+  transform: translateY(16px);            /* starts slightly lower, then rises into place */
+}
+
+.fade-waiting.fade-go .fade-item {
+  opacity: 1;
+  transform: none;
+  transition: opacity 0.6s ease, transform 0.6s ease, background 0.2s ease;   /* 0.6s = length of each fade */
+  transition-delay: calc(var(--fade-order) * 150ms), calc(var(--fade-order) * 150ms), 0s;   /* 150ms = gap between items */
+}
