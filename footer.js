@@ -34,6 +34,7 @@ document.currentScript.insertAdjacentHTML('beforebegin', `
           <li><a href="economy.html">Economy</a></li>
           <li><a href="emergency-services.html">Emergency Services</a></li>
           <li><a href="nation.html">Nation</a></li>
+          <li><a href="news.html">News</a></li>
         </ul>
       </div>
 

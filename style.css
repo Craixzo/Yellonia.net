@@ -1364,3 +1364,504 @@ main { flex: 1; }
   .chamber-seats { --seat-size: 18px; --seat-space: 5px; }
   .chamber-aisle { width: 28px; }
 }
+
+
+/* ---------- 24. NEWS DIRECTORY (news.html) ---------- */
+.news-loading {
+  max-width: var(--site-width);
+  margin: 0 auto;
+  padding: 48px var(--side-gap);
+  color: var(--text-dim);
+}
+
+.news-preview {                           /* banner shown while preview articles are on screen */
+  max-width: calc(var(--site-width) - 2 * var(--side-gap));
+  margin: 24px auto 0;
+  padding: 12px 16px;
+  box-sizing: border-box;
+  border-left: 4px solid var(--gold);
+  background: var(--bar-bg);
+  color: var(--text-dim);
+}
+
+.news-section-title {
+  margin: 0 0 20px;
+  font-size: 2rem;
+  line-height: 1.15;
+}
+
+.news-empty { color: var(--text-dim); }
+
+/* Story cards in the directory */
+.story-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));   /* 260px = smallest card width */
+  gap: 24px;
+}
+
+.news-section .story-card {
+  display: flex;
+  flex-direction: column;
+  background: var(--bar-bg);
+}
+
+.news-section .story-card .story-text { padding: 16px 18px 18px; }
+
+.news-badge {                             /* outlet name + icon above a headline */
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  text-decoration: none;
+  color: var(--accent);
+}
+
+.news-badge-icon {
+  width: 22px;
+  height: 22px;
+  border-radius: 4px;
+  object-fit: cover;
+}
+
+/* Outlet cards */
+.outlet-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 24px;
+}
+
+.outlet-card {
+  display: flex;
+  flex-direction: column;
+  background: var(--bar-bg);
+  text-decoration: none;
+  color: var(--text);
+  transition: background 0.2s ease;
+}
+
+.outlet-card:hover { background: #0a0b0c; }
+
+.outlet-card-cover {                      /* the outlet's cover image, or its accent color */
+  height: 110px;
+  background: var(--accent);
+  overflow: hidden;
+}
+
+.outlet-card-cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.outlet-card-body {
+  position: relative;
+  padding: 44px 20px 20px;
+}
+
+.outlet-card-icon {                       /* the square icon, overlapping the cover */
+  position: absolute;
+  top: -32px;
+  left: 20px;
+  width: 64px;
+  height: 64px;
+  border-radius: 8px;
+  border: 3px solid var(--bar-bg);
+  background: var(--bar-bg);
+  object-fit: cover;
+}
+
+.outlet-card h3 {
+  margin: 0 0 4px;
+  font-size: 1.375rem;
+}
+
+.outlet-card-tagline {
+  margin: 0 0 10px;
+  color: var(--text-dim);
+}
+
+.outlet-card-meta {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--accent);
+}
+
+/* "Run your own news outlet" */
+.news-start {
+  scroll-margin-top: 130px;
+  padding-bottom: 72px;
+}
+
+.news-start h2 {
+  margin: 0 0 12px;
+  font-size: 2rem;
+}
+
+.news-start p {
+  max-width: 70ch;
+  margin: 0 0 12px;
+  font-size: 1.125rem;
+}
+
+.news-start-soon { color: var(--gold); font-weight: 600; }
+
+.news-section { scroll-margin-top: 130px; }
+
+/* Not found / could not load */
+.news-notice {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 96px var(--side-gap);
+  text-align: center;
+}
+
+.news-notice h1 { margin: 0 0 12px; font-size: 2.25rem; }
+.news-notice p { color: var(--text-dim); }
+.news-notice-link { color: var(--gold); font-weight: 600; }
+
+
+/* ---------- 25. NEWS OUTLET PAGES (outlet.html, article.html): the newspaper look ---------- */
+/* Light "paper" colors, used only inside these pages */
+.paper {
+  --paper:      #fbfbf9;                  /* page background */
+  --ink:        #15171a;                  /* headlines and body text */
+  --ink-soft:   #5b6068;                  /* summaries, dates, captions */
+  --rule:       #dcdad4;                  /* thin dividing lines */
+  --serif:      "Source Serif 4", Georgia, "Times New Roman", serif;
+  background: var(--paper);
+  color: var(--ink);
+  padding-bottom: 72px;
+}
+
+.paper a { color: inherit; }
+
+.paper .news-preview {                    /* preview banner, on the light background */
+  background: #efeee9;
+  color: var(--ink-soft);
+  border-left-color: var(--accent);
+}
+
+/* Masthead: the outlet's name across the top */
+.masthead {
+  position: relative;
+  border-bottom: 3px double var(--ink);
+}
+
+.masthead-inner {
+  position: relative;
+  z-index: 1;
+  max-width: var(--site-width);
+  margin: 0 auto;
+  padding: 18px var(--side-gap) 26px;
+  text-align: center;
+}
+
+.masthead-top {                           /* date on the left, link back to Yellonia News on the right */
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding-bottom: 14px;
+  margin-bottom: 22px;
+  border-bottom: 1px solid var(--rule);
+  font-size: 0.875rem;
+  color: var(--ink-soft);
+}
+
+.masthead-title {
+  display: inline-flex;
+  align-items: center;
+  gap: 18px;
+  text-decoration: none;
+  font-family: var(--serif);
+  font-size: clamp(2.25rem, 6vw, 4.5rem);  /* size of the outlet's name */
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+}
+
+.masthead-icon {
+  width: 0.9em;
+  height: 0.9em;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.masthead-tagline {
+  margin: 10px 0 0;
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 1.125rem;
+  color: var(--ink-soft);
+}
+
+/* With a cover image, the masthead sits on the image with a dark tint */
+.masthead-cover { color: #ffffff; border-bottom-color: var(--accent); }
+
+.masthead-image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.masthead-cover::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: rgba(8, 9, 11, 0.6);        /* darkness of the tint */
+}
+
+.masthead-cover .masthead-inner { z-index: 2; padding-top: 18px; padding-bottom: 40px; }
+.masthead-cover .masthead-top { color: rgba(255, 255, 255, 0.8); border-bottom-color: rgba(255, 255, 255, 0.25); }
+.masthead-cover .masthead-tagline { color: rgba(255, 255, 255, 0.85); }
+.masthead-cover .masthead-title { text-shadow: 0 2px 14px rgba(0, 0, 0, 0.5); }
+
+/* Row of section links under the masthead */
+.paper-sections {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 4px 26px;
+  padding: 12px var(--side-gap);
+  background: var(--paper);
+  border-top: 1px solid var(--rule);
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.paper-sections a { text-decoration: none; }
+.paper-sections a:hover { color: var(--accent); }
+
+.paper-body,
+.paper-more {
+  max-width: var(--site-width);
+  margin: 0 auto;
+  padding: 0 var(--side-gap);
+}
+
+.paper-empty {
+  padding: 64px 0;
+  text-align: center;
+  font-family: var(--serif);
+  font-size: 1.25rem;
+  color: var(--ink-soft);
+}
+
+/* Top of the front page: lead story on the left, a column of stories on the right */
+.paper-top {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 32px;
+  padding: 32px 0;
+  border-bottom: 1px solid var(--rule);
+}
+
+.paper-side {
+  display: flex;
+  flex-direction: column;
+  padding-left: 32px;
+  border-left: 1px solid var(--rule);
+}
+
+/* Story pieces, used everywhere on the paper pages */
+.paper .story a { text-decoration: none; }
+.paper .story-headline a:hover { text-decoration: underline; text-decoration-color: var(--accent); }
+
+.story-image {
+  display: block;
+  overflow: hidden;
+  background: #e8e6e0;
+}
+
+.story-image img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+}
+
+.story-section {                          /* section name above a headline */
+  display: block;
+  margin: 0 0 6px;
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.paper .story-headline {
+  margin: 0 0 8px;
+  font-family: var(--serif);
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.story-lead .story-headline { font-size: clamp(1.75rem, 3vw, 2.5rem); line-height: 1.12; }
+.story-lead .story-text { padding-top: 16px; }
+.story-lead .story-summary { font-size: 1.1875rem; }
+
+.story-side { padding: 0 0 18px; margin-bottom: 18px; border-bottom: 1px solid var(--rule); }
+.story-side:last-child { border-bottom: 0; margin-bottom: 0; }
+.story-side .story-image { display: none; }      /* side stories are text only */
+.story-side .story-headline { font-size: 1.25rem; }
+
+.paper .story-card .story-headline { font-size: 1.3125rem; }
+.paper .story-card .story-text { padding-top: 12px; }
+
+.story-summary {
+  margin: 0 0 8px;
+  line-height: 1.5;
+  color: var(--ink-soft);
+}
+
+.paper .story-summary { font-family: var(--serif); font-size: 1.0625rem; }
+
+.story-meta {
+  margin: 0;
+  font-size: 0.8125rem;
+  color: var(--ink-soft);
+}
+
+.news-section .story-meta { color: var(--text-dim); }
+.news-section .story-headline { margin: 0 0 8px; font-size: 1.25rem; line-height: 1.25; }
+.news-section .story-headline a { text-decoration: none; }
+.news-section .story-headline a:hover { color: var(--gold); }
+.news-section .story-summary { color: var(--text-dim); }
+
+/* A block of stories under a section name */
+.paper-block {
+  padding: 28px 0 8px;
+  scroll-margin-top: 80px;
+}
+
+.paper-block-title {
+  margin: 0 0 18px;
+  padding-top: 10px;
+  border-top: 3px solid var(--accent);      /* the colored bar above each section */
+  font-family: var(--serif);
+  font-size: 1.625rem;
+}
+
+.paper-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 28px;
+}
+
+/* ----- The article page ----- */
+.paper-article {
+  max-width: 760px;                       /* width of the article column */
+  margin: 0 auto;
+  padding: 40px var(--side-gap) 24px;
+}
+
+.article-head { margin-bottom: 24px; }
+
+.article-headline {
+  margin: 0 0 14px;
+  font-family: var(--serif);
+  font-size: clamp(2rem, 4.5vw, 3rem);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+}
+
+.article-dek {                            /* the summary under the headline */
+  margin: 0 0 18px;
+  font-family: var(--serif);
+  font-size: 1.3125rem;
+  line-height: 1.45;
+  color: var(--ink-soft);
+}
+
+.article-byline {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 16px;
+  margin: 0;
+  padding-top: 14px;
+  border-top: 1px solid var(--rule);
+  font-size: 0.9375rem;
+  color: var(--ink-soft);
+}
+
+.article-author { font-weight: 700; color: var(--ink); }
+
+.article-cover,
+.article-body figure {
+  margin: 0 0 28px;
+}
+
+.article-cover img,
+.article-body figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.article-cover figcaption,
+.article-body figcaption {
+  padding-top: 8px;
+  font-size: 0.875rem;
+  color: var(--ink-soft);
+}
+
+.article-body {
+  font-family: var(--serif);
+  font-size: 1.1875rem;                   /* size of the article's text */
+  line-height: 1.7;
+}
+
+.article-body p { margin: 0 0 1.2em; }
+
+.article-body h2 {
+  margin: 1.6em 0 0.6em;
+  font-size: 1.5rem;
+  line-height: 1.25;
+}
+
+.article-body blockquote {
+  margin: 1.6em 0;
+  padding: 2px 0 2px 22px;
+  border-left: 4px solid var(--accent);
+}
+
+.article-body blockquote p {
+  margin: 0 0 8px;
+  font-size: 1.375rem;
+  font-style: italic;
+  line-height: 1.45;
+}
+
+.article-body cite {
+  font-family: var(--font);
+  font-size: 0.9375rem;
+  font-style: normal;
+  color: var(--ink-soft);
+}
+
+.paper-more {
+  padding: 32px var(--side-gap) 8px;
+  border-top: 1px solid var(--rule);
+}
+
+.paper-side-title {                       /* "Latest" above the column beside the lead story */
+  margin: 0 0 14px;
+  font-size: 0.9375rem;
+  font-weight: 700;
+  color: var(--ink-soft);
+}
+
+@media (max-width: 800px) {
+  .paper-top { grid-template-columns: 1fr; }
+  .paper-side { padding-left: 0; border-left: 0; padding-top: 20px; border-top: 1px solid var(--rule); }
+  .masthead-title { flex-direction: column; gap: 10px; }   /* icon sits above the name on phones */
+  .masthead-icon { width: 56px; height: 56px; }
+}
+
+.paper-block .story-section { display: none; }   /* stories under a section heading don't repeat its name */

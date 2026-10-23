@@ -71,6 +71,16 @@ document.currentScript.insertAdjacentHTML('beforebegin', `
           </ul>
         </li>
 
+        <!-- NAV: NEWS -->
+        <li class="has-dropdown">
+          <a href="news.html">News</a>
+          <ul class="dropdown">
+            <li><a href="news.html#latest">Latest stories</a></li>
+            <li><a href="news.html#outlets">News outlets</a></li>
+            <li><a href="news.html#start">Start an outlet</a></li>
+          </ul>
+        </li>
+
         <!-- NAV: NATION (history and lore) -->
         <li class="has-dropdown">
           <a href="nation.html">Nation</a>
@@ -107,6 +117,7 @@ document.currentScript.insertAdjacentHTML('beforebegin', `
    (styled in style.css, section 5). */
 (function () {
   var page = location.pathname.split('/').pop().replace('.html', '') || 'index';
+  if (page === 'outlet' || page === 'article') page = 'news';   /* news outlet pages belong under News */
   var items = document.querySelectorAll('.nav-list > li');
   for (var i = 0; i < items.length; i++) {
     var links = items[i].querySelectorAll('a');

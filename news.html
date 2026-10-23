@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>News | Yellonia</title>
+  <link rel="icon" href="images/TYEcoatofarms.png">
+
+  <!-- FONT: swap the family here AND in style.css (--font) to change it -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+  <!-- NEWS FONT: the serif used on outlet and article pages -->
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400..700;1,8..60,400..700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body data-news="directory">
+
+<!-- TOPBAR: shared by every page. To change it, edit header.js -->
+<script src="header.js"></script>
+
+
+<!-- ============================================================
+     PAGE CONTENT
+     ============================================================ -->
+<main>
+
+  <!-- BANNER: image with the page title on top -->
+  <section class="page-banner">
+    <img src="images/yeloria.png" alt="">
+    <div class="page-banner-text">
+      <h1>Yellonia News</h1>
+      <p>Every news outlet in the Empire, in one place.</p>
+    </div>
+  </section>
+
+  <!-- SECTION LINKS -->
+  <nav class="subnav" aria-label="News">
+    <ul>
+      <li><a href="#latest">Latest stories</a></li>
+      <li><a href="#outlets">News outlets</a></li>
+      <li><a href="#start">Start an outlet</a></li>
+    </ul>
+  </nav>
+
+  <!-- LATEST STORIES + NEWS OUTLETS: filled in automatically by news.js -->
+  <div id="news-root">
+    <p class="news-loading">Loading&hellip;</p>
+  </div>
+
+  <!-- START AN OUTLET: the registration button goes here in the next phase -->
+  <section class="page news-start" id="start">
+    <h2>Run your own news outlet</h2>
+    <p>Any citizen can register a newspaper or news site with the Ministry of Commerce. Once approved, you get your own front page on this site, write articles with your staff, and every published story is shared in our Discord.</p>
+    <p class="news-start-soon">Registration opens soon.</p>
+  </section>
+
+</main>
+
+<!-- FOOTER: shared by every page. To change it, edit footer.js -->
+<script src="footer.js"></script>
+
+<!-- SHARED SCRIPT: topbar hide on scroll. To change it, edit script.js -->
+<script src="script.js"></script>
+
+<!-- NEWS SCRIPT: fills in this page from the news outlets' content -->
+<script src="news.js"></script>
+
+</body>
+</html>
