@@ -3,7 +3,7 @@
 
    Draws the chain of command as boxes joined by lines. Visitors can
    drag the chart to move around, zoom with the + and - buttons (or
-   Ctrl + mouse wheel, or two fingers on a phone), and click a box to
+   the mouse wheel, or two fingers on a phone), and click a box to
    open that part of the site.
 
    CONTENTS
@@ -21,11 +21,13 @@
        note:    the small line under the name (optional)
        link:    the page it opens when clicked (optional). Links to other
                 websites (starting with https://) open in a new tab.
-       color:   emperor, viceroy, cabinet, parliament, court, security, ministry,
-                staff, military, division, service, unit
+       color:   emperor, viceroy, management, management-team, cabinet, parliament, court, security, ministry,
+                staff, staff-unit, military, division, service, unit, parliament-unit
        redacted: true draws a blacked-out box with no name or link.
        beside:  true puts the box next to its parent, joined by a short line
-                (used for the Viceroys).
+                (used for the Viceroys). 'far-left' puts it at the far left
+                edge of the chart instead (used for the Management Team).
+       id:      a short name used by CROSS_LINKS below (optional)
        stackLeaves: true lists this box's single boxes (ones with nothing
                 under them) in one column first, before the others.
      Boxes whose children have no children of their own are listed in a
@@ -38,13 +40,19 @@
     name: 'The Emperor', note: 'Head of state', link: 'government.html#emperor', color: 'emperor',
     children: [
       { name: 'The Viceroys', note: 'Stand beside the Emperor', link: 'government.html#emperor', color: 'viceroy', beside: true },
+      { name: 'Management Team', note: 'Stands beside the Emperor', color: 'management', beside: 'far-left',
+        children: [
+          { name: 'Community Engagement Team', color: 'management-team' },
+          { name: 'Moderation Team', color: 'management-team' },
+        ] },
       { name: 'Imperial Cabinet', note: 'Chaired by the Chancellor', link: 'government.html#cabinet', color: 'cabinet',
         children: [
           { name: 'Ministry of Defense', link: 'government.html#ministries', color: 'ministry', stackLeaves: true,
             children: [
-              { name: 'Joint Staff', link: 'armed-forces.html', color: 'staff' },
+              { name: 'Joint Staff', link: 'armed-forces.html', color: 'staff',
+                children: units(['Nuclear Arms Command', 'Logistics Command', 'Personnel Management Command', 'Joint Forces Command'], 'armed-forces.html', 'staff-unit') },
               { name: 'Officer Candidate School', link: 'armed-forces.html', color: 'staff' },
-              { name: 'Judge Advocate General\'s Corps', link: 'armed-forces.html', color: 'staff' },
+              { name: 'Judge Advocate General\'s Corps', id: 'jagc', link: 'armed-forces.html', color: 'staff' },
               { name: 'Army', link: 'armed-forces.html#army', color: 'military',
                 children: units(['1st Infantry Division', '3rd Armored Division'], 'armed-forces.html#army') },
               { name: 'Special Forces', link: 'armed-forces.html#special-forces', color: 'military',
@@ -62,7 +70,12 @@
               { name: 'Military Police', link: 'armed-forces.html#military-police', color: 'military',
                 children: units(['Ceremonial Guard', 'Ground Police', 'Air Police', 'Coast Guard'], 'armed-forces.html#military-police') },
             ] },
-          { name: 'Ministry of Justice', link: 'government.html#ministries', color: 'ministry' },
+          { name: 'Ministry of Justice', id: 'moj', link: 'government.html#ministries', color: 'ministry',
+            children: [
+              { name: 'Department of Prosecutional Affairs', color: 'service' },
+              { name: 'Department of Judgementation', color: 'service' },
+              { name: 'Department of Transcription & Documentation', color: 'service' },
+            ] },
           { name: 'Ministry of Commerce', link: 'government.html#ministries', color: 'ministry',
             children: [
               { name: 'Department of Corporate Registry', color: 'service' },
@@ -70,6 +83,7 @@
           { name: 'Ministry of Foreign Affairs', link: 'government.html#ministries', color: 'ministry',
             children: [
               { name: 'Department of Political Affairs', color: 'service' },
+              { name: 'Department of Legal Affairs', id: 'legal', color: 'service' },
               { name: 'Diplomatic Security Unit', color: 'service' },
             ] },
           { name: 'Ministry of Internal Affairs', link: 'government.html#ministries', color: 'ministry', stackLeaves: true,
@@ -99,10 +113,21 @@
               { name: '8th IG-Regiment "Grandslayers"', color: 'unit' },
             ] },
         ] },
-      { name: 'Parliament', note: '80 seats, chaired by the Speaker', link: 'government.html#parliament', color: 'parliament' },
+      { name: 'Parliament', note: '80 seats, chaired by the Speaker', link: 'government.html#parliament', color: 'parliament',
+        children: [
+          { name: 'Committees of Parliament', link: 'government.html#parliament', color: 'parliament-unit' },
+        ] },
       { name: 'Imperial Supreme Court', note: 'Interprets the law', link: 'government.html#court', color: 'court' },
     ],
   };
+
+  /* Extra lines between boxes in different branches (dashed, with a label).
+     "from" and "to" are the id of a box above. labelAt moves the label along
+     the line (0 = at "from", 1 = at "to"; 0.5 is the middle) if a box covers it. */
+  var CROSS_LINKS = [
+    { from: 'moj', to: 'legal', label: 'MoJ advises its members' },
+    { from: 'moj', to: 'jagc', label: 'Works with the MoJ', labelAt: 0.93 },
+  ];
 
   /* Sizes, in pixels at normal zoom */
   var BOX_W = 210, BOX_H = 82;     /* box size */
@@ -191,15 +216,27 @@
     node.children.forEach(pull);
   })(CHART);
 
+  /* beside: 'far-left' boxes go at the far left edge of the chart; others go just right of their parent */
+  var farLeft = besides.filter(function (item) { return item.box.beside === 'far-left'; });
+  var nextTo = besides.filter(function (item) { return item.box.beside !== 'far-left'; });
+  var leftSpace = farLeft.reduce(function (sum, item) { return sum + measure(item.box) + GAP_X * 3; }, 0);
+
   measure(CHART);
-  place(CHART, 0, 0);
-  besides.forEach(function (item, i) {
-    var parent = item.parent, box = item.box;
-    box.x = parent.x + (BOX_W + GAP_X * 2) * (i + 1); box.y = parent.y;
-    placed.push(box);
-    links.push('M' + (parent.x + BOX_W) + ' ' + (parent.y + BOX_H / 2) + 'H' + box.x);
+  place(CHART, leftSpace, 0);
+
+  var leftX = 0;
+  farLeft.forEach(function (item) {
+    place(item.box, leftX, item.parent.y);
+    links.push('M' + item.parent.x + ' ' + (item.parent.y + BOX_H / 2) + 'H' + (item.box.x + BOX_W));
+    leftX += item.box.width + GAP_X * 3;
   });
-  var chartW = placed.reduce(function (max, n) { return Math.max(max, n.x + BOX_W); }, CHART.width);
+  nextTo.forEach(function (item, i) {
+    var parent = item.parent;
+    measure(item.box);
+    place(item.box, parent.x + (BOX_W + GAP_X * 2) * (i + 1), parent.y);
+    links.push('M' + (parent.x + BOX_W) + ' ' + (parent.y + BOX_H / 2) + 'H' + item.box.x);
+  });
+  var chartW = placed.reduce(function (max, n) { return Math.max(max, n.x + BOX_W); }, leftSpace + CHART.width);
   var chartH = placed.reduce(function (max, n) { return Math.max(max, n.y + BOX_H); }, 0);
 
 
@@ -209,7 +246,22 @@
   lines.setAttribute('width', chartW);
   lines.setAttribute('height', chartH);
   lines.setAttribute('viewBox', '0 0 ' + chartW + ' ' + chartH);
-  lines.innerHTML = links.map(function (d) { return '<path d="' + d + '"/>'; }).join('');
+  /* All lines sit in one layer underneath the boxes */
+  var byId = {};
+  placed.forEach(function (n) { if (n.id) byId[n.id] = n; });
+  var cross = CROSS_LINKS.map(function (c) {
+    var a = byId[c.from], b = byId[c.to];
+    if (!a || !b) return '';
+    var ax = a.x + BOX_W / 2, ay = a.y + BOX_H / 2, bx = b.x + BOX_W / 2, by = b.y + BOX_H / 2;
+    var bend = Math.max(120, Math.abs(by - ay) * 0.6 + 80);       /* curves down and across, between the rows */
+    var d = 'M' + ax + ' ' + ay + 'C' + ax + ' ' + (ay + bend) + ' ' + bx + ' ' + (by + bend) + ' ' + bx + ' ' + by;
+    var s = c.labelAt === undefined ? 0.5 : c.labelAt, r = 1 - s;     /* the point on the curve where the label goes */
+    var mx = r * r * r * ax + 3 * r * r * s * ax + 3 * r * s * s * bx + s * s * s * bx;
+    var my = r * r * r * ay + 3 * r * r * s * (ay + bend) + 3 * r * s * s * (by + bend) + s * s * s * by + 18;
+    return '<path class="cross-link" d="' + d + '"/>' +
+      '<text class="cross-label" x="' + mx + '" y="' + my + '" text-anchor="middle">' + c.label.replace(/[<&]/g, '') + '</text>';
+  }).join('');
+  lines.innerHTML = links.map(function (d) { return '<path d="' + d + '"/>'; }).join('') + cross;
 
   placed.forEach(function (node) {
     if (node.redacted) {                                 /* a blacked-out box */
@@ -225,7 +277,6 @@
     var box = document.createElement(node.link ? 'a' : 'div');
     box.className = 'chart-box chart-' + (node.color || 'ministry');
     if (node.link) box.href = node.link;
-    if (node.link && /^https?:/.test(node.link)) { box.target = '_blank'; box.rel = 'noopener'; }
     if (/^https?:/.test(node.link || '')) { box.target = '_blank'; box.rel = 'noopener'; }
     box.style.left = node.x + 'px';
     box.style.top = node.y + 'px';
@@ -331,12 +382,13 @@
     if (dragged) { e.preventDefault(); e.stopPropagation(); dragged = false; }
   }, true);
 
-  /* Ctrl (or Cmd) + mouse wheel zooms. A plain wheel still scrolls the page. */
+  /* The mouse wheel (or two fingers on a trackpad) zooms in and out where the pointer is */
   viewport.addEventListener('wheel', function (e) {
-    if (!e.ctrlKey && !e.metaKey) return;
     e.preventDefault();
     var rect = viewport.getBoundingClientRect();
-    zoomAt(e.deltaY < 0 ? 1.12 : 1 / 1.12, e.clientX - rect.left, e.clientY - rect.top);
+    var amount = e.deltaMode === 1 ? e.deltaY * 30 : e.deltaY;          /* some mice count lines, not pixels */
+    var factor = Math.exp(-Math.max(-300, Math.min(300, amount)) * 0.0015);
+    zoomAt(factor, e.clientX - rect.left, e.clientY - rect.top);
   }, { passive: false });
 
   /* Arrow keys move the chart when it has focus */
