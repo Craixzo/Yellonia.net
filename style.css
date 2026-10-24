@@ -654,9 +654,9 @@ main { flex: 1; }
 }
 
 .social-discord { --icon: url("images/Discordthingy.png"); }   /* same file as the login button */
-.social-roblox  { --icon: url("images/roblox-logo.png"); }
-.social-youtube { --icon: url("images/youtube-logo.png"); }
-.social-tiktok  { --icon: url("images/tiktok-logo.png"); }
+.social-roblox  { --icon: url("images/Robloxthingy.png"); }
+.social-youtube { --icon: url("images/YouTubethingy.png"); }
+.social-tiktok  { --icon: url("images/Tiktokthingy.png"); }
 
 .footer-links {
   display: flex;
