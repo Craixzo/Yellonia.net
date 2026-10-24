@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Most Wanted | Yellonia</title>
+  <link rel="icon" href="images/TYEcoatofarms.png">
+
+  <!-- FONT: swap the family here AND in style.css (--font) to change it -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- TOPBAR: shared by every page. To change it, edit header.js -->
+<script src="header.js"></script>
+
+
+<!-- ============================================================
+     PAGE CONTENT: Most Wanted (public)
+     Filled in by wanted.js from /api/wanted. Only warrants DES staff
+     have chosen to make public appear, with in-game information only.
+     ============================================================ -->
+<main>
+
+  <!-- BANNER -->
+  <section class="page-banner">
+    <img src="images/yeloria.png" alt="">
+    <div class="page-banner-text">
+      <h1>Most Wanted</h1>
+      <p>People wanted by the Yellonia Police Department.</p> <!-- DRAFT -->
+    </div>
+  </section>
+
+  <!-- THE LIST -->
+  <section class="page wanted-page">
+    <p class="wanted-intro">Seen someone on this list in Yellonia? Don't approach them. Tell the police in game, or report it in our Discord.</p> <!-- DRAFT -->
+    <div class="wanted-list" id="wanted-list">
+      <p class="wanted-empty">Loading&hellip;</p>
+    </div>
+    <p class="wanted-rp">Roleplay notice: everything on this page is part of the Yellonia game and refers to in-game characters only.</p>
+    <p><a class="text-link" href="emergency-services.html">&larr; Back to Emergency Services</a></p>
+  </section>
+
+</main>
+
+
+<!-- FOOTER: shared by every page. To change it, edit footer.js -->
+<script src="footer.js"></script>
+
+<!-- SHARED SCRIPT: topbar hide on scroll. To change it, edit script.js -->
+<script src="script.js"></script>
+
+<!-- THIS PAGE'S SCRIPT: draws the list -->
+<script src="wanted.js"></script>
+
+</body>
+</html>

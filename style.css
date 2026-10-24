@@ -2749,3 +2749,49 @@ a.chart-box:hover { border-color: var(--box-color); box-shadow: 0 0 0 2px var(--
   .des-menu { grid-template-columns: 1fr; }
   .des-tile { min-height: 0; }
 }
+
+
+/* ---------- 32. MOST WANTED (wanted.html, and the section on emergency-services.html) ---------- */
+.group-wanted { --group-color: #d9534f; }
+.wanted-page { max-width: 1000px; }
+.wanted-page .wanted-intro { margin: 0 0 24px; max-width: 640px; }
+.wanted-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 16px; margin-bottom: 18px; }
+
+.wanted-card {
+  display: flex;
+  gap: 16px;
+  padding: 18px;
+  background: var(--bar-bg);
+  border-top: 3px solid var(--danger, #e8a33d);
+}
+.wanted-high   { --danger: #d9534f; }
+.wanted-medium { --danger: #e8a33d; }
+.wanted-low    { --danger: var(--flag-blue); }
+
+.wanted-photo {
+  flex: none;
+  width: 96px;
+  height: 96px;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  background: #1b1f25;
+  color: var(--text-dim);
+  font-size: 1.75rem;
+  font-weight: 700;
+}
+.wanted-photo img { width: 100%; height: 100%; object-fit: cover; }
+
+.wanted-text { min-width: 0; }
+.wanted-danger { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--danger, #e8a33d); }
+.wanted-text h3 { margin: 2px 0 0; font-size: 1.25rem; line-height: 1.2; }
+.wanted-text p { margin: 4px 0 0; color: var(--text-dim); }
+.wanted-charges { margin: 8px 0 0; padding-left: 18px; color: var(--text); }
+.wanted-text .wanted-number { font-size: 0.8125rem; }
+.wanted-page .wanted-empty, .wanted-list .wanted-empty { padding: 24px; background: var(--bar-bg); text-align: center; }
+.wanted-page .wanted-rp { margin: 0 0 16px; font-size: 0.875rem; }
+
+@media (max-width: 420px) {
+  .wanted-card { flex-direction: column; }
+}
+.group .wanted-list { margin-top: 18px; }

@@ -70,6 +70,7 @@ document.currentScript.insertAdjacentHTML('beforebegin', `
             <li><a href="emergency-services.html#police">Police Department</a></li>
             <li><a href="emergency-services.html#fire">Fire Department</a></li>
             <li><a href="emergency-services.html#parks">Parks and Wildlife</a></li>
+            <li><a href="wanted.html">Most Wanted</a></li>
             <li><a href="board-of-commissioners.html">Board of Commissioners</a></li>
             <li><a href="des/login.html">Service Login</a></li>
           </ul>

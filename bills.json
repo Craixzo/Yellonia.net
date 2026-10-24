@@ -1,0 +1,20 @@
+{
+  "_how_to": "Add bills to the list below. Copy the example (everything between its { and }) into the brackets after \"bills\", and put a comma between bills. Status is one of: pending, passed, signed, vetoed, failed, withdrawn. Dates look like 2026-10-24. Leave a field as null if it doesn't apply. In \"text\", \\n starts a new paragraph. A bill added in Discord with /bill-add that has the same number replaces the one here.",
+
+  "_example": {
+    "number": "1",
+    "title": "Example Act",
+    "status": "signed",
+    "summary": "One or two sentences on what the bill does.",
+    "text": "Section 1. The first part of the bill.\nSection 2. The second part.",
+    "link": null,
+    "sponsor": "Name of the member who introduced it",
+    "party": "Fulcrum Party",
+    "votes": { "for": 15, "against": 2, "abstain": 0 },
+    "introduced": "2026-10-01",
+    "passed": "2026-10-08",
+    "signed": "2026-10-10"
+  },
+
+  "bills": []
+}

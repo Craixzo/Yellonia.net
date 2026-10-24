@@ -112,6 +112,16 @@
     </div>
   </section>
 
+  <!-- MOST WANTED: the first few from the public list (filled in by wanted.js). Change data-limit to show more. -->
+  <section class="group group-wanted" id="wanted">
+    <div class="group-inner">
+      <h2>Most Wanted</h2>
+      <div class="wanted-list" id="wanted-list" data-limit="3">
+        <p class="group-text">Loading&hellip;</p>
+      </div>
+    </div>
+  </section>
+
   <!-- NEWS: the latest stories from the DES outlet in Yellonia News (filled in by des-home.js).
        data-outlet is the outlet's address name; change it if the outlet is named differently. -->
   <section class="group group-des-news" id="news">
@@ -144,6 +154,9 @@
 
 <!-- THIS PAGE'S SCRIPT: the latest DES news -->
 <script src="des-home.js"></script>
+
+<!-- AND: the Most Wanted section -->
+<script src="wanted.js"></script>
 
 </body>
 </html>
