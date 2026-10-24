@@ -20,15 +20,6 @@ document.currentScript.insertAdjacentHTML('beforebegin', `
         <span class="logo-text">Yellonia</span>
       </a>
       <p>The official website for Yellonia.</p>
-
-     <!-- FOOTER: SOCIAL ICONS (logo files are set in style.css, section 15) -->
-      <div class="footer-social">
-        <a href="https://discord.gg/zYhWhzVcMX" target="_blank" rel="noopener" aria-label="Discord"><span class="social-icon social-discord"></span></a>
-        <a href="https://www.roblox.com/groups/5801322" target="_blank" rel="noopener" aria-label="Roblox group"><span class="social-icon social-roblox"></span></a>
-        <a href="https://www.youtube.com/@yellonianimperialbroadcast" target="_blank" rel="noopener" aria-label="YouTube"><span class="social-icon social-youtube"></span></a>
-        <!-- TIKTOK: paste the link in place of LINK-HERE, then delete the two comment marks around this line -->
-        <!-- <a href="LINK-HERE" target="_blank" rel="noopener" aria-label="TikTok"><span class="social-icon social-tiktok"></span></a> -->
-      </div>
     </div>
 
     <!-- FOOTER: LINK COLUMNS (copy a <div> block to add a column) -->
@@ -56,14 +47,15 @@ document.currentScript.insertAdjacentHTML('beforebegin', `
         </ul>
       </div>
 
-      <!-- COLUMN: COMMUNITY -->
+      <!-- COLUMN: COMMUNITY (the logo files are set in style.css, section 15) -->
       <div>
         <h2>Community</h2>
-        <ul>
-          <li><a href="https://www.roblox.com/groups/5801322">Roblox group</a></li>
-          <li><a href="https://discord.gg/zYhWhzVcMX">Discord</a></li>
-          <li><a href="https://www.youtube.com/@yellonianimperialbroadcast" target="_blank" rel="noopener">YouTube</a></li>
-          <!-- <li><a href="LINK-HERE" target="_blank" rel="noopener">TikTok</a></li> -->
+        <ul class="footer-social">
+          <li><a href="https://www.roblox.com/groups/5801322" target="_blank" rel="noopener"><span class="social-icon social-roblox"></span>Roblox group</a></li>
+          <li><a href="https://discord.gg/zYhWhzVcMX" target="_blank" rel="noopener"><span class="social-icon social-discord"></span>Discord</a></li>
+          <li><a href="https://www.youtube.com/@yellonianimperialbroadcast" target="_blank" rel="noopener"><span class="social-icon social-youtube"></span>YouTube</a></li>
+          <!-- TIKTOK: put the link in place of LINK-HERE, then delete the comment marks around this line -->
+          <!-- <li><a href="LINK-HERE" target="_blank" rel="noopener"><span class="social-icon social-tiktok"></span>TikTok</a></li> -->
         </ul>
       </div>
 
