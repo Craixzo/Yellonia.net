@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bills and laws | Yellonia</title>
+  <link rel="icon" href="images/TYEcoatofarms.png">
+
+  <!-- FONT: swap the family here AND in style.css (--font) to change it -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- TOPBAR: shared by every page. To change it, edit header.js -->
+<script src="header.js"></script>
+
+
+<!-- ============================================================
+     PAGE CONTENT: everything unique to this page goes inside <main>
+
+  <!-- BILLS AND LAWS: filled in by legislation.js from bills.json and Centurion -->
+  <section class="page bills is-loading" id="bills">
+    <h1>Bills and laws</h1>
+    <p class="bills-intro">Every bill brought before Parliament, and what became of it. Bills passed by Parliament become law once the Emperor signs them.</p>
+
+    <!-- SEARCH AND FILTER BUTTONS -->
+    <div class="bill-tools">
+      <input type="search" id="bill-search" class="bill-search" placeholder="Search bills" aria-label="Search bills">
+      <div class="bill-filters" id="bill-filters" aria-label="Show"></div>
+    </div>
+    <p class="bill-count" id="bill-count" aria-live="polite"></p>
+
+    <!-- THE LIST -->
+    <div class="bill-list" id="bill-list">
+      <p class="bill-empty">Loading bills&hellip;</p>
+    </div>
+  </section>
+
+</main>
+
+
+<!-- FOOTER: shared by every page. To change it, edit footer.js -->
+<script src="footer.js"></script>
+
+<!-- SHARED SCRIPT: topbar hide on scroll. To change it, edit script.js -->
+<script src="script.js"></script>
+
+<!-- PAGE SCRIPT: the list of bills -->
+<script src="legislation.js"></script>
+
+</body>
+</html>

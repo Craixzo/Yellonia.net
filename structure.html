@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Structure | Yellonia</title>
+  <link rel="icon" href="images/TYEcoatofarms.png">
+
+  <!-- FONT: swap the family here AND in style.css (--font) to change it -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- TOPBAR: shared by every page. To change it, edit header.js -->
+<script src="header.js"></script>
+
+
+<!-- ============================================================
+     PAGE CONTENT: everything unique to this page goes inside <main>
+     ============================================================ -->
+<main>
+
+  <!-- INTRO -->
+  <section class="page structure-intro">
+    <h1>Structure</h1>
+    <p>How the Empire is organized, from the Emperor down. Drag the chart to look around, and click any box to read more.</p>
+  </section>
+
+  <!-- CHART: drawn by structure.js. The boxes and who sits under whom are set at the top of that file. -->
+  <section class="chart-wrap">
+    <div class="chart" id="chart" tabindex="0" aria-label="Chart of the Empire's structure. Use the arrow keys to move around.">
+      <div class="chart-stage">
+        <svg class="chart-lines" aria-hidden="true"></svg>
+      </div>
+
+      <!-- ZOOM BUTTONS -->
+      <div class="chart-controls">
+        <button type="button" data-zoom="in" aria-label="Zoom in">+</button>
+        <button type="button" data-zoom="out" aria-label="Zoom out">&minus;</button>
+        <button type="button" data-zoom="fit">Whole chart</button>
+        <button type="button" data-zoom="reset">Reset</button>
+      </div>
+
+      <p class="chart-hint">Drag to move around. Ctrl + scroll or pinch to zoom.</p>
+    </div>
+  </section>
+
+</main>
+
+
+<!-- FOOTER: shared by every page. To change it, edit footer.js -->
+<script src="footer.js"></script>
+
+<!-- SHARED SCRIPT: topbar hide on scroll. To change it, edit script.js -->
+<script src="script.js"></script>
+
+<!-- PAGE SCRIPT: the structure chart -->
+<script src="structure.js"></script>
+
+</body>
+</html>

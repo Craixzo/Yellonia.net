@@ -647,10 +647,10 @@ main { flex: 1; }
 
 .footer-links .footer-social a:hover .social-icon { opacity: 1; }
 
-.social-discord { --icon: url("images/Discordthingy.png"); }   /* same file as the login button */
-.social-roblox  { --icon: url("images/Robloxthingy.png"); }
-.social-youtube { --icon: url("images/YouTubethingy.png"); }
-.social-tiktok  { --icon: url("images/Tiktokthingy.png"); }
+.social-discord { --icon: url("images/discord-logo.svg"); }   /* same file as the login button */
+.social-roblox  { --icon: url("images/roblox-logo.svg"); }
+.social-youtube { --icon: url("images/youtube-logo.svg"); }
+.social-tiktok  { --icon: url("images/tiktok-logo.svg"); }
 
 .footer-links {
   display: flex;
@@ -2343,4 +2343,261 @@ main { flex: 1; }
   .editor-buttons .button-primary,
   .editor-buttons .button-secondary { flex: 1; padding: 10px 6px; font-size: 0.9375rem; white-space: nowrap; }
   .settings-preview-title { font-size: 1.5rem; }
+}
+
+
+/* ---------- 28. STRUCTURE PAGE (structure.html): the chart you can drag around ---------- */
+.structure-intro { padding-bottom: 20px; }
+.structure-intro p { max-width: 640px; }
+
+.chart-wrap {
+  max-width: var(--site-width);
+  margin: 0 auto 64px;
+  padding: 0 var(--side-gap);
+}
+
+.chart {
+  position: relative;
+  height: min(72vh, 720px);              /* height of the chart window */
+  overflow: hidden;
+  background:
+    radial-gradient(circle, rgba(148, 155, 164, 0.18) 1px, transparent 1px) 0 0 / 24px 24px,   /* dotted grid */
+    var(--bar-bg);
+  border: 1px solid rgba(148, 155, 164, 0.2);
+  border-radius: 6px;
+  cursor: grab;
+  touch-action: none;                    /* lets fingers drag the chart instead of the page */
+  user-select: none;
+}
+
+.chart.is-dragging { cursor: grabbing; }
+.chart:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+
+.chart-stage {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform-origin: 0 0;
+}
+
+.chart-lines { position: absolute; inset: 0; overflow: visible; }
+
+.chart-lines path {
+  fill: none;
+  stroke: rgba(169, 188, 203, 0.45);     /* line color */
+  stroke-width: 2;
+}
+
+/* The boxes: a colored band with the name, and a line under it */
+.chart-box {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--menu-bg);
+  border: 1px solid rgba(148, 155, 164, 0.3);
+  border-radius: 4px;
+  color: var(--text);
+  text-align: center;
+  text-decoration: none;
+  line-height: 1.2;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
+}
+
+.chart-box strong {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  padding: 6px 10px;
+  background: var(--box-color);
+  color: #111214;                        /* dark text on the colored band */
+  font-size: 1rem;
+}
+
+.chart-box span {
+  padding: 5px 10px 6px;
+  font-size: 0.875rem;
+  color: var(--text-dim);
+}
+
+.chart-box span:empty { display: none; }
+a.chart-box:hover { border-color: var(--box-color); box-shadow: 0 0 0 2px var(--box-color); }
+
+/* Box colors, matching the government and armed forces pages */
+.chart-emperor    { --box-color: var(--flag-lime); }
+.chart-cabinet    { --box-color: var(--flag-blue); }
+.chart-parliament { --box-color: var(--flag-green); }
+.chart-court      { --box-color: #dbdee1; }
+.chart-ministry   { --box-color: #8fd0f0; }
+.chart-military   { --box-color: var(--flag-green); }
+.chart-service    { --box-color: #e8a33d; }
+
+.chart-emperor strong { font-size: 1.125rem; }
+
+/* Zoom buttons and the hint */
+.chart-controls {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  display: flex;
+  gap: 6px;
+  cursor: default;
+}
+
+.chart-controls button {
+  min-width: 38px;
+  height: 38px;
+  padding: 0 12px;
+  border: 1px solid rgba(148, 155, 164, 0.3);
+  border-radius: 4px;
+  background: var(--page-bg);
+  color: var(--text);
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.chart-controls button:hover { border-color: var(--gold); color: var(--gold); }
+
+.chart-hint {
+  position: absolute;
+  left: 12px;
+  bottom: 10px;
+  margin: 0;
+  font-size: 0.8125rem;
+  color: var(--text-dim);
+  pointer-events: none;
+}
+
+
+/* ---------- 29. BILLS AND LAWS (legislation.html) ---------- */
+.bills { max-width: 900px; }             /* width of the list */
+.bills .bills-intro { margin: 0 0 28px; max-width: 640px; }
+
+/* Search box and filter buttons */
+.bill-tools { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
+
+.bill-search {
+  flex: 1 1 240px;
+  min-height: 44px;
+  padding: 10px 12px;
+  border: 1px solid rgba(148, 155, 164, 0.35);
+  border-radius: 4px;
+  background: var(--menu-bg);
+  color: var(--text);
+  font: inherit;
+}
+
+.bill-search:focus { outline: 2px solid var(--gold); outline-offset: 0; border-color: transparent; }
+
+.bill-filters { display: flex; flex-wrap: wrap; gap: 6px; }
+
+.bill-filter {
+  padding: 8px 14px;
+  border: 1px solid rgba(148, 155, 164, 0.3);
+  border-radius: 999px;
+  background: none;
+  color: var(--text-dim);
+  font: inherit;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.bill-filter:hover { color: var(--text); border-color: var(--text-dim); }
+.bill-filter[aria-pressed="true"] { background: var(--gold); border-color: var(--gold); color: #111214; }
+
+.bills .bill-count { margin: 14px 0 18px; font-size: 0.9375rem; min-height: 1.5em; }
+.bill-list { display: flex; flex-direction: column; gap: 16px; }
+.bills .bill-empty { padding: 28px; background: var(--bar-bg); text-align: center; }
+
+/* One bill. The colored bar on the left shows its status. */
+.bill {
+  --status: var(--text-dim);
+  padding: 22px 24px;
+  background: var(--bar-bg);
+  border-left: 4px solid var(--status);
+  scroll-margin-top: 90px;               /* leaves room for the topbar when linked to */
+}
+
+.bill-signed    { --status: var(--flag-green); }
+.bill-pending   { --status: var(--flag-blue); }
+.bill-passed    { --status: var(--gold); }
+.bill-vetoed,
+.bill-failed    { --status: #d9534f; }
+.bill-withdrawn { --status: #6b7280; }
+
+.bill-linked { box-shadow: 0 0 0 2px var(--status); }
+
+.bill-top { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+.bill-number { font-size: 0.875rem; font-weight: 700; letter-spacing: 0.04em; color: var(--text-dim); text-decoration: none; }
+.bill-number:hover { color: var(--gold); }
+
+.bill-status {
+  padding: 2px 10px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--status) 18%, transparent);
+  color: var(--status);
+  font-size: 0.8125rem;
+  font-weight: 700;
+}
+
+.bill-title { margin: 8px 0 0; font-size: 1.5rem; line-height: 1.2; }
+.bills .bill-summary { margin: 8px 0 0; }
+
+.bill-facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 28px;
+  margin: 16px 0 0;
+}
+
+.bill-facts dt { font-size: 0.8125rem; color: var(--text-dim); }
+.bill-facts dd { margin: 0; font-weight: 600; }
+.bill-party::before {                    /* small dot in the party's seat-chart color */
+  content: "";
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+  margin-right: 6px;
+  border-radius: 50%;
+  background: var(--party);
+}
+
+/* The vote bar */
+.bill-vote { margin-top: 16px; max-width: 420px; }
+
+.vote-bar {
+  display: flex;
+  height: 8px;
+  overflow: hidden;
+  border-radius: 4px;
+  background: rgba(148, 155, 164, 0.2);
+}
+
+.vote-for     { background: var(--flag-green); }
+.vote-against { background: #d9534f; }
+.vote-abstain { background: #6b7280; }
+
+.bills .vote-key { display: flex; flex-wrap: wrap; gap: 4px 16px; margin: 6px 0 0; font-size: 0.875rem; }
+.vote-key strong { color: var(--text); }
+
+/* Full text */
+.bill-more { display: flex; flex-wrap: wrap; align-items: baseline; gap: 10px 20px; margin-top: 16px; }
+.bill-text { flex: 1 1 100%; }
+.bill-text summary { color: var(--gold); font-weight: 600; cursor: pointer; }
+
+.bill-text[open] summary { margin-bottom: 10px; }
+.bills .bill-text p {
+  margin: 0 0 10px;
+  padding-left: 14px;
+  border-left: 2px solid rgba(148, 155, 164, 0.25);
+  color: var(--text);
+  white-space: pre-line;
+}
+
+@media (max-width: 520px) {
+  .bill { padding: 18px; }
+  .bill-title { font-size: 1.25rem; }
 }
