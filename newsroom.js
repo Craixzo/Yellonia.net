@@ -223,7 +223,6 @@
         return;
       }
       result.outlets.forEach(function (outlet) { list.appendChild(outletCard(outlet, user)); });
-      list.appendChild(el('p', 'form-note', 'Writing articles, and adding your logo and cover images, opens in the next update.'));
     });
   }
 
@@ -249,11 +248,53 @@
     } else if (outlet.status === 'SUSPENDED') {
       card.appendChild(el('p', null, 'This outlet has been suspended by the Ministry of Commerce.' + (outlet.reviewNote ? ' Reason: ' + outlet.reviewNote : '')));
     } else if (outlet.status === 'APPROVED') {
-      card.appendChild(link('View front page', '/outlet.html?o=' + encodeURIComponent(outlet.slug), 'text-link'));
+      var links = el('div', 'newsroom-links');
+      links.appendChild(link('View front page', '/outlet.html?o=' + encodeURIComponent(outlet.slug), 'text-link'));
+      if (outlet.role === 'OWNER') links.appendChild(link('Outlet settings', '/outlet-settings.html?o=' + encodeURIComponent(outlet.slug), 'text-link'));
+      card.appendChild(links);
+      if (outlet.memberStatus === 'ACTIVE') card.appendChild(articlesPanel(outlet));
       if (outlet.role === 'OWNER') card.appendChild(writersPanel(outlet));
       else if (outlet.memberStatus === 'ACTIVE') card.appendChild(leaveButton(outlet, user));
     }
     return card;
+  }
+
+  /* The outlet's articles (all of them for the owner, your own for a writer), and a button to write a new one */
+  var ARTICLE_STATUS = { DRAFT: 'Draft', SUBMITTED: 'Waiting for review', PUBLISHED: 'Published', REJECTED: 'Not approved' };
+
+  function articlesPanel(outlet) {
+    var panel = el('section', 'writers');
+    var head = el('div', 'panel-head');
+    head.appendChild(el('h3', null, outlet.role === 'OWNER' ? 'Articles' : 'Your articles'));
+    head.appendChild(link('Write a new article', '/editor.html?o=' + encodeURIComponent(outlet.slug), 'button-primary button-compact'));
+    panel.appendChild(head);
+    var list = el('ul', 'article-list');
+    list.appendChild(el('li', 'writer-empty', 'Loading...'));
+    panel.appendChild(list);
+
+    post({ action: 'articles', outlet: outlet.slug }).then(function (result) {
+      list.textContent = '';
+      if (!result.success) { list.appendChild(el('li', 'form-message form-message-error', result.msg)); return; }
+      if (!result.articles.length) { list.appendChild(el('li', 'writer-empty', 'No articles yet.')); return; }
+      result.articles.forEach(function (article) {
+        var row = el('li');
+        var text = el('div', 'article-row-text');
+        var title = link(article.headline, '/editor.html?o=' + encodeURIComponent(outlet.slug) + '&id=' + encodeURIComponent(article.id), 'article-row-title');
+        text.appendChild(title);
+        var meta = [ARTICLE_STATUS[article.status] || article.status];
+        if (outlet.role === 'OWNER') meta.push('by ' + article.authorName);
+        if (article.isCoverStory) meta.push('cover story');
+        text.appendChild(el('span', 'article-row-meta', meta.join(' | ')));
+        if (article.reviewNote) text.appendChild(el('span', 'article-row-note', 'Reason: ' + article.reviewNote));
+        row.appendChild(text);
+        if (article.status === 'PUBLISHED') {
+          row.appendChild(link('View', '/article.html?o=' + encodeURIComponent(outlet.slug) + '&a=' + encodeURIComponent(article.slug), 'button-small'));
+        }
+        row.className = 'article-status-' + article.status.toLowerCase();
+        list.appendChild(row);
+      });
+    });
+    return panel;
   }
 
   /* Owner only: the writer list, remove buttons and the add form */

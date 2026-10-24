@@ -298,8 +298,11 @@
 
   /* ---------- 5. ARTICLE PAGE ---------- */
   function article() {
-    var outletSlug = params.get('o') || '', articleSlug = params.get('a') || '';
-    load('view=article&outlet=' + encodeURIComponent(outletSlug) + '&article=' + encodeURIComponent(articleSlug)).then(function (data) {
+    var outletSlug = params.get('o') || '', articleSlug = params.get('a') || '', previewKey = params.get('preview');
+    var query = previewKey
+      ? 'view=preview&key=' + encodeURIComponent(previewKey)
+      : 'view=article&outlet=' + encodeURIComponent(outletSlug) + '&article=' + encodeURIComponent(articleSlug);
+    load(query).then(function (data) {
       if (data.notFound) return notice('Article not found', 'This article doesn\'t exist, or has been taken down.', 'Back to Yellonia News', 'news.html');
       var outlet = data.outlet, item = data.article;
       document.title = item.headline + ' | ' + outlet.name;
@@ -307,6 +310,10 @@
       paperShell(outlet);
       var banner = previewBanner(data);
       if (banner) root.appendChild(banner);
+      if (previewKey) {
+        var STATUS = { DRAFT: 'a draft', SUBMITTED: 'waiting for review', REJECTED: 'not approved', PUBLISHED: 'published' };
+        root.appendChild(el('p', 'news-preview', 'Review copy: this article is ' + (STATUS[data.status] || 'not published') + '. Only people with this link can see it.'));
+      }
       root.appendChild(masthead(outlet, outlet.sections || [], false));
 
       var piece = el('article', 'paper-article');

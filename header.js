@@ -118,7 +118,7 @@ document.currentScript.insertAdjacentHTML('beforebegin', `
    (styled in style.css, section 5). */
 (function () {
   var page = location.pathname.split('/').pop().replace('.html', '') || 'index';
-  if (['outlet', 'article', 'newsroom', 'news-register'].indexOf(page) !== -1) page = 'news';   /* news pages belong under News */
+  if (['outlet', 'article', 'newsroom', 'news-register', 'editor', 'outlet-settings'].indexOf(page) !== -1) page = 'news';   /* news pages belong under News */
   var items = document.querySelectorAll('.nav-list > li');
   for (var i = 0; i < items.length; i++) {
     var links = items[i].querySelectorAll('a');
