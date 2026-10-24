@@ -38,16 +38,17 @@ document.currentScript.insertAdjacentHTML('beforebegin', `
           <a href="structure.html">Structure</a>
           <ul class="dropdown">
             <li class="dropdown-label">Government</li>
-            <li><a href="government.html#emperor">The Emperor</a></li>
-            <li><a href="government.html#parliament">Parliament</a></li>
-            <li><a href="government.html#court">Imperial Supreme Court</a></li>
-            <li><a href="government.html#ministries">Ministries</a></li>
+            <li><a href="structure.html#emperor">The Emperor</a></li>
+            <li><a href="structure.html#parliament">Parliament</a></li>
+            <li><a href="structure.html#court">Imperial Supreme Court</a></li>
+            <li><a href="structure.html#ministries">Ministries</a></li>
+            <li><a href="legislation.html">Bills and laws</a></li>
             <li class="dropdown-label">Armed Forces</li>
-            <li><a href="armed-forces.html#army">Army</a></li>
-            <li><a href="armed-forces.html#special-forces">Special Forces</a></li>
-            <li><a href="armed-forces.html#navy">Navy</a></li>
-            <li><a href="armed-forces.html#air-force">Air Force</a></li>
-            <li><a href="armed-forces.html#military-police">Military Police</a></li>
+            <li><a href="structure.html#army">Army</a></li>
+            <li><a href="structure.html#special-forces">Special Forces</a></li>
+            <li><a href="structure.html#navy">Navy</a></li>
+            <li><a href="structure.html#air-force">Air Force</a></li>
+            <li><a href="structure.html#military-police">Military Police</a></li>
           </ul>
         </li>
 

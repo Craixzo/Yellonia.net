@@ -2663,3 +2663,38 @@ a.chart-box:hover { border-color: var(--box-color); box-shadow: 0 0 0 2px var(--
   .bill { padding: 18px; }
   .bill-title { font-size: 1.25rem; }
 }
+
+
+/* ---------- 30. STRUCTURE PAGE: the Government and Armed Forces halves ---------- */
+#chart-section { scroll-margin-top: 70px; }
+.chart-wrap { margin-top: 32px; }
+.chart-intro { margin: 0 0 12px; color: var(--text-dim); }
+
+/* The big heading that starts each half, with links to its parts */
+.part-head {
+  scroll-margin-top: 70px;
+  padding-top: 56px;
+  border-top: 1px solid rgba(148, 155, 164, 0.2);
+}
+
+.part-head-inner {                       /* same width and sides as the sections below, so the edges line up */
+  max-width: var(--site-width);
+  margin: 0 auto;
+  padding: 0 var(--side-gap);
+}
+.part-head h2 { margin: 0 0 14px; font-size: 2.5rem; line-height: 1.1; }
+
+.part-links { list-style: none; display: flex; flex-wrap: wrap; gap: 8px; margin: 0; padding: 0; }
+
+.part-links a {
+  display: block;
+  padding: 7px 14px;
+  border: 1px solid rgba(148, 155, 164, 0.3);
+  border-radius: 999px;
+  color: var(--text-dim);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.part-links a:hover { color: var(--gold); border-color: var(--gold); }
+.part-head .part-text { max-width: 75ch; margin: 18px 0 0; font-size: 1.125rem; color: var(--text); }
