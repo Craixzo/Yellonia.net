@@ -2453,9 +2453,22 @@ a.chart-box:hover { border-color: var(--box-color); box-shadow: 0 0 0 2px var(--
 .chart-security   { --box-color: #d9534f; }
 .chart-staff      { --box-color: #c3c9d1; }
 .chart-division   { --box-color: #a8d99c; }
-.chart-security   { --box-color: #d9534f; }
-.chart-division   { --box-color: #a8d99c; }   /* lighter green than the branches */
-.chart-unit       { --box-color: #d4e8cf; }   /* lighter still, for parts of a division */
+.chart-unit       { --box-color: #f3c98a; }
+
+/* Redacted boxes: a black bar where the name would be */
+.chart-redacted { --box-color: #2a2c30; cursor: inherit; }
+.chart-redacted strong {
+  color: #d9534f;
+  font-family: ui-monospace, Consolas, monospace;
+  letter-spacing: 0.2em;
+}
+.chart-box.chart-redacted span {
+  display: block;
+  height: 10px;
+  margin: 8px 14px;
+  padding: 0;
+  background: #000000;
+}
 
 .chart-emperor strong { font-size: 1.125rem; }
 

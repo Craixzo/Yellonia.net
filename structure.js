@@ -22,7 +22,8 @@
        link:    the page it opens when clicked (optional). Links to other
                 websites (starting with https://) open in a new tab.
        color:   emperor, cabinet, parliament, court, security, ministry,
-                staff, military, division, service
+                staff, military, division, service, unit
+       redacted: true draws a blacked-out box with no name or link.
        stackLeaves: true lists this box's single boxes (ones with nothing
                 under them) in one column first, before the others.
      Boxes whose children have no children of their own are listed in a
@@ -59,15 +60,19 @@
                 children: units(['Ceremonial Guard', 'Ground Police', 'Air Police', 'Coast Guard'], 'armed-forces.html#military-police') },
             ] },
           { name: 'Ministry of Justice', link: 'government.html#ministries', color: 'ministry' },
-          { name: 'Ministry of Commerce', link: 'government.html#ministries', color: 'ministry' },
+          { name: 'Ministry of Commerce', link: 'government.html#ministries', color: 'ministry',
+            children: [
+              { name: 'Department of Corporate Registry', color: 'service' },
+            ] },
           { name: 'Ministry of Foreign Affairs', link: 'government.html#ministries', color: 'ministry',
             children: [
               { name: 'Department of Political Affairs', color: 'service' },
               { name: 'Diplomatic Security Unit', color: 'service' },
             ] },
-          { name: 'Ministry of Internal Affairs', link: 'government.html#ministries', color: 'ministry',
+          { name: 'Ministry of Internal Affairs', link: 'government.html#ministries', color: 'ministry', stackLeaves: true,
             children: [
-              { name: 'Police Department', link: 'emergency-services.html#police', color: 'service' },
+              { name: 'Police Department', link: 'emergency-services.html#police', color: 'service',
+                children: units(['Yeloria Police Division', 'Counter-Terrorism and Special Response Command'], 'emergency-services.html#police', 'unit') },
               { name: 'Fire Service', link: 'emergency-services.html#fire', color: 'service' },
               { name: 'Postal Service', color: 'service' },
               { name: 'Parks and Wildlife', link: 'emergency-services.html#parks', color: 'service' },
@@ -78,7 +83,14 @@
               { name: 'Department of Special Projects', color: 'service' },
             ] },
         ] },
-      { name: 'State Security Directorate', note: 'Answers to the Emperor', link: 'https://ssd-secure-portal.vercel.app/', color: 'security' },
+      { name: 'State Security Directorate', note: 'Answers to the Emperor', link: 'https://ssd-secure-portal.vercel.app/', color: 'security', stackLeaves: true,
+        children: [
+          { redacted: true }, { redacted: true }, { redacted: true }, { redacted: true },
+          { name: 'Imperial Guard', color: 'security',
+            children: [
+              { name: 'IG-Regiments', color: 'unit' },
+            ] },
+        ] },
       { name: 'Parliament', note: '80 seats, chaired by the Speaker', link: 'government.html#parliament', color: 'parliament' },
       { name: 'Imperial Supreme Court', note: 'Interprets the law', link: 'government.html#court', color: 'court' },
     ],
@@ -178,6 +190,16 @@
   lines.innerHTML = links.map(function (d) { return '<path d="' + d + '"/>'; }).join('');
 
   placed.forEach(function (node) {
+    if (node.redacted) {                                 /* a blacked-out box */
+      var hidden = document.createElement('div');
+      hidden.className = 'chart-box chart-redacted';
+      hidden.setAttribute('aria-label', 'Redacted');
+      hidden.style.left = node.x + 'px'; hidden.style.top = node.y + 'px';
+      hidden.style.width = BOX_W + 'px'; hidden.style.height = BOX_H + 'px';
+      hidden.innerHTML = '<strong>REDACTED</strong><span aria-hidden="true"></span>';
+      stage.appendChild(hidden);
+      return;
+    }
     var box = document.createElement(node.link ? 'a' : 'div');
     box.className = 'chart-box chart-' + (node.color || 'ministry');
     if (node.link) box.href = node.link;
@@ -356,9 +378,11 @@
     speed: 0.6,           /* how fast particles move */
     scale: 0.0011,        /* how wide the swirls are; smaller = wider */
     drift: 0.00012,       /* how fast the current itself changes */
-    fade: 0.07,           /* how quickly trails disappear; higher = shorter trails */
+    trail: 70,            /* how long each line's tail is, in steps */
     runFor: 20000,        /* stops after this many milliseconds (20 s) without anyone touching the chart; dragging or zooming starts it again */
     phoneMax: 120,        /* fewer particles on small screens */
+    fadeIn: 1500,         /* milliseconds to fade in when it starts */
+    fadeOut: 4000,        /* milliseconds to fade out when it stops */
   };
 
   var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -367,7 +391,7 @@
     var ctx = canvas.getContext('2d');
     var ratio = Math.min(window.devicePixelRatio || 1, 2);
     var width = 0, height = 0, particles = [], time = Math.random() * 100, running = false, visible = true;
-    var activeUntil = Date.now() + FLOW.runFor, clearFrames = 0;
+    var activeUntil = Date.now() + FLOW.runFor, strength = 0, lastFrame = 0;
 
     /* Classic Perlin noise in 3D (x, y and time), written out so no library is needed */
     var perm = new Uint8Array(512);
@@ -395,7 +419,8 @@
     }
 
     function newParticle() {
-      return { x: Math.random() * width, y: Math.random() * height, life: 200 + Math.random() * 400, color: FLOW.colors[Math.floor(Math.random() * FLOW.colors.length)] };
+      var x = Math.random() * width, y = Math.random() * height;
+      return { x: x, y: y, trail: [x, y], life: 200 + Math.random() * 400, color: FLOW.colors[Math.floor(Math.random() * FLOW.colors.length)] };
     }
 
     function resize() {
@@ -407,32 +432,55 @@
       for (var i = 0; i < count; i++) particles.push(newParticle());
     }
 
-    function frame() {
+    function frame(now) {
       if (!running) return;
-      /* fade the old trails a little (keeps the canvas see-through, so the dotted grid shows) */
-      ctx.globalCompositeOperation = 'destination-out';
-      ctx.fillStyle = 'rgba(0, 0, 0, ' + FLOW.fade + ')';
-      ctx.fillRect(0, 0, width, height);
-      ctx.globalCompositeOperation = 'source-over';
+      var dt = Math.min(100, now - (lastFrame || now)); lastFrame = now;
 
-      /* Time's up: draw nothing new, let the trails fade away, then stop completely */
-      if (Date.now() > activeUntil) {
-        if (++clearFrames > 90) { ctx.clearRect(0, 0, width, height); running = false; return; }
-        requestAnimationFrame(frame);
-        return;
-      }
-      clearFrames = 0;
-      ctx.globalAlpha = FLOW.opacity;
-      ctx.lineWidth = 1.2;
+      /* Fades in when it starts and slowly out when time's up, instead of switching off at once */
+      var target = Date.now() <= activeUntil ? 1 : 0;
+      var step = dt / (target ? FLOW.fadeIn : FLOW.fadeOut);
+      strength = target ? Math.min(1, strength + step) : Math.max(0, strength - step);
+
+      ctx.clearRect(0, 0, width, height);
+      if (!target && strength === 0) { running = false; lastFrame = 0; return; }   /* fully faded out: stop completely */
+
+      /* Move each particle along the current, remembering its last few points */
       time += FLOW.drift * 16;
       for (var i = 0; i < particles.length; i++) {
         var p = particles[i];
+        if (p.life <= 0) {                     /* finished: its tail shrinks away, then it starts again elsewhere */
+          p.trail.splice(0, 2);
+          if (p.trail.length < 4) particles[i] = newParticle();
+          continue;
+        }
         var angle = noise(p.x * FLOW.scale, p.y * FLOW.scale, time) * Math.PI * 2.5;
-        var nx = p.x + Math.cos(angle) * FLOW.speed, ny = p.y + Math.sin(angle) * FLOW.speed;
-        ctx.strokeStyle = p.color;
-        ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(nx, ny); ctx.stroke();
-        p.x = nx; p.y = ny; p.life--;
-        if (p.life <= 0 || nx < -10 || ny < -10 || nx > width + 10 || ny > height + 10) particles[i] = newParticle();
+        p.x += Math.cos(angle) * FLOW.speed; p.y += Math.sin(angle) * FLOW.speed;
+        p.trail.push(p.x, p.y);
+        if (p.trail.length > FLOW.trail * 2) p.trail.splice(0, 2);
+        p.life--;
+        if (p.x < -10 || p.y < -10 || p.x > width + 10 || p.y > height + 10) p.life = 0;
+      }
+
+      /* Draw each trail in four parts, faintest at the tail */
+      ctx.lineWidth = 1.2;
+      ctx.lineCap = 'round';
+      for (var part = 0; part < 4; part++) {
+        ctx.globalAlpha = FLOW.opacity * strength * (part + 1) / 4;
+        for (var k = 0; k < FLOW.colors.length; k++) {
+          ctx.strokeStyle = FLOW.colors[k];
+          ctx.beginPath();
+          for (var n = 0; n < particles.length; n++) {
+            var q = particles[n];
+            if (q.color !== FLOW.colors[k]) continue;
+            var points = q.trail.length / 2;
+            if (points < 2) continue;
+            var from = Math.floor(points * part / 4), to = Math.min(points - 1, Math.floor(points * (part + 1) / 4));
+            if (to <= from) continue;
+            ctx.moveTo(q.trail[from * 2], q.trail[from * 2 + 1]);
+            for (var s = from + 1; s <= to; s++) ctx.lineTo(q.trail[s * 2], q.trail[s * 2 + 1]);
+          }
+          ctx.stroke();
+        }
       }
       ctx.globalAlpha = 1;
       requestAnimationFrame(frame);
@@ -445,7 +493,7 @@
     viewport.addEventListener('keydown', wake);
 
     function update() {
-      var should = visible && !document.hidden && (Date.now() <= activeUntil || clearFrames > 0);
+      var should = visible && !document.hidden && (Date.now() <= activeUntil || strength > 0);
       if (should && !running) { running = true; requestAnimationFrame(frame); }
       if (!should) running = false;
     }
