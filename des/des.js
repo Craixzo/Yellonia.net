@@ -23,11 +23,11 @@ window.DES = (function () {
   var MENU = [
     { id: 'dispatch', title: 'Dispatch Operations', items: [
       { name: 'CAD', roles: 'all', soon: 'Phase 4' },
-      { name: 'Wanted List', roles: 'all', soon: 'Phase 3' },
+      { name: 'Wanted List', roles: 'all', page: '/des/wanted-admin.html' },
     ] },
     { id: 'database', title: 'Department Database', items: [
       { name: 'Personnel Database', roles: 'all', page: '/des/personnel.html' },
-      { name: 'Criminal Database', roles: 'all', soon: 'Phase 3' },
+      { name: 'Criminal Database', roles: 'all', page: '/des/criminal.html' },
       { name: 'Former Personnel', roles: ['supervisor', 'oia', 'local-admin', 'service-admin'], page: '/des/former.html' },
     ] },
     { id: 'administration', title: 'Department Administration', items: [

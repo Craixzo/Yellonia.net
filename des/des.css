@@ -294,6 +294,79 @@ a:hover { color: #d6ea4a; }
 .btn-armed:hover { color: #ffffff; }
 
 
+/* ---------- 10. CRIMINAL DATABASE AND WANTED LIST (phase 3) ---------- */
+.flash:empty { display: none; }
+a.subject-row { color: var(--text); text-decoration: none; }
+a.subject-row:hover { background: #14171b; }
+a.subject-row:hover .subject-row-name { text-decoration: underline; }
+.subject-row-name { color: var(--lime); }
+.rp-note { margin: 0; padding: 8px 12px; border: 1px dashed var(--line-2); border-radius: 6px; color: var(--dim); font-size: 13px; }
+
+/* Avatars (Roblox headshots) */
+.subject-av {
+  flex: none;
+  width: 48px;
+  height: 48px;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  border-radius: 6px;
+  background: #1b1f25;
+  color: var(--dim);
+  font-weight: 700;
+}
+.subject-av img { width: 100%; height: 100%; object-fit: cover; }
+
+/* Search results list */
+.subject-list { list-style: none; margin: 0; padding: 0; }
+.subject-row { display: flex; align-items: center; gap: 14px; padding: 12px 16px; border-bottom: 1px solid #181b20; }
+.subject-row:last-child { border-bottom: 0; }
+.subject-row-text { flex: 1; min-width: 0; }
+.subject-row-name { font-weight: 600; text-decoration: none; }
+.subject-row-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+
+/* A subject's page */
+.subject-head { display: flex; flex-wrap: wrap; align-items: center; gap: 18px; }
+.subject-head-av { width: 96px; height: 96px; display: grid; place-items: center; overflow: hidden; border-radius: 8px; background: #1b1f25; color: var(--dim); font-size: 28px; font-weight: 700; }
+.subject-head-av img { width: 100%; height: 100%; object-fit: cover; }
+.subject-head p { margin: 2px 0 0; }
+.subject-notes { margin: 4px 0 12px; white-space: pre-line; }
+
+.form-inset { margin-bottom: 16px; padding: 14px; border: 1px solid var(--line-2); border-radius: 6px; background: var(--bg); }
+.edit-details { margin-top: 14px; }
+.edit-details summary { cursor: pointer; color: var(--lime); font-weight: 600; font-size: 14px; }
+.edit-details[open] summary { margin-bottom: 10px; }
+.summary-small { font-size: 12.5px !important; font-weight: 500 !important; color: var(--dim) !important; }
+
+/* Records and warrants */
+.rec-card { padding: 12px 14px; margin-bottom: 10px; border: 1px solid var(--line); border-radius: 6px; background: var(--bg); }
+.rec-card:last-child { margin-bottom: 0; }
+.rec-top { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.rec-num { font-weight: 600; }
+.rec-summary { margin: 8px 0 0; white-space: pre-line; }
+.rec-meta { margin: 8px 0 0; color: var(--faint); font-size: 12.5px; }
+.rec-card .button-row { margin-top: 10px; }
+.charge-list { margin: 8px 0 0; padding-left: 18px; font-family: var(--mono); font-size: 13px; color: #c3c9d1; }
+.warrant-active { border-color: #5a2622; }
+.warrant-served, .warrant-recalled { opacity: .7; }
+
+.danger-low { background: #13240f; color: var(--green); }
+.danger-medium { background: #2b2110; color: #f2b85b; }
+.danger-high { background: #2a1514; color: var(--red); }
+.kind-arrest { background: #2a1514; color: var(--red); }
+.kind-citation { background: #2b2110; color: #f2b85b; }
+.kind-warning { background: #172636; color: #8fd0f0; }
+.kind-note { background: #1b1f25; color: #c3c9d1; }
+
+.btn-small { height: 34px; padding: 0 12px; font-size: 13px; }
+
+/* Wanted List cards */
+.wanted-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 14px; }
+.wanted-card { padding: 16px; display: flex; flex-direction: column; gap: 4px; }
+.wanted-card .button-row { margin-top: 10px; }
+.wanted-top { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; }
+
+
 /* ---------- 9. TEMPORARY: the AveYellonia preview banner (remove with preview.js) ---------- */
 .preview-banner {
   padding: 8px 20px;
