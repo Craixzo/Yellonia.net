@@ -31,12 +31,17 @@ window.DES = (function () {
       { name: 'Criminal Database', roles: 'all', page: '/des/criminal.html' },
       { name: 'Former Personnel', roles: ['supervisor', 'oia', 'local-admin', 'service-admin'], page: '/des/former.html' },
     ] },
+    { id: 'communications', title: 'Communications', items: [
+      { name: 'Posts', roles: 'all', page: '/des/posts.html' },
+      { name: 'DES News', roles: ['pio', 'supervisor', 'local-admin', 'service-admin'], page: '/des/news.html' },
+    ] },
     { id: 'administration', title: 'Department Administration', items: [
       { name: 'OIA: Officer Complaints', roles: ['oia', 'service-admin'], page: '/des/oia-officer.html', count: 'OFFICER.new' },
       { name: 'OIA: Department Complaints', roles: ['oia', 'service-admin'], page: '/des/oia-department.html', count: 'DEPARTMENT.new' },
       { name: 'OFI: Active Investigations', roles: ['ofi', 'service-admin'], page: '/des/ofi-active.html', count: 'FIRE.open' },
       { name: 'OFI: Reported Investigations', roles: ['ofi', 'service-admin'], page: '/des/ofi-reported.html', count: 'FIRE.new' },
       { name: 'OFI Database', roles: ['ofi', 'service-admin'], page: '/des/ofi-database.html' },
+      { name: 'Recruitment', roles: ['supervisor', 'local-admin', 'service-admin'], page: '/des/recruitment.html', count: 'APPLICATIONS.new' },
       { name: 'Local Admin', roles: ['local-admin', 'service-admin'], page: '/des/admin.html' },
       { name: 'Service Admin', roles: ['service-admin'], page: '/des/service-admin.html' },
     ] },
@@ -44,7 +49,7 @@ window.DES = (function () {
 
   var ROLE_NAMES = {
     'officer': 'Officer / Firefighter', 'dispatcher': 'Dispatcher', 'supervisor': 'Supervisor',
-    'oia': 'Internal Affairs', 'ofi': 'Fire Investigations', 'local-admin': 'Local Admin', 'service-admin': 'Service Admin',
+    'oia': 'Internal Affairs', 'ofi': 'Fire Investigations', 'pio': 'Public Information', 'local-admin': 'Local Admin', 'service-admin': 'Service Admin',
   };
 
 
@@ -103,7 +108,7 @@ window.DES = (function () {
   }
 
   /* Roles an admin may give (the server checks this too) */
-  var LOCAL_GRANTABLE = ['officer', 'dispatcher', 'supervisor', 'oia', 'ofi'];
+  var LOCAL_GRANTABLE = ['officer', 'dispatcher', 'supervisor', 'oia', 'ofi', 'pio'];
   function grantableFor(member) {
     if (member.roles.indexOf('service-admin') !== -1) return Object.keys(ROLE_NAMES);
     if (member.roles.indexOf('local-admin') !== -1) return LOCAL_GRANTABLE;
@@ -233,10 +238,10 @@ window.DES = (function () {
     }
   }
 
-  /* Numbers in the side menu: new complaints and fire reports waiting (OIA/OFI only) */
+  /* Numbers in the side menu: new complaints, fire reports and applications waiting */
   function drawCounts(nav, member) {
-    if (!nav.querySelector('[data-count]') || !hasRole(member, 'oia', 'ofi', 'service-admin')) return;
-    post('case-counts').then(function (answer) {
+    if (!nav.querySelector('[data-count]') || !hasRole(member, 'oia', 'ofi', 'supervisor', 'local-admin', 'service-admin')) return;
+    post('counts').then(function (answer) {
       if (!answer.success || !answer.counts) return;
       Array.prototype.forEach.call(nav.querySelectorAll('[data-count]'), function (link) {
         var parts = link.getAttribute('data-count').split('.');

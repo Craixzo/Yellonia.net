@@ -15,6 +15,7 @@
      10. CRIMINAL DATABASE AND WANTED LIST (phase 3)
      11. CAD (phase 4)
      12. OIA AND OFI CASES (phase 5)
+     13. POSTS, DES NEWS AND RECRUITMENT (phase 6)
      9. TEMPORARY preview banner (remove with preview.js)
    ============================================================== */
 
@@ -568,6 +569,23 @@ a.subject-row:hover .subject-row-name { text-decoration: underline; }
 .stack-sm p { margin: 0; }
 .stack-sm .form .btn { align-self: flex-start; }
 .field select, .field textarea { width: 100%; }
+
+
+/* ---------- 13. POSTS, DES NEWS AND RECRUITMENT (phase 6) ---------- */
+.post-list { display: flex; flex-direction: column; gap: 12px; }
+.post-card { padding: 14px 16px; border: 1px solid var(--line); border-left: 3px solid var(--line-2); border-radius: 6px; background: var(--panel); }
+.panel-body .post-card { background: var(--bg); }
+.post-card.is-pinned { border-left-color: var(--lime); }
+.post-top { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.post-meta { font-size: 13px; }
+.post-title { margin: 8px 0 4px; font-size: 17px; }
+.post-body { margin: 0; white-space: pre-line; overflow-wrap: anywhere; }
+.post-card .button-row { margin-top: 10px; }
+.post-card .form { margin-top: 4px; }
+.dash-posts { grid-column: 1 / -1; }
+@media (min-width: 1300px) { .dash-posts { grid-column: span 2; } }
+.dash-posts .panel-head a { font-size: 14px; }
+.app-flags { margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--line); }
 
 
 /* ---------- 9. TEMPORARY: the AveYellonia preview banner (remove with preview.js) ---------- */

@@ -119,11 +119,54 @@ window.DES_PREVIEW = (function () {
     if (action === 'audit') return { success: true, entries: data.badge ? AUDIT.filter(function (a) { return a.target === data.badge; }) : AUDIT };
     if (action === 'cases') return casesList(data);
     if (action === 'case') return caseOne(data);
+    if (action === 'counts') return { success: true, counts: { OFFICER: { new: 1, open: 1 }, DEPARTMENT: { new: 0, open: 1 }, FIRE: { new: 1, open: 1 }, APPLICATIONS: { new: 2 } } };
+    if (action === 'posts') return { success: true, posts: POSTS.slice(0, data.limit || 100), canPost: true,
+      targets: [{ key: '', name: 'Everyone in DES' }, { key: 'POLICE', name: 'Yellonia Police Department' }, { key: 'FIRE', name: 'Yellonia Fire Department' }] };
+    if (action === 'news-status') return newsStatus();
+    if (action === 'applications') return { success: true, applications: APPS.filter(function (a) {
+      return data.scope === 'all' || (data.scope === 'decided' ? ['ACCEPTED', 'DECLINED', 'WITHDRAWN'] : ['PENDING', 'REVIEW']).indexOf(a.status) !== -1; }), open: { POLICE: true, FIRE: true } };
+    if (action === 'application') return appOne(data);
     if (action === 'case-counts') return { success: true, counts: { OFFICER: { new: 1, open: 1 }, DEPARTMENT: { new: 0, open: 1 }, FIRE: { new: 1, open: 1 } } };
     if (action === 'cad') return cadBoard(data);
     return NOT_SAVED;
   }
 
+
+  /* ---- sample posts, DES News and applications ---- */
+  var POSTS = [
+    { id: 'po1', title: 'New pursuit policy', body: 'From Monday, pursuits need a supervisor\'s OK over the radio before they continue past the city limits.', department: null, departmentShort: null, pinned: true, authorName: 'Chief Craixzo', createdAt: ago(2), canChange: true, canPin: true },
+    { id: 'po2', title: 'B Shift briefing moved', body: 'Saturday\'s B Shift briefing is at 8pm EST in the Yeloria station briefing room.', department: 'POLICE', departmentShort: 'YPD', pinned: false, authorName: 'Sergeant KingMS', createdAt: ago(1), canChange: true, canPin: true },
+    { id: 'po3', title: 'Engine 1 back in service', body: 'Engine 1 is repaired and back at Station 1.', department: 'FIRE', departmentShort: 'YFD', pinned: false, authorName: 'Fire Chief Abutalee', createdAt: ago(3), canChange: true, canPin: true },
+  ];
+  function newsStatus() {
+    return { success: true, slug: 'department-of-emergency-services', name: 'Department of Emergency Services', canWrite: true, canSetup: true,
+      exists: true, approved: true, outletName: 'Department of Emergency Services', ownedByMe: true, isWriter: true,
+      writers: [{ discordId: '1', name: 'Chief Craixzo', role: 'OWNER', me: true }, { discordId: '2', name: 'Sergeant KingMS', role: 'WRITER', me: false }],
+      articles: [
+        { id: 'a1', slug: 'new-fire-station-opens', headline: 'New fire station opens in the north', status: 'PUBLISHED', authorName: 'Chief Craixzo', mine: true, updatedAt: ago(4), publishedAt: ago(4) },
+        { id: 'a2', slug: 'police-recruiting', headline: 'YPD is recruiting', status: 'SUBMITTED', authorName: 'Sergeant KingMS', mine: false, updatedAt: ago(1), publishedAt: null },
+      ] };
+  }
+  var APP_NAMES = { PENDING: 'Received', REVIEW: 'In review', ACCEPTED: 'Accepted', DECLINED: 'Declined', WITHDRAWN: 'Withdrawn' };
+  var APPS = [
+    ['ap1', 'APP-2026-0004', 'NewRecruit_7', 'recruit7', 'POLICE', 'PENDING', 0.5],
+    ['ap2', 'APP-2026-0003', 'FlameChaser', 'flamechaser', 'FIRE', 'PENDING', 1],
+    ['ap3', 'APP-2026-0002', 'SteadyEddie', 'eddie', 'POLICE', 'REVIEW', 3],
+    ['ap4', 'APP-2026-0001', 'ColeSL', 'coles', 'FIRE', 'ACCEPTED', 60],
+  ].map(function (r) {
+    return { id: r[0], number: r[1], robloxUsername: r[2], discordName: r[3], department: r[4], departmentShort: d(r[4]).short,
+      status: r[5], statusName: APP_NAMES[r[5]], reviewedName: r[5] === 'PENDING' ? null : 'Chief Craixzo', createdAt: ago(r[6]), decidedAt: r[5] === 'ACCEPTED' ? ago(r[6] - 2) : null };
+  });
+  function appOne(data) {
+    var a = APPS.filter(function (x) { return x.id === data.id; })[0];
+    if (!a) return { success: false, msg: 'That application doesn\'t exist.' };
+    return { success: true, canDecide: true, application: Object.assign({}, a, {
+      departmentName: d(a.department).name, discordId: '000000000000000000', robloxUserId: '1', avatar: null, publicNote: null,
+      memberId: a.status === 'ACCEPTED' ? 'p8' : null, earlier: [], existingMember: null, criminalRecord: null,
+      answers: [{ q: 'How old are you?', a: '19' }, { q: 'What time zone are you in, and when are you usually active?', a: 'EST, evenings and weekends.' },
+        { q: 'Why do you want to join?', a: 'I like helping people and I play Yellonia most days.' }],
+      log: [{ id: 'x1', kind: 'SYSTEM', text: 'Applied through the website.', actorName: 'Website', createdAt: a.createdAt }] }) };
+  }
 
   /* ---- sample OIA / OFI cases ---- */
   var FINDING_NAMES = { SUSTAINED: 'Sustained', NOT_SUSTAINED: 'Not sustained', EXONERATED: 'Exonerated', UNFOUNDED: 'Unfounded', WITHDRAWN: 'Withdrawn',

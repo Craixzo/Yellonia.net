@@ -33,6 +33,26 @@
     you.appendChild(body);
     grid.appendChild(you);
 
+    /* Latest posts (pinned first). The full board is on posts.html. */
+    var posts = el('section', 'panel dash-posts');
+    var ph = el('div', 'panel-head');
+    ph.appendChild(el('h2', null, 'Latest posts'));
+    var all = el('a', null, 'All posts');
+    all.href = '/des/posts.html';
+    ph.appendChild(all);
+    posts.appendChild(ph);
+    var pbody = el('div', 'panel-body post-list');
+    posts.appendChild(pbody);
+    grid.appendChild(posts);
+    function loadPosts() {
+      DES.act('posts', { limit: 3 }).then(function (answer) {
+        pbody.textContent = '';
+        if (!answer.success || !answer.posts.length) { pbody.appendChild(el('p', 'dim', answer.success ? 'No posts yet.' : answer.msg)); return; }
+        answer.posts.forEach(function (p) { pbody.appendChild(DES.drawPost ? DES.drawPost(p, loadPosts) : el('p', null, p.title)); });
+      });
+    }
+    loadPosts();
+
     /* Your access, by section (the home page's tiles link to these) */
     DES.MENU.forEach(function (section) {
       var panel = el('section', 'panel access-section');
