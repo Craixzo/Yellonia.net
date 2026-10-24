@@ -653,10 +653,10 @@ main { flex: 1; }
           mask: var(--icon) center / contain no-repeat;
 }
 
-.social-discord { --icon: url("images/social/discord.svg"); }
-.social-roblox  { --icon: url("images/social/roblox.svg"); }
-.social-youtube { --icon: url("images/social/youtube.svg"); }
-.social-tiktok  { --icon: url("images/social/tiktok.svg"); }
+.social-discord { --icon: url("images/Discordthingy.png"); }   /* same file as the login button */
+.social-roblox  { --icon: url("images/roblox-logo.png"); }
+.social-youtube { --icon: url("images/youtube-logo.png"); }
+.social-tiktok  { --icon: url("images/tiktok-logo.png"); }
 
 .footer-links {
   display: flex;
