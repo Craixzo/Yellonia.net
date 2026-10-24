@@ -647,10 +647,10 @@ main { flex: 1; }
 
 .footer-links .footer-social a:hover .social-icon { opacity: 1; }
 
-.social-discord { --icon: url("images/discord-logo.svg"); }   /* same file as the login button */
-.social-roblox  { --icon: url("images/roblox-logo.svg"); }
-.social-youtube { --icon: url("images/youtube-logo.svg"); }
-.social-tiktok  { --icon: url("images/tiktok-logo.svg"); }
+.social-discord { --icon: url("images/Discordthingy.png"); }   /* same file as the login button */
+.social-roblox  { --icon: url("images/Robloxthingy.png"); }
+.social-youtube { --icon: url("images/YouTubethingy.png"); }
+.social-tiktok  { --icon: url("images/Tiktokthingy.png"); }
 
 .footer-links {
   display: flex;
@@ -1920,14 +1920,14 @@ main { flex: 1; }
 .button-discord { background: #5865f2; color: #ffffff; }   /* Discord's own button color */
 .button-discord:hover { background: #4752c4; }
 
-/* Discord logo inside the button. The file is the official white logo from discord.com/branding */
+/* Discord logo inside the button (images/Discordthingy.png) */
 .button-discord { display: inline-flex; align-items: center; gap: 10px; }
 .button-discord::before {
   content: "";
   width: 22px;
   height: 22px;
   flex: none;
-  background: url("images/discord-logo.svg") center / contain no-repeat;
+  background: url("images/Discordthingy.png") center / contain no-repeat;
 }
 
 .button-small {
