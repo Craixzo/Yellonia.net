@@ -2371,6 +2371,18 @@ main { flex: 1; }
 }
 
 .chart.is-dragging { cursor: grabbing; }
+
+/* Full screen: the browser's own, or the chart stretched over the whole window */
+.chart:fullscreen { height: 100%; border: 0; border-radius: 0; }
+.chart.is-full {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;                         /* above the topbar */
+  height: auto;
+  border: 0;
+  border-radius: 0;
+}
+.chart-full-open, .chart-full-open body { overflow: hidden; }   /* stops the page scrolling behind it */
 .chart:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
 
 .chart-stage {
@@ -2381,6 +2393,14 @@ main { flex: 1; }
 }
 
 .chart-lines { position: absolute; inset: 0; overflow: visible; }
+
+.chart-flow {                            /* the drifting background lines */
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
 
 .chart-lines path {
   fill: none;
@@ -2440,8 +2460,12 @@ a.chart-box:hover { border-color: var(--box-color); box-shadow: 0 0 0 2px var(--
   position: absolute;
   top: 12px;
   right: 12px;
+  left: 12px;
   display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
   gap: 6px;
+  pointer-events: none;                  /* the gaps between buttons still drag the chart */
   cursor: default;
 }
 
@@ -2458,6 +2482,7 @@ a.chart-box:hover { border-color: var(--box-color); box-shadow: 0 0 0 2px var(--
   cursor: pointer;
 }
 
+.chart-controls button { pointer-events: auto; }
 .chart-controls button:hover { border-color: var(--gold); color: var(--gold); }
 
 .chart-hint {

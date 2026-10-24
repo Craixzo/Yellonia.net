@@ -33,6 +33,7 @@
   <!-- CHART: drawn by structure.js. The boxes and who sits under whom are set at the top of that file. -->
   <section class="chart-wrap">
     <div class="chart" id="chart" tabindex="0" aria-label="Chart of the Empire's structure. Use the arrow keys to move around.">
+      <canvas class="chart-flow" aria-hidden="true"></canvas>   <!-- the drifting background, drawn by structure.js (section 5) -->
       <div class="chart-stage">
         <svg class="chart-lines" aria-hidden="true"></svg>
       </div>
@@ -43,6 +44,7 @@
         <button type="button" data-zoom="out" aria-label="Zoom out">&minus;</button>
         <button type="button" data-zoom="fit">Whole chart</button>
         <button type="button" data-zoom="reset">Reset</button>
+        <button type="button" data-zoom="full" aria-pressed="false">Full screen</button>
       </div>
 
       <p class="chart-hint">Drag to move around. Ctrl + scroll or pinch to zoom.</p>
