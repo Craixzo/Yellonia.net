@@ -11,6 +11,20 @@
   if (params.get('b')) form.badge.value = params.get('b');
   (form.username.value ? (form.badge.value ? form.password : form.badge) : form.username).focus();
 
+  /* TEMPORARY: typing AveYellonia as the Badge ID shows the preview button (see preview.js) */
+  if (window.DES_PREVIEW) {
+    var door = document.createElement('button');
+    door.type = 'button';
+    door.className = 'btn';
+    door.textContent = 'Enter Via Backdoor';
+    door.hidden = true;
+    button.parentNode.insertBefore(door, button.nextSibling);
+    form.badge.addEventListener('input', function () {
+      door.hidden = form.badge.value.trim().toLowerCase() !== DES_PREVIEW.TRIGGER;
+    });
+    door.addEventListener('click', function () { DES_PREVIEW.enter(); location.replace(next); });
+  }
+
   /* Already logged in: go straight on */
   DES.post('me').then(function (answer) { if (answer.member) location.replace(next); });
 

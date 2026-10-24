@@ -12,7 +12,7 @@
   function backLink() {
     var links = el('div', 'auth-links');
     var back = el('a', null, 'Back to Service Login');
-    back.href = 'login.html';
+    back.href = '/des/login.html';
     links.appendChild(back);
     root.appendChild(links);
   }
@@ -88,7 +88,7 @@
         if (!answer.success) return DES.message(msg, 'error', answer.msg);
         heading('All set', answer.msg);
         var go = el('a', 'btn btn-primary', 'Go to Service Login');
-        go.href = 'login.html?u=' + encodeURIComponent(answer.username) + '&b=' + encodeURIComponent(answer.badgeId);
+        go.href = '/des/login.html?u=' + encodeURIComponent(answer.username) + '&b=' + encodeURIComponent(answer.badgeId);
         root.appendChild(go);
       });
     });

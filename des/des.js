@@ -56,6 +56,7 @@ window.DES = (function () {
   }
 
   function post(action, data) {
+    if (window.DES_PREVIEW && DES_PREVIEW.on()) return Promise.resolve(DES_PREVIEW.answer(action, data || {}));   /* TEMPORARY preview */
     var body = Object.assign({ action: action }, data || {});
     return fetch('/api/des', {
       method: 'POST',
@@ -166,6 +167,12 @@ window.DES = (function () {
   }
 
   function drawShell(member) {
+    /* TEMPORARY preview: a banner so nobody mistakes sample data for real records */
+    if (window.DES_PREVIEW && DES_PREVIEW.on() && !document.querySelector('.preview-banner')) {
+      var banner = el('div', 'preview-banner', 'Backdoor preview: sample data only. Nothing here is real, and nothing is saved.');
+      document.body.insertBefore(banner, document.body.firstChild);
+    }
+
     /* Top bar: who is logged in */
     var who = document.querySelector('[data-des="who"]');
     if (who) {
