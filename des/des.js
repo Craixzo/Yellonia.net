@@ -26,9 +26,9 @@ window.DES = (function () {
       { name: 'Wanted List', roles: 'all', soon: 'Phase 3' },
     ] },
     { id: 'database', title: 'Department Database', items: [
-      { name: 'Personnel Database', roles: 'all', soon: 'Phase 2' },
+      { name: 'Personnel Database', roles: 'all', page: '/des/personnel.html' },
       { name: 'Criminal Database', roles: 'all', soon: 'Phase 3' },
-      { name: 'Former Personnel', roles: ['supervisor', 'oia', 'local-admin', 'service-admin'], soon: 'Phase 2' },
+      { name: 'Former Personnel', roles: ['supervisor', 'oia', 'local-admin', 'service-admin'], page: '/des/former.html' },
     ] },
     { id: 'administration', title: 'Department Administration', items: [
       { name: 'OIA: Officer Complaints', roles: ['oia', 'service-admin'], soon: 'Phase 5' },
@@ -36,8 +36,8 @@ window.DES = (function () {
       { name: 'OFI: Active Investigations', roles: ['ofi', 'service-admin'], soon: 'Phase 5' },
       { name: 'OFI: Reported Investigations', roles: ['ofi', 'service-admin'], soon: 'Phase 5' },
       { name: 'OFI Database', roles: ['ofi', 'service-admin'], soon: 'Phase 5' },
-      { name: 'Local Admin', roles: ['local-admin', 'service-admin'], soon: 'Phase 2' },
-      { name: 'Service Admin', roles: ['service-admin'], soon: 'Phase 2' },
+      { name: 'Local Admin', roles: ['local-admin', 'service-admin'], page: '/des/admin.html' },
+      { name: 'Service Admin', roles: ['service-admin'], page: '/des/service-admin.html' },
     ] },
   ];
 
@@ -86,6 +86,69 @@ window.DES = (function () {
   }
 
   function initials(name) { return String(name || '?').replace(/[^A-Za-z0-9]/g, '').slice(0, 2).toUpperCase(); }
+
+  /* 2026-10-24 style dates, and "1 year, 3 months" style lengths of service */
+  function day(value) { return value ? new Date(value).toISOString().slice(0, 10) : '—'; }
+  function service(from, to) {
+    if (!from) return '—';
+    var start = new Date(from), end = to ? new Date(to) : new Date();
+    var months = (end.getFullYear() - start.getFullYear()) * 12 + end.getMonth() - start.getMonth() - (end.getDate() < start.getDate() ? 1 : 0);
+    if (months < 1) { var days = Math.max(0, Math.floor((end - start) / 86400000)); return days + (days === 1 ? ' day' : ' days'); }
+    var y = Math.floor(months / 12), m = months % 12, parts = [];
+    if (y) parts.push(y + (y === 1 ? ' year' : ' years'));
+    if (m) parts.push(m + (m === 1 ? ' month' : ' months'));
+    return parts.join(', ');
+  }
+
+  /* Roles an admin may give (the server checks this too) */
+  var LOCAL_GRANTABLE = ['officer', 'dispatcher', 'supervisor', 'oia', 'ofi'];
+  function grantableFor(member) {
+    if (member.roles.indexOf('service-admin') !== -1) return Object.keys(ROLE_NAMES);
+    if (member.roles.indexOf('local-admin') !== -1) return LOCAL_GRANTABLE;
+    return [];
+  }
+
+  /* "You don't have access" in place of a page's content */
+  function noAccess(main, text) {
+    main.textContent = '';
+    var box = el('section', 'panel panel-body');
+    box.appendChild(el('h1', null, 'No access'));
+    box.appendChild(el('p', null, text));
+    var back = el('a', null, 'Back to the dashboard');
+    back.href = '/des/index.html';
+    box.appendChild(back);
+    main.appendChild(box);
+  }
+
+  /* Calls a back-end action; sends the person to log in if their session ended */
+  function act(action, data) {
+    return post(action, data).then(function (answer) {
+      if (answer.signedOut) {
+        location.replace('/des/login.html?next=' + encodeURIComponent(location.pathname + location.search));
+        return new Promise(function () {});
+      }
+      return answer;
+    });
+  }
+
+  /* A button that asks for a second click instead of a pop-up */
+  function confirmClick(button, confirmText, action) {
+    var original = button.textContent, armed = false, timer;
+    button.addEventListener('click', function () {
+      if (!armed) {
+        armed = true;
+        button.textContent = confirmText;
+        button.classList.add('btn-armed');
+        timer = setTimeout(function () { armed = false; button.textContent = original; button.classList.remove('btn-armed'); }, 4000);
+        return;
+      }
+      clearTimeout(timer);
+      armed = false;
+      button.textContent = original;
+      button.classList.remove('btn-armed');
+      action();
+    });
+  }
 
 
   /* ---------- 3. LOGIN CHECK, TOP BAR AND MENU ---------- */
@@ -144,7 +207,8 @@ window.DES = (function () {
         items.forEach(function (item) {
           var li = el('li');
           if (item.page) {
-            var link = el('a', location.pathname === item.page ? 'current' : '', item.name);
+            var here = location.pathname.replace(/\.html$/, '') === item.page.replace(/\.html$/, '');
+            var link = el('a', here ? 'current' : '', item.name);
             link.href = item.page;
             li.appendChild(link);
           } else {
@@ -159,5 +223,11 @@ window.DES = (function () {
     }
   }
 
-  return { MENU: MENU, ROLE_NAMES: ROLE_NAMES, el: el, post: post, message: message, safeNext: safeNext, canSee: canSee, requireMember: requireMember };
+  function hasRole(member) {
+    var wanted = Array.prototype.slice.call(arguments, 1);
+    return member.roles.some(function (r) { return wanted.indexOf(r) !== -1; });
+  }
+
+  return { MENU: MENU, ROLE_NAMES: ROLE_NAMES, el: el, post: post, act: act, message: message, safeNext: safeNext, canSee: canSee,
+    requireMember: requireMember, day: day, service: service, grantableFor: grantableFor, noAccess: noAccess, confirmClick: confirmClick, hasRole: hasRole };
 })();
