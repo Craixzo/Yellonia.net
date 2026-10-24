@@ -17,7 +17,9 @@
      record-add, record-remove, warrant-issue, warrant-close, warrant-wanted, warrants,
      cad, cad-incident, cad-create, cad-update, cad-close, cad-reopen, cad-note, cad-link,
      cad-duty-on, cad-duty-off, cad-status, cad-assign, cad-clear,
-     cases, case, case-create, case-update, case-assign, case-status, case-note, case-link, case-counts
+     cases, case, case-create, case-update, case-assign, case-status, case-note, case-link, case-counts, counts,
+     posts, post-create, post-update, post-remove, post-pin, news-status, news-setup, news-join, news-remove,
+     applications, application, app-note, app-review, app-decline, app-accept
 
    Setting a password needs a Discord login whose account matches the
    member's DES record, so nobody can set a password for someone else.
@@ -33,14 +35,17 @@ const MANAGE = ['personnel', 'member', 'member-add', 'member-update', 'member-re
   'record-add', 'record-remove', 'warrant-issue', 'warrant-close', 'warrant-wanted', 'warrants',
   'cad', 'cad-incident', 'cad-create', 'cad-update', 'cad-close', 'cad-reopen', 'cad-note', 'cad-link',
   'cad-duty-on', 'cad-duty-off', 'cad-status', 'cad-assign', 'cad-clear',
-  'cases', 'case', 'case-create', 'case-update', 'case-assign', 'case-status', 'case-note', 'case-link', 'case-counts'];
+  'cases', 'case', 'case-create', 'case-update', 'case-assign', 'case-status', 'case-note', 'case-link', 'case-counts', 'counts',
+  'posts', 'post-create', 'post-update', 'post-remove', 'post-pin', 'news-status', 'news-setup', 'news-join', 'news-remove',
+  'applications', 'application', 'app-note', 'app-review', 'app-decline', 'app-accept'];
 
 /* Only these fields are passed on to Centurion, whatever else the page sends */
 const FIELDS = ['id', 'former', 'discord', 'robloxUsername', 'badgeId', 'department', 'rank', 'unit', 'roles', 'reason', 'badge',
   'q', 'wantedOnly', 'username', 'characterName', 'flags', 'notes', 'subjectId', 'kind', 'charges', 'summary',
   'location', 'danger', 'onWantedList', 'served', 'note',
   'type', 'priority', 'description', 'caller', 'attach', 'disposition', 'text', 'remove', 'callsign', 'unitId', 'status',
-  'scope', 'title', 'occurredAt', 'evidence', 'accused', 'linkedCall', 'memberId', 'finding', 'publicNote'];
+  'scope', 'title', 'occurredAt', 'evidence', 'accused', 'linkedCall', 'memberId', 'finding', 'publicNote',
+  'limit', 'body', 'pinned'];
 
 module.exports = async (request, response) => {
   response.setHeader('Cache-Control', 'no-store');
