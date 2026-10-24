@@ -2444,6 +2444,7 @@ a.chart-box:hover { border-color: var(--box-color); box-shadow: 0 0 0 2px var(--
 
 /* Box colors, matching the government and armed forces pages */
 .chart-emperor    { --box-color: var(--flag-lime); }
+.chart-viceroy    { --box-color: #dce77a; }   /* paler lime than the Emperor */
 .chart-cabinet    { --box-color: var(--flag-blue); }
 .chart-parliament { --box-color: var(--flag-green); }
 .chart-court      { --box-color: #dbdee1; }

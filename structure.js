@@ -21,9 +21,11 @@
        note:    the small line under the name (optional)
        link:    the page it opens when clicked (optional). Links to other
                 websites (starting with https://) open in a new tab.
-       color:   emperor, cabinet, parliament, court, security, ministry,
+       color:   emperor, viceroy, cabinet, parliament, court, security, ministry,
                 staff, military, division, service, unit
        redacted: true draws a blacked-out box with no name or link.
+       beside:  true puts the box next to its parent, joined by a short line
+                (used for the Viceroys).
        stackLeaves: true lists this box's single boxes (ones with nothing
                 under them) in one column first, before the others.
      Boxes whose children have no children of their own are listed in a
@@ -35,6 +37,7 @@
   var CHART = {
     name: 'The Emperor', note: 'Head of state', link: 'government.html#emperor', color: 'emperor',
     children: [
+      { name: 'The Viceroys', note: 'Stand beside the Emperor', link: 'government.html#emperor', color: 'viceroy', beside: true },
       { name: 'Imperial Cabinet', note: 'Chaired by the Chancellor', link: 'government.html#cabinet', color: 'cabinet',
         children: [
           { name: 'Ministry of Defense', link: 'government.html#ministries', color: 'ministry', stackLeaves: true,
@@ -73,12 +76,14 @@
             children: [
               { name: 'Police Department', link: 'emergency-services.html#police', color: 'service',
                 children: units(['Yeloria Police Division', 'Counter-Terrorism and Special Response Command'], 'emergency-services.html#police', 'unit') },
-              { name: 'Fire Service', link: 'emergency-services.html#fire', color: 'service' },
+              { name: 'Fire Department', link: 'emergency-services.html#fire', color: 'service',
+                children: units(['Yeloria Fire Division'], 'emergency-services.html#fire', 'unit') },
               { name: 'Postal Service', color: 'service' },
               { name: 'Parks and Wildlife', link: 'emergency-services.html#parks', color: 'service' },
             ] },
           { name: 'Ministry of Science', link: 'government.html#ministries', color: 'ministry',
             children: [
+              { name: 'Department of Energy', color: 'service' },
               { name: 'Department of Space Exploration', color: 'service' },
               { name: 'Department of Special Projects', color: 'service' },
             ] },
@@ -88,7 +93,10 @@
           { redacted: true }, { redacted: true }, { redacted: true }, { redacted: true },
           { name: 'Imperial Guard', color: 'security',
             children: [
-              { name: 'IG-Regiments', color: 'unit' },
+              { name: '1st IG-Regiment "Emperor"', color: 'unit' },
+              { name: '2nd IG-Regiment "Viceroys"', color: 'unit' },
+              { name: '3rd IG-Regiment "Governance"', color: 'unit' },
+              { name: '8th IG-Regiment "Grandslayers"', color: 'unit' },
             ] },
         ] },
       { name: 'Parliament', note: '80 seats, chaired by the Speaker', link: 'government.html#parliament', color: 'parliament' },
@@ -97,7 +105,7 @@
   };
 
   /* Sizes, in pixels at normal zoom */
-  var BOX_W = 210, BOX_H = 72;     /* box size */
+  var BOX_W = 210, BOX_H = 82;     /* box size */
   var GAP_X = 28;                  /* space between boxes side by side */
   var GAP_Y = 70;                  /* space between levels */
   var STACK_GAP = 14;              /* space between boxes in a column */
@@ -175,9 +183,23 @@
     return node.children.reduce(function (sum, c, i) { return sum + c.width + (i ? GAP_X : 0); }, 0);
   }
 
+  /* Boxes marked "beside" are set aside now and placed next to their parent afterwards */
+  var besides = [];
+  (function pull(node) {
+    if (!node.children) return;
+    node.children = node.children.filter(function (c) { if (c.beside) { besides.push({ box: c, parent: node }); return false; } return true; });
+    node.children.forEach(pull);
+  })(CHART);
+
   measure(CHART);
   place(CHART, 0, 0);
-  var chartW = CHART.width;
+  besides.forEach(function (item, i) {
+    var parent = item.parent, box = item.box;
+    box.x = parent.x + (BOX_W + GAP_X * 2) * (i + 1); box.y = parent.y;
+    placed.push(box);
+    links.push('M' + (parent.x + BOX_W) + ' ' + (parent.y + BOX_H / 2) + 'H' + box.x);
+  });
+  var chartW = placed.reduce(function (max, n) { return Math.max(max, n.x + BOX_W); }, CHART.width);
   var chartH = placed.reduce(function (max, n) { return Math.max(max, n.y + BOX_H); }, 0);
 
 
