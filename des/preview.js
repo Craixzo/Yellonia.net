@@ -117,7 +117,65 @@ window.DES_PREVIEW = (function () {
       return { success: true, warrants: list, canManage: true };
     }
     if (action === 'audit') return { success: true, entries: data.badge ? AUDIT.filter(function (a) { return a.target === data.badge; }) : AUDIT };
+    if (action === 'cad') return cadBoard(data);
     return NOT_SAVED;
+  }
+
+  /* ---- sample CAD board ---- */
+  function mins(n) { return new Date(Date.now() - n * 60000).toISOString(); }
+  var UNIT_STATUS = { AVAILABLE: 'Available', ENROUTE: 'En route', ONSCENE: 'On scene', BUSY: 'Busy', OOS: 'Out of service' };
+  var CAD_UNITS = [
+    ['u1', '1A-12', 'p4', 'Sergeant KingMS', 'POLICE', 'ONSCENE', 'c1', 6],
+    ['u2', '1A-15', 'p5', 'Officer II MillerTW', 'POLICE', 'ENROUTE', 'c1', 2],
+    ['u3', 'K9-3', 'p6', 'Officer I ParkerAR', 'POLICE', 'AVAILABLE', null, 25],
+    ['u4', 'E-1', 'p8', 'Firefighter ColeSL', 'FIRE', 'ONSCENE', 'c2', 11],
+  ].map(function (r) {
+    return { id: r[0], callsign: r[1], memberId: r[2], memberName: r[3], department: r[4], deptShort: d(r[4]).short,
+      status: r[5], statusName: UNIT_STATUS[r[5]], incidentId: r[6], since: mins(r[7]) };
+  });
+  var CALLS = [
+    { id: 'c1', number: 'C-2026-00042', priority: 1, priorityName: 'Emergency', type: 'Shots fired', location: 'Harbour Rd & 3rd St', status: 'ACTIVE', createdAt: mins(8),
+      caller: 'Anonymous', description: 'Caller reports several shots near the docks. Suspect seen running towards the warehouses in a dark hoodie.', subjects: ['s1'],
+      log: [[8, 'SYSTEM', 'Call created: P1 Shots fired at Harbour Rd & 3rd St.', 'Dispatcher DavisJK'], [7, 'ASSIGN', '1A-12 assigned, en route.', 'Dispatcher DavisJK'],
+        [6, 'STATUS', '1A-12 on scene.', '1A-12 (Sergeant KingMS)'], [5, 'NOTE', 'Shell casings found by the north warehouse. Suspect not in sight.', '1A-12 (Sergeant KingMS)'],
+        [4, 'SYSTEM', 'Linked record: HarbourRat.', 'Dispatcher DavisJK'], [2, 'ASSIGN', '1A-15 assigned, en route.', 'Dispatcher DavisJK']] },
+    { id: 'c2', number: 'C-2026-00041', priority: 2, priorityName: 'Urgent', type: 'Vehicle fire', location: 'Yeloria Bridge, eastbound', status: 'ACTIVE', createdAt: mins(14),
+      caller: 'BrownMJ', description: null, subjects: [],
+      log: [[14, 'SYSTEM', 'Call created: P2 Vehicle fire at Yeloria Bridge, eastbound.', 'Dispatcher DavisJK'], [13, 'ASSIGN', 'E-1 assigned, en route.', 'Dispatcher DavisJK'], [11, 'STATUS', 'E-1 on scene.', 'E-1 (Firefighter ColeSL)']] },
+    { id: 'c3', number: 'C-2026-00043', priority: 3, priorityName: 'Routine', type: 'Suspicious person', location: 'Central Park, by the fountain', status: 'PENDING', createdAt: mins(1),
+      caller: 'Park visitor', description: 'Someone looking into parked cars.', subjects: [],
+      log: [[1, 'SYSTEM', 'Call created: P3 Suspicious person at Central Park, by the fountain.', 'Dispatcher DavisJK']] },
+  ];
+  var CLOSED = [{ id: 'c0', number: 'C-2026-00040', priority: 3, priorityName: 'Routine', type: 'Traffic stop', location: 'Main St', status: 'CLOSED',
+    disposition: 'Citation issued', createdAt: mins(50), closedAt: mins(38), subjects: [], caller: null, description: null,
+    log: [[50, 'ASSIGN', '1A-15 self-initiated, on scene.', '1A-15 (Officer II MillerTW)'], [38, 'SYSTEM', 'Call closed: Citation issued. Cleared 1A-15.', '1A-15 (Officer II MillerTW)']] }];
+
+  function callRow(c) {
+    return { id: c.id, number: c.number, priority: c.priority, priorityName: c.priorityName, type: c.type, location: c.location, status: c.status,
+      disposition: c.disposition || null, createdAt: c.createdAt, updatedAt: c.createdAt, closedAt: c.closedAt || null,
+      units: CAD_UNITS.filter(function (u) { return u.incidentId === c.id; }).map(function (u) { return { id: u.id, callsign: u.callsign, status: u.status }; }),
+      subjectCount: c.subjects.length };
+  }
+  function cadBoard(data) {
+    var answer = { success: true, incidents: CALLS.slice().sort(function (a, b) { return a.priority - b.priority; }).map(callRow), recent: CLOSED.map(callRow), units: CAD_UNITS,
+      me: { unit: null, canDispatch: true, department: 'POLICE', defaultCallsign: 'YPD-1001' },
+      callTypes: { POLICE: ['Traffic stop', 'Shots fired', 'Suspicious person', 'Other'], FIRE: ['Structure fire', 'Vehicle fire', 'Medical emergency', 'Other'] },
+      departments: { POLICE: 'YPD', FIRE: 'YFD' }, priorities: { 1: 'Emergency', 2: 'Urgent', 3: 'Routine', 4: 'Low' }, unitStatus: UNIT_STATUS,
+      now: new Date().toISOString() };
+    if (data.id) {
+      var c = CALLS.concat(CLOSED).filter(function (x) { return x.id === data.id; })[0];
+      answer.incident = c ? Object.assign(callRow(c), {
+        description: c.description, caller: c.caller, units: CAD_UNITS.filter(function (u) { return u.incidentId === c.id; }),
+        subjects: c.subjects.map(function (id) {
+          var s = SUBJECTS.filter(function (x) { return x.id === id; })[0];
+          var active = s.warrants.filter(function (w) { return w.status === 'ACTIVE'; });
+          return { id: s.id, username: s.username, characterName: s.characterName, flags: s.flags.map(function (f) { return f.name || f; }),
+            activeWarrants: active.length, danger: active.length ? active[0].danger : null };
+        }),
+        log: c.log.map(function (l, n) { return { id: c.id + n, kind: l[1], text: l[2], actorName: l[3], createdAt: mins(l[0]) }; }),
+        canWork: true, canDispatch: true }) : null;
+    }
+    return answer;
   }
 
   return { on: on, enter: enter, leave: leave, answer: answer, TRIGGER: TRIGGER };

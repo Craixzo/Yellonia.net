@@ -11,6 +11,10 @@
      5. BACK-END SHELL (top bar, side menu, main area)
      6. DASHBOARD
      7. SMALL SCREENS
+     8. LISTS, TABLES AND ADMIN PAGES (phase 2)
+     10. CRIMINAL DATABASE AND WANTED LIST (phase 3)
+     11. CAD (phase 4)
+     9. TEMPORARY preview banner (remove with preview.js)
    ============================================================== */
 
 
@@ -365,6 +369,176 @@ a.subject-row:hover .subject-row-name { text-decoration: underline; }
 .wanted-card { padding: 16px; display: flex; flex-direction: column; gap: 4px; }
 .wanted-card .button-row { margin-top: 10px; }
 .wanted-top { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; }
+
+
+/* ---------- 11. CAD (phase 4) ---------- */
+/* Colors for call priority and unit status. Change these to restyle the CAD. */
+:root {
+  --p1: #ff6b61;        /* P1 Emergency */
+  --p2: #e8a33d;        /* P2 Urgent */
+  --p3: #3f95ce;        /* P3 Routine */
+  --p4: #6f7883;        /* P4 Low */
+  --u-available: #5db54a;
+  --u-enroute:   #e8a33d;
+  --u-onscene:   #3f95ce;
+  --u-busy:      #b08cf0;
+  --u-oos:       #6f7883;
+}
+
+.cad-head-right { align-items: center; }
+.cad-live { display: inline-flex; align-items: center; gap: 8px; font: 500 12px var(--mono); color: var(--dim); }
+.cad-live::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--green); box-shadow: 0 0 0 3px #13240f; }
+.cad-live-bad { color: var(--red); }
+.cad-live-bad::before { background: var(--red); box-shadow: 0 0 0 3px #2a1514; }
+.link-btn { padding: 0; border: 0; background: none; color: var(--lime); font: inherit; text-align: left; cursor: pointer; }
+.link-btn:hover { text-decoration: underline; }
+
+/* Your unit bar */
+.cad-me { border-left: 3px solid var(--lime); }
+.cad-me-body { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 18px; padding: 12px 16px; }
+.cad-me-title { font-weight: 600; }
+.cad-me-form { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 10px; }
+.cad-me-form .tool { flex: 0 1 180px; }
+.cad-me-who { display: flex; align-items: center; gap: 10px; }
+.cad-callsign { font: 700 20px var(--mono); letter-spacing: .04em; }
+.cad-me-call { flex: 1 1 200px; min-width: 0; font-size: 14px; }
+.cad-status-btns { display: flex; flex-wrap: wrap; gap: 6px; }
+.status-btn.is-current { color: #111214; }
+.status-btn-available.is-current { background: var(--u-available); border-color: var(--u-available); }
+.status-btn-enroute.is-current { background: var(--u-enroute); border-color: var(--u-enroute); }
+.status-btn-onscene.is-current { background: var(--u-onscene); border-color: var(--u-onscene); color: #ffffff; }
+.status-btn-busy.is-current { background: var(--u-busy); border-color: var(--u-busy); }
+.status-btn-oos.is-current { background: var(--u-oos); border-color: var(--u-oos); color: #ffffff; }
+.btn.btn-small:disabled { cursor: not-allowed; opacity: .4; }
+
+/* The three parts: queue | call | units (stacks on smaller screens) */
+.cad-grid { display: grid; gap: 18px; grid-template-columns: minmax(0, 1fr); grid-template-areas: "call" "queue" "units"; align-items: start; }
+.cad-queue { grid-area: queue; }
+.cad-call { grid-area: call; }
+.cad-units { grid-area: units; }
+@media (min-width: 1000px) {
+  .cad-grid { grid-template-columns: minmax(280px, 340px) minmax(0, 1fr); grid-template-rows: auto 1fr; grid-template-areas: "queue call" "units call"; }
+}
+@media (min-width: 1500px) {
+  .cad-grid { grid-template-columns: minmax(280px, 340px) minmax(0, 1fr) minmax(260px, 320px); grid-template-rows: auto; grid-template-areas: "queue call units"; }
+}
+@media (max-width: 999px) { .cad-call.is-empty { display: none; } }   /* phones: the queue comes first until a call is picked */
+.cad-empty { margin: 0; padding: 22px 16px; text-align: center; }
+
+/* Priority and status labels */
+.prio { padding: 2px 7px; border-radius: 4px; font: 700 12px var(--mono); color: #111214; }
+.prio-1 { background: var(--p1); }
+.prio-2 { background: var(--p2); }
+.prio-3 { background: var(--p3); color: #ffffff; }
+.prio-4 { background: var(--p4); color: #ffffff; }
+.unit-status { display: inline-flex; align-items: center; gap: 6px; font-size: 12.5px; font-weight: 600; white-space: nowrap; }
+.unit-status::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: currentColor; }
+.unit-available { color: var(--u-available); }
+.unit-enroute { color: var(--u-enroute); }
+.unit-onscene { color: var(--u-onscene); }
+.unit-busy { color: var(--u-busy); }
+.unit-oos { color: var(--u-oos); }
+.unit-tag { padding: 1px 6px; border: 1px solid currentColor; border-radius: 4px; font: 600 11.5px var(--mono); }
+
+/* Call queue */
+.cad-list { list-style: none; margin: 0; padding: 0; }
+.cad-row {
+  display: block;
+  width: 100%;
+  padding: 10px 14px 10px 12px;
+  border: 0;
+  border-left: 4px solid transparent;
+  border-bottom: 1px solid #181b20;
+  background: none;
+  color: var(--text);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.cad-row:hover { background: #14171b; }
+.cad-row.cad-p1 { border-left-color: var(--p1); }
+.cad-row.cad-p2 { border-left-color: var(--p2); }
+.cad-row.cad-p3 { border-left-color: var(--p3); }
+.cad-row.cad-p4 { border-left-color: var(--p4); }
+.cad-row.is-selected { background: #1c2410; }
+.cad-row.is-closed { border-left-color: var(--line-2); opacity: .75; }
+.cad-row.is-new { animation: cad-new 1.2s ease-in-out 4; }
+@keyframes cad-new { 50% { background: #2a1d10; } }
+@media (prefers-reduced-motion: reduce) { .cad-row.is-new { animation: none; background: #2a1d10; } }
+.cad-row-top { display: flex; align-items: center; gap: 8px; }
+.cad-num { font-size: 12.5px; color: var(--dim); }
+.cad-age { margin-left: auto; font-size: 12px; }
+.cad-row-type { margin-top: 4px; font-weight: 600; }
+.cad-row-loc { font-size: 13.5px; color: #c3c9d1; }
+.cad-row-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 6px; font-size: 12.5px; }
+.cad-recent summary { padding: 10px 14px; color: var(--dim); font-size: 13px; cursor: pointer; }
+
+/* The selected call */
+.cad-info { padding: 16px 16px 4px; }
+.cad-info-top { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.cad-type { margin: 10px 0 2px; font-size: 22px; }
+.cad-loc { margin: 0 0 12px; font-size: 16px; color: #c3c9d1; }
+.cad-desc { margin: 12px 0 0; padding: 10px 12px; border-left: 3px solid var(--line-2); background: var(--bg); white-space: pre-line; }
+.cad-actions { display: flex; flex-wrap: wrap; gap: 8px; padding: 12px 16px; }
+.cad-edit { margin: 0 16px 12px; padding: 14px; border: 1px solid var(--line-2); border-radius: 6px; background: var(--bg); }
+.cad-form-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 14px; }
+.cad-close-form { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 8px; }
+.cad-close-form .tool { flex: 1 1 240px; max-width: none; }
+.cad-section-head { margin: 0; padding: 10px 16px 8px; border-top: 1px solid var(--line); }
+.cad-section { padding: 0 16px 14px; }
+.cad-none { margin: 0; font-size: 14px; }
+.cad-unit-list, .cad-subjects, .cad-link-results { list-style: none; margin: 0; padding: 0; }
+.cad-unit-list li, .cad-subjects li, .cad-link-results li { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 12px; padding: 7px 0; border-bottom: 1px solid #181b20; font-size: 14px; }
+.cad-unit-list li:last-child, .cad-subjects li:last-child, .cad-link-results li:last-child { border-bottom: 0; }
+.cad-unit-list .btn, .cad-subjects .btn, .cad-link-results .btn { margin-left: auto; }
+.cad-subjects li.has-warrant { padding-left: 10px; border-left: 3px solid var(--p1); }
+.cad-callsign-sm { font-weight: 700; }
+.cad-assign, .cad-link-form { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+.cad-assign select, .cad-link-form input, .cad-board-tools select {
+  flex: 1 1 200px;
+  height: 34px;
+  padding: 0 8px;
+  background: var(--bg);
+  border: 1px solid var(--line-2);
+  border-radius: 6px;
+  color: var(--text);
+  font: 500 13.5px var(--sans);
+}
+.cad-link { margin-top: 4px; }
+
+/* Call log */
+.cad-log { list-style: none; max-height: 360px; overflow-y: auto; margin: 0 16px; padding: 4px 12px; border: 1px solid var(--line); border-radius: 6px; background: var(--bg); font-size: 13.5px; }
+.cad-log li { display: grid; grid-template-columns: 66px minmax(0, 1fr); gap: 0 10px; padding: 6px 0; border-bottom: 1px solid #15181c; }
+.cad-log li:last-child { border-bottom: 0; }
+.log-time { grid-row: span 2; color: var(--faint); font-size: 12px; padding-top: 1px; }
+.log-who { color: var(--dim); font-size: 12px; font-weight: 600; }
+.log-text { white-space: pre-line; overflow-wrap: anywhere; }
+.log-system .log-text, .log-status .log-text { color: #c3c9d1; font-family: var(--mono); font-size: 12.5px; }
+.log-assign .log-text { color: #8fd0f0; font-family: var(--mono); font-size: 12.5px; }
+.cad-note { display: flex; gap: 8px; align-items: flex-end; padding: 10px 16px 16px; }
+.cad-note textarea {
+  flex: 1;
+  min-height: 44px;
+  padding: 10px 12px;
+  background: var(--bg);
+  border: 1px solid var(--line-2);
+  border-radius: 6px;
+  color: var(--text);
+  font: 500 14px var(--sans);
+  resize: vertical;
+}
+.cad-note textarea:focus, .cad-assign select:focus, .cad-link-form input:focus, .cad-board-tools select:focus { outline: 2px solid var(--lime); outline-offset: 0; border-color: transparent; }
+
+/* Unit board */
+.cad-dept { margin: 0; padding: 10px 14px 4px; }
+.cad-board { list-style: none; margin: 0; padding: 0 0 6px; }
+.cad-board li { padding: 8px 14px; border-bottom: 1px solid #181b20; }
+.cad-board li:last-child { border-bottom: 0; }
+.cad-board li.is-me { background: #1c2410; }
+.cad-board-top { display: flex; align-items: center; gap: 10px; }
+.cad-board-line { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px; margin-top: 2px; font-size: 13px; }
+.cad-board-tools { display: flex; gap: 6px; margin-top: 6px; }
+.cad-board-tools select { flex: 1 1 auto; }
 
 
 /* ---------- 9. TEMPORARY: the AveYellonia preview banner (remove with preview.js) ---------- */

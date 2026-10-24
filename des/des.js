@@ -22,7 +22,7 @@ window.DES = (function () {
      without a page yet shows "Soon" with the update it comes in. */
   var MENU = [
     { id: 'dispatch', title: 'Dispatch Operations', items: [
-      { name: 'CAD', roles: 'all', soon: 'Phase 4' },
+      { name: 'CAD', roles: 'all', page: '/des/cad.html' },
       { name: 'Wanted List', roles: 'all', page: '/des/wanted-admin.html' },
     ] },
     { id: 'database', title: 'Department Database', items: [
