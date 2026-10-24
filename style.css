@@ -2795,3 +2795,77 @@ a.chart-box:hover { border-color: var(--box-color); box-shadow: 0 0 0 2px var(--
   .wanted-card { flex-direction: column; }
 }
 .group .wanted-list { margin-top: 18px; }
+
+
+/* ---------- 33. COMPLAINTS AND REPORTS (report.html, and the section on emergency-services.html) ---------- */
+.report-page .report-notice {           /* "this is for in-game things only" */
+  margin: 0 0 28px;
+  padding: 12px 16px;
+  border-left: 4px solid var(--flag-blue);
+  background: var(--bar-bg);
+  color: var(--text-dim);
+}
+.report-page .report-notice strong { color: var(--text); }
+
+.report-section { margin-bottom: 44px; }
+.report-section > h2 { margin: 0 0 14px; font-size: 1.5rem; }
+
+.report-choices {                        /* the three "what are you reporting?" buttons */
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin-bottom: 24px;
+}
+.report-choice {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 18px;
+  border: 0;
+  border-top: 3px solid var(--text-dim);
+  background: var(--bar-bg);
+  color: var(--text);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.report-choice span { color: var(--text-dim); font-size: 0.9375rem; }
+.report-choice:hover { background: #17191c; }
+.report-choice-officer, .report-choice-department { border-top-color: var(--flag-blue); }
+.report-choice-fire { border-top-color: #e8a33d; }
+.report-choice[aria-checked="true"] { background: #1c2410; box-shadow: inset 0 0 0 2px var(--gold); }
+
+.report-form select {
+  width: 100%;
+  padding: 11px 12px;
+  border: 1px solid rgba(148, 155, 164, 0.35);
+  border-radius: 4px;
+  background: var(--menu-bg);
+  color: var(--text);
+  font: inherit;
+}
+.report-form select:focus { outline: 2px solid var(--gold); outline-offset: 0; border-color: transparent; }
+.report-form .button-primary { align-self: flex-start; }
+.report-done .button-secondary { margin-top: 4px; }
+.report-number { font-family: ui-monospace, monospace; font-weight: 700; }
+
+/* Your reports */
+.report-list { display: flex; flex-direction: column; gap: 12px; }
+.report-card { padding: 18px 20px; background: var(--bar-bg); border-left: 4px solid var(--gold); }
+.report-card.report-open { border-left-color: var(--flag-blue); }
+.report-card.report-closed { border-left-color: var(--flag-green); }
+.report-card.report-dismissed { border-left-color: var(--text-dim); }
+.report-card-top { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px; color: var(--text-dim); }
+.report-status { font-weight: 700; color: var(--text); }
+.report-card h3 { margin: 6px 0 2px; font-size: 1.125rem; }
+.report-meta { margin: 0; color: var(--text-dim); font-size: 0.9375rem; }
+.report-outcome { margin: 10px 0 0; }
+.report-note { margin: 6px 0 0; white-space: pre-line; }
+
+/* The section on emergency-services.html */
+.group-report { --group-color: var(--flag-blue); }
+.report-links { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 18px; }
+
+@media (max-width: 700px) {
+  .report-choices { grid-template-columns: 1fr; }
+}

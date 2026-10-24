@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Complaints and Reports | Yellonia Emergency Services</title>
+  <link rel="icon" href="images/TYEcoatofarms.png">
+
+  <!-- FONT: swap the family here AND in style.css (--font) to change it -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- TOPBAR: shared by every page. To change it, edit header.js -->
+<script src="header.js"></script>
+
+
+<!-- ============================================================
+     PAGE CONTENT: Complaints and Reports (public, Discord login needed)
+     Complain about an officer or a department (goes to Internal Affairs),
+     or report a fire (goes to Fire Investigations). report.js builds the
+     form and the "Your reports" list. Links straight to a form:
+       report.html#officer   report.html#department   report.html#fire
+     ============================================================ -->
+<main class="page newsroom-page report-page">
+
+  <!-- PAGE TITLE -->
+  <h1>Complaints and Reports</h1>
+  <p class="newsroom-intro">Tell the Department of Emergency Services about an officer, a department, or a fire. Every report gets a reference number, and you can follow it here.</p> <!-- DRAFT -->
+
+  <!-- ROLEPLAY NOTICE: what this form is NOT for -->
+  <p class="report-notice">This is for things that happened <strong>in game</strong>. For problems with a real person (harassment, cheating, rule breaks), contact Yellonia staff on Discord instead.</p> <!-- DRAFT -->
+
+  <!-- FILLED IN BY report.js: the login button, or the form and your reports -->
+  <div id="report-root">
+    <p class="news-loading">Loading&hellip;</p>
+  </div>
+
+  <p><a class="text-link" href="emergency-services.html">&larr; Back to Emergency Services</a></p>
+
+</main>
+
+
+<!-- FOOTER: shared by every page. To change it, edit footer.js -->
+<script src="footer.js"></script>
+
+<!-- SHARED SCRIPT: topbar hide on scroll. To change it, edit script.js -->
+<script src="script.js"></script>
+
+<!-- THIS PAGE'S SCRIPT: login, the form, your reports -->
+<script src="report.js"></script>
+
+</body>
+</html>
