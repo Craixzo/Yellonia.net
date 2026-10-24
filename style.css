@@ -630,6 +630,34 @@ main { flex: 1; }
 
 .footer-brand p { margin: 10px 0 0; }
 
+/* Social icons under the description. Each logo file is used as a shape and filled with
+   the color below, so any single-color logo works. */
+.footer-social { display: flex; gap: 6px; margin-top: 16px; }
+
+.footer-social a {
+  display: flex;
+  padding: 6px;                         /* bigger area to tap on phones */
+  color: var(--text-dim);
+  opacity: 0.6;                         /* the greyed-out look; 1 = full strength */
+  transition: opacity 0.15s, color 0.15s;
+}
+
+.footer-social a:hover,
+.footer-social a:focus-visible { color: var(--gold); opacity: 1; }
+
+.social-icon {
+  width: 22px;                          /* icon size */
+  height: 22px;
+  background: currentColor;
+  -webkit-mask: var(--icon) center / contain no-repeat;
+          mask: var(--icon) center / contain no-repeat;
+}
+
+.social-discord { --icon: url("images/social/discord.svg"); }
+.social-roblox  { --icon: url("images/social/roblox.svg"); }
+.social-youtube { --icon: url("images/social/youtube.svg"); }
+.social-tiktok  { --icon: url("images/social/tiktok.svg"); }
+
 .footer-links {
   display: flex;
   flex-wrap: wrap;
@@ -1905,7 +1933,7 @@ main { flex: 1; }
   width: 22px;
   height: 22px;
   flex: none;
-  background: url("images/Discordthingy.png") center / contain no-repeat;
+  background: url("images/discord-logo.svg") center / contain no-repeat;
 }
 
 .button-small {
