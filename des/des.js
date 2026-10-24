@@ -19,7 +19,8 @@ window.DES = (function () {
 
   /* ---------- 1. THE MENU ----------
      roles: who sees it ('all' = every member). page: its address; a section
-     without a page yet shows "Soon" with the update it comes in. */
+     without a page yet shows "Soon" with the update it comes in.
+     count: shows a number next to it (e.g. new complaints waiting). */
   var MENU = [
     { id: 'dispatch', title: 'Dispatch Operations', items: [
       { name: 'CAD', roles: 'all', page: '/des/cad.html' },
@@ -31,11 +32,11 @@ window.DES = (function () {
       { name: 'Former Personnel', roles: ['supervisor', 'oia', 'local-admin', 'service-admin'], page: '/des/former.html' },
     ] },
     { id: 'administration', title: 'Department Administration', items: [
-      { name: 'OIA: Officer Complaints', roles: ['oia', 'service-admin'], soon: 'Phase 5' },
-      { name: 'OIA: Department Complaints', roles: ['oia', 'service-admin'], soon: 'Phase 5' },
-      { name: 'OFI: Active Investigations', roles: ['ofi', 'service-admin'], soon: 'Phase 5' },
-      { name: 'OFI: Reported Investigations', roles: ['ofi', 'service-admin'], soon: 'Phase 5' },
-      { name: 'OFI Database', roles: ['ofi', 'service-admin'], soon: 'Phase 5' },
+      { name: 'OIA: Officer Complaints', roles: ['oia', 'service-admin'], page: '/des/oia-officer.html', count: 'OFFICER.new' },
+      { name: 'OIA: Department Complaints', roles: ['oia', 'service-admin'], page: '/des/oia-department.html', count: 'DEPARTMENT.new' },
+      { name: 'OFI: Active Investigations', roles: ['ofi', 'service-admin'], page: '/des/ofi-active.html', count: 'FIRE.open' },
+      { name: 'OFI: Reported Investigations', roles: ['ofi', 'service-admin'], page: '/des/ofi-reported.html', count: 'FIRE.new' },
+      { name: 'OFI Database', roles: ['ofi', 'service-admin'], page: '/des/ofi-database.html' },
       { name: 'Local Admin', roles: ['local-admin', 'service-admin'], page: '/des/admin.html' },
       { name: 'Service Admin', roles: ['service-admin'], page: '/des/service-admin.html' },
     ] },
@@ -217,6 +218,7 @@ window.DES = (function () {
             var here = location.pathname.replace(/\.html$/, '') === item.page.replace(/\.html$/, '');
             var link = el('a', here ? 'current' : '', item.name);
             link.href = item.page;
+            if (item.count) link.setAttribute('data-count', item.count);
             li.appendChild(link);
           } else {
             var soon = el('span', 'soon', item.name);
@@ -227,7 +229,21 @@ window.DES = (function () {
         });
         nav.appendChild(list);
       });
+      drawCounts(nav, member);
     }
+  }
+
+  /* Numbers in the side menu: new complaints and fire reports waiting (OIA/OFI only) */
+  function drawCounts(nav, member) {
+    if (!nav.querySelector('[data-count]') || !hasRole(member, 'oia', 'ofi', 'service-admin')) return;
+    post('case-counts').then(function (answer) {
+      if (!answer.success || !answer.counts) return;
+      Array.prototype.forEach.call(nav.querySelectorAll('[data-count]'), function (link) {
+        var parts = link.getAttribute('data-count').split('.');
+        var n = answer.counts[parts[0]] ? answer.counts[parts[0]][parts[1]] : 0;
+        if (n) link.appendChild(el('span', 'nav-count', String(n)));
+      });
+    });
   }
 
   function hasRole(member) {

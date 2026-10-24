@@ -117,8 +117,64 @@ window.DES_PREVIEW = (function () {
       return { success: true, warrants: list, canManage: true };
     }
     if (action === 'audit') return { success: true, entries: data.badge ? AUDIT.filter(function (a) { return a.target === data.badge; }) : AUDIT };
+    if (action === 'cases') return casesList(data);
+    if (action === 'case') return caseOne(data);
+    if (action === 'case-counts') return { success: true, counts: { OFFICER: { new: 1, open: 1 }, DEPARTMENT: { new: 0, open: 1 }, FIRE: { new: 1, open: 1 } } };
     if (action === 'cad') return cadBoard(data);
     return NOT_SAVED;
+  }
+
+
+  /* ---- sample OIA / OFI cases ---- */
+  var FINDING_NAMES = { SUSTAINED: 'Sustained', NOT_SUSTAINED: 'Not sustained', EXONERATED: 'Exonerated', UNFOUNDED: 'Unfounded', WITHDRAWN: 'Withdrawn',
+    RESOLVED: 'Resolved', POLICY_CHANGED: 'Policy changed', NO_ACTION: 'No action needed',
+    ACCIDENTAL: 'Accidental', NATURAL: 'Natural', INCENDIARY: 'Incendiary (arson)', UNDETERMINED: 'Undetermined' };
+  var FINDING_KEYS = { OFFICER: ['SUSTAINED', 'NOT_SUSTAINED', 'EXONERATED', 'UNFOUNDED', 'WITHDRAWN'], DEPARTMENT: ['RESOLVED', 'POLICY_CHANGED', 'NO_ACTION', 'WITHDRAWN'],
+    FIRE: ['ACCIDENTAL', 'NATURAL', 'INCENDIARY', 'UNDETERMINED'] };
+  var CASES = [
+    ['k1', 'OIA-2026-0007', 'OFFICER', 'NEW', 'Rude during a traffic stop', 'Sergeant KingMS (#2318)', 'POLICE', 'Main St', null, null, 0.2],
+    ['k2', 'OIA-2026-0006', 'OFFICER', 'OPEN', 'Excessive force at the docks', 'Sergeant KingMS (#2318)', 'POLICE', 'Harbour Rd', 'Lieutenant DavisJK', null, 2],
+    ['k3', 'OIA-2026-0003', 'OFFICER', 'CLOSED', 'Vehicle left blocking a junction', 'Officer II MillerTW (#2456)', 'POLICE', 'Central Ave', 'Lieutenant DavisJK', 'NOT_SUSTAINED', 12],
+    ['k4', 'OIA-2026-0005', 'DEPARTMENT', 'OPEN', 'Slow response times in the north', null, 'POLICE', null, 'Chief Craixzo', null, 4],
+    ['k5', 'OFI-2026-0004', 'FIRE', 'NEW', 'House fire on Harbour Road', null, 'FIRE', 'Harbour Rd 12', null, null, 0.1],
+    ['k6', 'OFI-2026-0003', 'FIRE', 'OPEN', 'Warehouse fire, possible arson', null, 'FIRE', 'North warehouses', 'Fire Chief Abutalee', null, 3],
+    ['k7', 'OFI-2026-0002', 'FIRE', 'CLOSED', 'Car fire on Yeloria Bridge', null, 'FIRE', 'Yeloria Bridge', 'Firefighter ColeSL', 'ACCIDENTAL', 9],
+    ['k8', 'OFI-2026-0001', 'FIRE', 'CLOSED', 'Shop fire on Main St', null, 'FIRE', 'Main St', 'Fire Chief Abutalee', 'INCENDIARY', 20],
+  ].map(function (r) {
+    var fire = r[2] === 'FIRE';
+    var names = fire ? { NEW: 'Reported', OPEN: 'Active investigation', CLOSED: 'Closed', DISMISSED: 'Dismissed' } : { NEW: 'Received', OPEN: 'Under investigation', CLOSED: 'Closed', DISMISSED: 'Dismissed' };
+    return { id: r[0], number: r[1], kind: r[2], kindName: { OFFICER: 'Officer complaint', DEPARTMENT: 'Department complaint', FIRE: 'Fire investigation' }[r[2]],
+      status: r[3], statusName: names[r[3]], title: r[4], accusedName: r[5], department: d(r[6]).short, location: r[7], assignedName: r[8],
+      finding: r[9], findingName: r[9] ? FINDING_NAMES[r[9]] : null, internal: false, createdAt: ago(r[10]), updatedAt: ago(r[10]), closedAt: r[3] === 'CLOSED' ? ago(r[10] - 1) : null };
+  });
+  function casesList(data) {
+    var scope = { new: ['NEW'], active: ['OPEN'], open: ['NEW', 'OPEN'], closed: ['CLOSED', 'DISMISSED'] }[data.scope] || ['NEW', 'OPEN', 'CLOSED', 'DISMISSED'];
+    var q = String(data.q || '').toLowerCase();
+    var rows = CASES.filter(function (c) {
+      return c.kind === data.kind && scope.indexOf(c.status) !== -1 && (!data.finding || c.finding === data.finding)
+        && (!q || (c.number + ' ' + c.title + ' ' + (c.location || '') + ' ' + (c.accusedName || '')).toLowerCase().indexOf(q) !== -1);
+    });
+    return { success: true, cases: rows, findings: FINDING_KEYS[data.kind].map(function (k) { return { key: k, name: FINDING_NAMES[k] }; }), departments: DEPTS };
+  }
+  function caseOne(data) {
+    var c = CASES.filter(function (x) { return x.id === data.id; })[0];
+    if (!c) return { success: false, msg: 'That case doesn\'t exist, or you can\'t open it.' };
+    var officer = c.kind === 'OFFICER' ? PEOPLE.filter(function (p) { return c.accusedName && c.accusedName.indexOf(p.username) !== -1; })[0] : null;
+    var full = Object.assign({}, c, {
+      description: 'Sample case for the preview. In a real case, this is what the person who filed it wrote, word for word.',
+      occurredAt: 'Saturday evening', departmentName: d(c.kind === 'FIRE' ? 'FIRE' : 'POLICE').name, departmentKey: c.kind === 'FIRE' ? 'FIRE' : 'POLICE',
+      evidence: ['https://medal.tv/example-clip'], accusedText: officer ? officer.username : null,
+      accused: officer ? { id: officer.id, name: officer.rank + ' ' + officer.username, badgeId: officer.badgeId, department: officer.departmentShort, status: 'ACTIVE' } : null,
+      linkedCall: c.kind === 'FIRE' ? 'C-2026-00041' : null, submitterName: 'Concerned Citizen', submitterDiscordId: '000000000000000000',
+      assignedTo: c.assignedName ? 'preview-me' : null, publicNote: c.status === 'CLOSED' ? 'Thank you for your report.' : null,
+      subjects: c.id === 'k6' ? [{ id: 's1', username: 'HarbourRat', characterName: 'Johnny Doe', flags: ['Armed', 'Violent'], activeWarrants: 1 }] : [],
+      history: officer ? CASES.filter(function (o) { return o.id !== c.id && o.accusedName === c.accusedName; }) : [],
+      log: [{ id: 'l1', kind: 'SYSTEM', text: 'Filed through the public form by Concerned Citizen.', actorName: 'Website', createdAt: c.createdAt }].concat(c.assignedName ?
+        [{ id: 'l2', kind: 'SYSTEM', text: 'Assigned to ' + c.assignedName + '.', actorName: c.assignedName, createdAt: c.createdAt },
+         { id: 'l3', kind: 'NOTE', text: 'Spoke to the reporter. Waiting on the clip from the second witness.', actorName: c.assignedName, createdAt: c.updatedAt }] : []),
+    });
+    return { success: true, case: full, investigators: [{ id: 'preview-me', name: 'Chief Craixzo (#1001)' }], me: 'preview-me',
+      findings: FINDING_KEYS[c.kind].map(function (k) { return { key: k, name: FINDING_NAMES[k] }; }), departments: DEPTS };
   }
 
   /* ---- sample CAD board ---- */
