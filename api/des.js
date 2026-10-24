@@ -27,12 +27,15 @@ const ACTIONS = ['login', 'me', 'logout', 'setup-status', 'set-password'];
 const MANAGE = ['personnel', 'member', 'member-add', 'member-update', 'member-remove',
   'member-reinstate', 'member-unlock', 'member-signout', 'audit',
   'subjects', 'subject', 'subject-add', 'subject-update', 'subject-remove',
-  'record-add', 'record-remove', 'warrant-issue', 'warrant-close', 'warrant-wanted', 'warrants'];
+  'record-add', 'record-remove', 'warrant-issue', 'warrant-close', 'warrant-wanted', 'warrants',
+  'cad', 'cad-incident', 'cad-create', 'cad-update', 'cad-close', 'cad-reopen', 'cad-note', 'cad-link',
+  'cad-duty-on', 'cad-duty-off', 'cad-status', 'cad-assign', 'cad-clear'];
 
 /* Only these fields are passed on to Centurion, whatever else the page sends */
 const FIELDS = ['id', 'former', 'discord', 'robloxUsername', 'badgeId', 'department', 'rank', 'unit', 'roles', 'reason', 'badge',
   'q', 'wantedOnly', 'username', 'characterName', 'flags', 'notes', 'subjectId', 'kind', 'charges', 'summary',
-  'location', 'danger', 'onWantedList', 'served', 'note'];
+  'location', 'danger', 'onWantedList', 'served', 'note',
+  'type', 'priority', 'description', 'caller', 'attach', 'disposition', 'text', 'remove', 'callsign', 'unitId', 'status'];
 
 module.exports = async (request, response) => {
   response.setHeader('Cache-Control', 'no-store');
