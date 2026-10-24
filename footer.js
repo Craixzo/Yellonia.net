@@ -21,7 +21,7 @@ document.currentScript.insertAdjacentHTML('beforebegin', `
       </a>
       <p>The official website for Yellonia.</p>
 
-      <!-- FOOTER: SOCIAL ICONS (logo files go in images/social/) -->
+     <!-- FOOTER: SOCIAL ICONS (logo files are set in style.css, section 15) -->
       <div class="footer-social">
         <a href="https://discord.gg/zYhWhzVcMX" target="_blank" rel="noopener" aria-label="Discord"><span class="social-icon social-discord"></span></a>
         <a href="https://www.roblox.com/groups/5801322" target="_blank" rel="noopener" aria-label="Roblox group"><span class="social-icon social-roblox"></span></a>
