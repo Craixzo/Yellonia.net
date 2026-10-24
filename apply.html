@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Join Emergency Services | Yellonia</title>
+  <link rel="icon" href="images/TYEcoatofarms.png">
+
+  <!-- FONT: swap the family here AND in style.css (--font) to change it -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- TOPBAR: shared by every page. To change it, edit header.js -->
+<script src="header.js"></script>
+
+
+<!-- ============================================================
+     PAGE CONTENT: Join Emergency Services (public, Discord login needed)
+     Apply to the Police or Fire Department. apply.js builds the form from
+     the questions in Centurion's settings.ts, and shows "Your applications".
+     Links straight to a department:  apply.html#police   apply.html#fire
+     ============================================================ -->
+<main class="page newsroom-page report-page">
+
+  <!-- PAGE TITLE -->
+  <h1>Join Emergency Services</h1>
+  <p class="newsroom-intro">Apply to the Yellonia Police Department or the Yellonia Fire Department. We'll review your application and get back to you here and on Discord.</p> <!-- DRAFT -->
+
+  <!-- FILLED IN BY apply.js: the login button, or the form and your applications -->
+  <div id="apply-root">
+    <p class="news-loading">Loading&hellip;</p>
+  </div>
+
+  <p><a class="text-link" href="emergency-services.html">&larr; Back to Emergency Services</a></p>
+
+</main>
+
+
+<!-- FOOTER: shared by every page. To change it, edit footer.js -->
+<script src="footer.js"></script>
+
+<!-- SHARED SCRIPT: topbar hide on scroll. To change it, edit script.js -->
+<script src="script.js"></script>
+
+<!-- THIS PAGE'S SCRIPT: login, the form, your applications -->
+<script src="apply.js"></script>
+
+</body>
+</html>

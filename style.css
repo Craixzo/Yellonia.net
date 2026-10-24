@@ -2869,3 +2869,6 @@ a.chart-box:hover { border-color: var(--box-color); box-shadow: 0 0 0 2px var(--
 @media (max-width: 700px) {
   .report-choices { grid-template-columns: 1fr; }
 }
+
+.report-choice:disabled { opacity: 0.55; cursor: not-allowed; }
+.report-choice:disabled:hover { background: var(--bar-bg); }
