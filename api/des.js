@@ -12,7 +12,9 @@
 
    Back-end actions (need a DES login; Centurion checks the roles):
      personnel, member, member-add, member-update, member-remove,
-     member-reinstate, member-unlock, member-signout, audit
+     member-reinstate, member-unlock, member-signout, audit,
+     subjects, subject, subject-add, subject-update, subject-remove,
+     record-add, record-remove, warrant-issue, warrant-close, warrant-wanted, warrants
 
    Setting a password needs a Discord login whose account matches the
    member's DES record, so nobody can set a password for someone else.
@@ -23,10 +25,14 @@ const { setDesSession, clearDesSession, readDesSession, currentMember, centurion
 
 const ACTIONS = ['login', 'me', 'logout', 'setup-status', 'set-password'];
 const MANAGE = ['personnel', 'member', 'member-add', 'member-update', 'member-remove',
-  'member-reinstate', 'member-unlock', 'member-signout', 'audit'];
+  'member-reinstate', 'member-unlock', 'member-signout', 'audit',
+  'subjects', 'subject', 'subject-add', 'subject-update', 'subject-remove',
+  'record-add', 'record-remove', 'warrant-issue', 'warrant-close', 'warrant-wanted', 'warrants'];
 
 /* Only these fields are passed on to Centurion, whatever else the page sends */
-const FIELDS = ['id', 'former', 'discord', 'robloxUsername', 'badgeId', 'department', 'rank', 'unit', 'roles', 'reason', 'badge'];
+const FIELDS = ['id', 'former', 'discord', 'robloxUsername', 'badgeId', 'department', 'rank', 'unit', 'roles', 'reason', 'badge',
+  'q', 'wantedOnly', 'username', 'characterName', 'flags', 'notes', 'subjectId', 'kind', 'charges', 'summary',
+  'location', 'danger', 'onWantedList', 'served', 'note'];
 
 module.exports = async (request, response) => {
   response.setHeader('Cache-Control', 'no-store');
