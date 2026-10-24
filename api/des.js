@@ -10,14 +10,23 @@
      setup-status   (needs a Discord login) is this Discord account a DES member?
      set-password   (needs a Discord login) set or reset the DES password
 
+   Back-end actions (need a DES login; Centurion checks the roles):
+     personnel, member, member-add, member-update, member-remove,
+     member-reinstate, member-unlock, member-signout, audit
+
    Setting a password needs a Discord login whose account matches the
    member's DES record, so nobody can set a password for someone else.
    ============================================================== */
 
 const { getSession, siteOrigin } = require('./_lib/session');
-const { setDesSession, clearDesSession, currentMember, centurion } = require('./_lib/des');
+const { setDesSession, clearDesSession, readDesSession, currentMember, centurion } = require('./_lib/des');
 
 const ACTIONS = ['login', 'me', 'logout', 'setup-status', 'set-password'];
+const MANAGE = ['personnel', 'member', 'member-add', 'member-update', 'member-remove',
+  'member-reinstate', 'member-unlock', 'member-signout', 'audit'];
+
+/* Only these fields are passed on to Centurion, whatever else the page sends */
+const FIELDS = ['id', 'former', 'discord', 'robloxUsername', 'badgeId', 'department', 'rank', 'unit', 'roles', 'reason', 'badge'];
 
 module.exports = async (request, response) => {
   response.setHeader('Cache-Control', 'no-store');
@@ -30,6 +39,15 @@ module.exports = async (request, response) => {
   let body = request.body;
   if (typeof body === 'string') { try { body = JSON.parse(body); } catch (error) { body = {}; } }
   body = body || {};
+  if (MANAGE.includes(body.action)) {
+    const session = readDesSession(request);
+    if (!session) return response.status(401).json({ success: false, signedOut: true, msg: 'Please log in again.' });
+    const payload = { session: { memberId: session.mid, tokenVersion: session.tv } };
+    FIELDS.forEach((field) => { if (body[field] !== undefined) payload[field] = body[field]; });
+    const answer = await centurion('/des/manage/' + body.action, payload);
+    if (answer.signedOut) clearDesSession(response);
+    return response.status(200).json(answer);
+  }
   if (!ACTIONS.includes(body.action)) return response.status(400).json({ success: false, msg: 'Unknown action.' });
 
   if (body.action === 'logout') {
