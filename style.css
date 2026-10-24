@@ -2360,9 +2360,7 @@ main { flex: 1; }
   position: relative;
   height: min(72vh, 720px);              /* height of the chart window */
   overflow: hidden;
-  background:
-    radial-gradient(circle, rgba(148, 155, 164, 0.18) 1px, transparent 1px) 0 0 / 24px 24px,   /* dotted grid */
-    var(--bar-bg);
+  background: var(--bar-bg);
   border: 1px solid rgba(148, 155, 164, 0.2);
   border-radius: 6px;
   cursor: grab;
@@ -2452,6 +2450,12 @@ a.chart-box:hover { border-color: var(--box-color); box-shadow: 0 0 0 2px var(--
 .chart-ministry   { --box-color: #8fd0f0; }
 .chart-military   { --box-color: var(--flag-green); }
 .chart-service    { --box-color: #e8a33d; }
+.chart-security   { --box-color: #d9534f; }
+.chart-staff      { --box-color: #c3c9d1; }
+.chart-division   { --box-color: #a8d99c; }
+.chart-security   { --box-color: #d9534f; }
+.chart-division   { --box-color: #a8d99c; }   /* lighter green than the branches */
+.chart-unit       { --box-color: #d4e8cf; }   /* lighter still, for parts of a division */
 
 .chart-emperor strong { font-size: 1.125rem; }
 

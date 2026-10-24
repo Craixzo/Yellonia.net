@@ -18,29 +18,51 @@
 
   /* ---------- 1. THE CHART ----------
      Each box:  { name, note, link, color, children: [ ...boxes under it ] }
-       note:   the small line under the name (optional)
-       link:   the page it opens when clicked (optional)
-       color:  emperor, cabinet, parliament, court, ministry, military, service
+       note:    the small line under the name (optional)
+       link:    the page it opens when clicked (optional). Links to other
+                websites (starting with https://) open in a new tab.
+       color:   emperor, cabinet, parliament, court, security, ministry,
+                staff, military, division, service
+       stackLeaves: true lists this box's single boxes (ones with nothing
+                under them) in one column first, before the others.
      Boxes whose children have no children of their own are listed in a
      column under their parent, to keep the chart narrow. */
+  function units(list, link, color) {        /* shortcut for a list of single boxes */
+    return list.map(function (name) { return { name: name, link: link, color: color || 'division' }; });
+  }
+
   var CHART = {
     name: 'The Emperor', note: 'Head of state', link: 'government.html#emperor', color: 'emperor',
     children: [
       { name: 'Imperial Cabinet', note: 'Chaired by the Chancellor', link: 'government.html#cabinet', color: 'cabinet',
         children: [
-          { name: 'Ministry of Defense', link: 'government.html#ministries', color: 'ministry',
+          { name: 'Ministry of Defense', link: 'government.html#ministries', color: 'ministry', stackLeaves: true,
             children: [
-              { name: 'Army', link: 'armed-forces.html#army', color: 'military' },
-              { name: 'Special Forces', link: 'armed-forces.html#special-forces', color: 'military' },
-              { name: 'Navy', link: 'armed-forces.html#navy', color: 'military' },
-              { name: 'Air Force', link: 'armed-forces.html#air-force', color: 'military' },
-              { name: 'Military Police', link: 'armed-forces.html#military-police', color: 'military' },
+              { name: 'Joint Staff', link: 'armed-forces.html', color: 'staff' },
+              { name: 'Officer Candidate School', link: 'armed-forces.html', color: 'staff' },
+              { name: 'Judge Advocate General\'s Corps', link: 'armed-forces.html', color: 'staff' },
+              { name: 'Army', link: 'armed-forces.html#army', color: 'military',
+                children: units(['1st Infantry Division', '3rd Armored Division'], 'armed-forces.html#army') },
+              { name: 'Special Forces', link: 'armed-forces.html#special-forces', color: 'military',
+                children: units(['1st Special Forces Group', '2nd Special Forces Group', '3rd Special Forces Group', '4th Special Forces Group',
+                                 '5th Special Forces Group', '6th Special Forces Group', '7th Special Forces Group', 'Ceres Special Missions Unit'], 'armed-forces.html#special-forces') },
+              { name: 'Navy', link: 'armed-forces.html#navy', color: 'military',
+                children: [
+                  { name: '2nd Fleet', link: 'armed-forces.html#navy', color: 'division',
+                    children: units(['Carrier Strike Group', 'Destroyer Squadron', 'Submarine element'], 'armed-forces.html#navy', 'service') },
+                  { name: '6th Marine Division', link: 'armed-forces.html#navy', color: 'division',
+                    children: units(['9th Aerial Wing', '19th Armored Wing', '69th Underwater Wing'], 'armed-forces.html#navy', 'service') },
+                ] },
+              { name: 'Air Force', link: 'armed-forces.html#air-force', color: 'military',
+                children: units(['4th Air Combat Division', '9th Helicopter Operations Division'], 'armed-forces.html#air-force') },
+              { name: 'Military Police', link: 'armed-forces.html#military-police', color: 'military',
+                children: units(['Ceremonial Guard', 'Ground Police', 'Air Police', 'Coast Guard'], 'armed-forces.html#military-police') },
             ] },
           { name: 'Ministry of Justice', link: 'government.html#ministries', color: 'ministry' },
-          { name: 'Ministry of Intelligence', link: 'government.html#ministries', color: 'ministry' },
           { name: 'Ministry of Commerce', link: 'government.html#ministries', color: 'ministry' },
           { name: 'Ministry of Foreign Affairs', link: 'government.html#ministries', color: 'ministry',
             children: [
+              { name: 'Department of Political Affairs', color: 'service' },
               { name: 'Diplomatic Security Unit', color: 'service' },
             ] },
           { name: 'Ministry of Internal Affairs', link: 'government.html#ministries', color: 'ministry',
@@ -50,8 +72,13 @@
               { name: 'Postal Service', color: 'service' },
               { name: 'Parks and Wildlife', link: 'emergency-services.html#parks', color: 'service' },
             ] },
-          { name: 'Ministry of Science', link: 'government.html#ministries', color: 'ministry' },
+          { name: 'Ministry of Science', link: 'government.html#ministries', color: 'ministry',
+            children: [
+              { name: 'Department of Space Exploration', color: 'service' },
+              { name: 'Department of Special Projects', color: 'service' },
+            ] },
         ] },
+      { name: 'State Security Directorate', note: 'Answers to the Emperor', link: 'https://ssd-secure-portal.vercel.app/', color: 'security' },
       { name: 'Parliament', note: '80 seats, chaired by the Speaker', link: 'government.html#parliament', color: 'parliament' },
       { name: 'Imperial Supreme Court', note: 'Interprets the law', link: 'government.html#court', color: 'court' },
     ],
@@ -74,6 +101,17 @@
   var placed = [];          /* every box with its x, y */
   var links = [];           /* every line, as SVG path data */
 
+  /* stackLeaves: gathers the single boxes into one column (an invisible group) placed first */
+  (function group(node) {
+    if (!node.children) return;
+    node.children.forEach(group);
+    if (!node.stackLeaves) return;
+    var single = node.children.filter(function (c) { return !c.children || !c.children.length; });
+    if (!single.length) return;
+    var rest = node.children.filter(function (c) { return single.indexOf(c) === -1; });
+    node.children = [{ virtual: true, children: single }].concat(rest);
+  })(CHART);
+
   function stacks(node) {
     return node.children && node.children.length && node.children.every(function (c) { return !c.children || !c.children.length; }) && node !== CHART;
   }
@@ -91,12 +129,12 @@
   function place(node, left, top) {
     var x = left + (stacks(node) ? 0 : (node.width - BOX_W) / 2);
     node.x = x; node.y = top;
-    placed.push(node);
+    if (!node.virtual) placed.push(node);
     if (!node.children || !node.children.length) return;
 
     if (stacks(node)) {
-      /* a column down the left side, joined by one line */
-      var lineX = x + 14, y = top + BOX_H + STACK_GAP, lastMid = 0;
+      /* a column down the left side, joined by one line (an invisible group starts right at the top) */
+      var lineX = x + 14, y = node.virtual ? top : top + BOX_H + STACK_GAP, lastMid = 0;
       node.children.forEach(function (child) {
         child.x = x + STACK_INDENT; child.y = y; child.small = true;
         placed.push(child);
@@ -104,7 +142,7 @@
         links.push('M' + lineX + ' ' + lastMid + 'H' + child.x);
         y += BOX_H + STACK_GAP;
       });
-      links.push('M' + lineX + ' ' + (top + BOX_H) + 'V' + lastMid);
+      links.push('M' + lineX + ' ' + (node.virtual ? top : top + BOX_H) + 'V' + lastMid);
       return;
     }
 
@@ -115,7 +153,7 @@
     var fromX = x + BOX_W / 2;
     node.children.forEach(function (child) {
       place(child, childLeft, childTop);
-      var toX = child.x + BOX_W / 2;
+      var toX = child.virtual ? child.x + 14 : child.x + BOX_W / 2;
       links.push('M' + fromX + ' ' + (top + BOX_H) + 'V' + midY + 'H' + toX + 'V' + childTop);
       childLeft += child.width + GAP_X;
     });
@@ -143,6 +181,8 @@
     var box = document.createElement(node.link ? 'a' : 'div');
     box.className = 'chart-box chart-' + (node.color || 'ministry');
     if (node.link) box.href = node.link;
+    if (node.link && /^https?:/.test(node.link)) { box.target = '_blank'; box.rel = 'noopener'; }
+    if (/^https?:/.test(node.link || '')) { box.target = '_blank'; box.rel = 'noopener'; }
     box.style.left = node.x + 'px';
     box.style.top = node.y + 'px';
     box.style.width = BOX_W + 'px';
@@ -304,9 +344,10 @@
 
   /* ---------- 5. BACKGROUND ----------
      Faint particles drifting along a slowly changing "current" (Perlin noise),
-     leaving soft trails. It sits behind the boxes and doesn't move with them.
-     Switched off for visitors whose device asks for less motion, and paused
-     while the chart is off screen or the tab is hidden. */
+     leaving short trails. It sits behind the boxes and doesn't move with them.
+     To go easy on computers and phones it fades out and stops after a while
+     (FLOW.runFor), pauses while the chart is off screen or the tab is hidden,
+     and is switched off for visitors whose device asks for less motion. */
   var FLOW = {
     colors: ['#bed215', '#3f95ce', '#5db54a'],   /* the flag colors */
     opacity: 0.35,        /* how strong the lines are; 0 hides them */
@@ -315,7 +356,9 @@
     speed: 0.6,           /* how fast particles move */
     scale: 0.0011,        /* how wide the swirls are; smaller = wider */
     drift: 0.00012,       /* how fast the current itself changes */
-    fade: 0.045,          /* how quickly trails disappear; higher = shorter trails */
+    fade: 0.07,           /* how quickly trails disappear; higher = shorter trails */
+    runFor: 20000,        /* stops after this many milliseconds (20 s) without anyone touching the chart; dragging or zooming starts it again */
+    phoneMax: 120,        /* fewer particles on small screens */
   };
 
   var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -324,6 +367,7 @@
     var ctx = canvas.getContext('2d');
     var ratio = Math.min(window.devicePixelRatio || 1, 2);
     var width = 0, height = 0, particles = [], time = Math.random() * 100, running = false, visible = true;
+    var activeUntil = Date.now() + FLOW.runFor, clearFrames = 0;
 
     /* Classic Perlin noise in 3D (x, y and time), written out so no library is needed */
     var perm = new Uint8Array(512);
@@ -358,7 +402,7 @@
       width = viewport.clientWidth; height = viewport.clientHeight;
       canvas.width = Math.round(width * ratio); canvas.height = Math.round(height * ratio);
       ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
-      var count = Math.min(FLOW.maxParticles, Math.round(width * height * FLOW.density));
+      var count = Math.min(width < 600 ? FLOW.phoneMax : FLOW.maxParticles, Math.round(width * height * FLOW.density));
       particles = [];
       for (var i = 0; i < count; i++) particles.push(newParticle());
     }
@@ -370,6 +414,14 @@
       ctx.fillStyle = 'rgba(0, 0, 0, ' + FLOW.fade + ')';
       ctx.fillRect(0, 0, width, height);
       ctx.globalCompositeOperation = 'source-over';
+
+      /* Time's up: draw nothing new, let the trails fade away, then stop completely */
+      if (Date.now() > activeUntil) {
+        if (++clearFrames > 90) { ctx.clearRect(0, 0, width, height); running = false; return; }
+        requestAnimationFrame(frame);
+        return;
+      }
+      clearFrames = 0;
       ctx.globalAlpha = FLOW.opacity;
       ctx.lineWidth = 1.2;
       time += FLOW.drift * 16;
@@ -386,8 +438,14 @@
       requestAnimationFrame(frame);
     }
 
+    /* Touching the chart starts the background again */
+    function wake() { activeUntil = Date.now() + FLOW.runFor; update(); }
+    viewport.addEventListener('pointerdown', wake);
+    viewport.addEventListener('wheel', wake, { passive: true });
+    viewport.addEventListener('keydown', wake);
+
     function update() {
-      var should = visible && !document.hidden;
+      var should = visible && !document.hidden && (Date.now() <= activeUntil || clearFrames > 0);
       if (should && !running) { running = true; requestAnimationFrame(frame); }
       if (!should) running = false;
     }
