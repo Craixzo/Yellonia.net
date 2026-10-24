@@ -1898,6 +1898,16 @@ main { flex: 1; }
 .button-discord { background: #5865f2; color: #ffffff; }   /* Discord's own button color */
 .button-discord:hover { background: #4752c4; }
 
+/* Discord logo inside the button. The file is the official white logo from discord.com/branding */
+.button-discord { display: inline-flex; align-items: center; gap: 10px; }
+.button-discord::before {
+  content: "";
+  width: 22px;
+  height: 22px;
+  flex: none;
+  background: url("images/discord-logo.svg") center / contain no-repeat;
+}
+
 .button-small {
   padding: 6px 12px;
   border: 0;
