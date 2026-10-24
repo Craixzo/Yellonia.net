@@ -22,7 +22,7 @@
        link:    the page it opens when clicked (optional). Links to other
                 websites (starting with https://) open in a new tab.
        color:   emperor, viceroy, management, management-team, cabinet, parliament, court, security, ministry,
-                staff, staff-unit, military, division, service, unit, parliament-unit
+                staff, staff-unit, military, division, service, unit, sub-unit, parliament-unit
        redacted: true draws a blacked-out box with no name or link.
        beside:  true puts the box next to its parent, joined by a short line
                 (used for the Viceroys). 'far-left' puts it at the far left
@@ -89,9 +89,21 @@
           { name: 'Ministry of Internal Affairs', link: 'government.html#ministries', color: 'ministry', stackLeaves: true,
             children: [
               { name: 'Police Department', link: 'emergency-services.html#police', color: 'service',
-                children: units(['Yeloria Police Division', 'Counter-Terrorism and Special Response Command'], 'emergency-services.html#police', 'unit') },
+                children: [
+                  { name: 'Counter-Terrorist & Strategic Response Command', link: 'emergency-services.html#police', color: 'unit',
+                    children: units(['1st Squadron', '2nd Squadron'], 'emergency-services.html#police', 'sub-unit') },
+                  { name: 'Yeloria Police Division', link: 'emergency-services.html#police', color: 'unit',
+                    children: units(['Air Support Unit', 'Criminal Investigations Bureau', 'Capital Security Group'], 'emergency-services.html#police', 'sub-unit') },
+                ] },
               { name: 'Fire Department', link: 'emergency-services.html#fire', color: 'service',
-                children: units(['Yeloria Fire Division'], 'emergency-services.html#fire', 'unit') },
+                children: [
+                  { name: 'West Fire Brigade', link: 'emergency-services.html#fire', color: 'unit',
+                    children: units(['5th Battalion - Prospera', '6th Battalion - Perennia', '7th Battalion - Echelon', '8th Battalion - Eudaimon', '9th Battalion - Concord'], 'emergency-services.html#fire', 'sub-unit') },
+                  { name: 'Central Fire Brigade', link: 'emergency-services.html#fire', color: 'unit',
+                    children: units(['1st Battalion - Virex', '2nd Battalion - Serahpa', '3rd Battalion - Altrutia', '4th Battalion - Yeloria'], 'emergency-services.html#fire', 'sub-unit') },
+                  { name: 'North Fire Brigade', link: 'emergency-services.html#fire', color: 'unit',
+                    children: units(['10th Battalion - Phoenix', '11th Battalion - Polaris', '12th Battalion - Enstaria', '13th Battalion - Mavana'], 'emergency-services.html#fire', 'sub-unit') },
+                ] },
               { name: 'Postal Service', color: 'service' },
               { name: 'Parks and Wildlife', link: 'emergency-services.html#parks', color: 'service' },
             ] },

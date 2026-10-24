@@ -2472,6 +2472,7 @@ a.chart-box:hover { border-color: var(--box-color); box-shadow: 0 0 0 2px var(--
 .chart-staff      { --box-color: #c3c9d1; }
 .chart-division   { --box-color: #a8d99c; }
 .chart-unit       { --box-color: #f3c98a; }
+.chart-sub-unit   { --box-color: #f8e2c0; }   /* battalions, squadrons: paler than their unit */
 .chart-staff-unit { --box-color: #e2e6eb; }
 .chart-parliament-unit { --box-color: #a8d99c; }
 
