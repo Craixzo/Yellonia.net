@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Emergency Services | Yellonia</title>
+  <link rel="icon" href="images/TYEcoatofarms.png">
+
+  <!-- FONT: swap the family here AND in style.css (--font) to change it -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- TOPBAR: shared by every page. To change it, edit header.js -->
+<script src="header.js"></script>
+
+
+<!-- ============================================================
+     PAGE CONTENT: Department of Emergency Services (DES) home
+     The public side of DES. The back-end (CAD, databases, admin)
+     is in the des/ folder and needs a Service Login.
+     Lines marked DRAFT were written as placeholders; reword them freely.
+     ============================================================ -->
+<main>
+
+  <!-- BANNER: image with the page title, and the Service Login button -->
+  <section class="page-banner">
+    <img src="images/yeloria.png" alt="">
+    <div class="page-banner-text">
+      <h1>Emergency Services</h1>
+      <p>The Department of Emergency Services: the Yellonia Police and Fire Departments.</p> <!-- DRAFT -->
+      <a class="des-login-button" href="des/login.html">Service Login</a>
+    </div>
+  </section>
+
+  <!-- SELECTION MENU: the four parts of DES. The ones marked "Members" need a Service Login. -->
+  <section class="page des-menu-section">
+    <div class="des-menu">
+
+      <a class="des-tile" href="des/index.html#dispatch">
+        <span class="des-tile-tag">Members</span>
+        <h2>Dispatch Operations</h2>
+        <p>Computer-aided dispatch and the wanted list.</p> <!-- DRAFT -->
+      </a>
+
+      <a class="des-tile" href="des/index.html#database">
+        <span class="des-tile-tag">Members</span>
+        <h2>Department Database</h2>
+        <p>Personnel, criminal and former personnel records.</p> <!-- DRAFT -->
+      </a>
+
+      <a class="des-tile" href="board-of-commissioners.html">
+        <span class="des-tile-tag des-tile-public">Public</span>
+        <h2>Board of Commissioners</h2>
+        <p>The board that oversees Emergency Services.</p> <!-- DRAFT -->
+      </a>
+
+      <a class="des-tile" href="des/index.html#administration">
+        <span class="des-tile-tag">Members</span>
+        <h2>Department Administration</h2>
+        <p>Internal Affairs, Fire Investigations and administration.</p> <!-- DRAFT -->
+      </a>
+
+    </div>
+  </section>
+
+  <!-- POLICE DEPARTMENT (the menu's "Police Department" link jumps here) -->
+  <section class="group group-police-dept" id="police">
+    <div class="group-inner">
+      <h2>Yellonia Police Department</h2>
+      <p class="group-text">Keeps the peace across Yellonia and answers calls for help.</p> <!-- DRAFT -->
+      <div class="unit-grid">
+        <article class="unit">
+          <h3>Yeloria Police Division</h3>
+          <p>Patrols the capital and responds to calls.</p> <!-- DRAFT -->
+        </article>
+        <article class="unit">
+          <h3>Counter-Terrorism and Special Response Command</h3>
+          <p>High-risk operations and special response.</p> <!-- DRAFT -->
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- FIRE DEPARTMENT -->
+  <section class="group group-fire-dept" id="fire">
+    <div class="group-inner">
+      <h2>Yellonia Fire Department</h2>
+      <p class="group-text">Fights fires, answers medical calls and carries out rescues.</p> <!-- DRAFT -->
+      <div class="unit-grid">
+        <article class="unit">
+          <h3>Yeloria Fire Division</h3>
+          <p>Fire and rescue for the capital.</p> <!-- DRAFT -->
+        </article>
+        <article class="unit">
+          <h3>Office of Fire Investigations</h3>
+          <p>Finds out how fires started, and why.</p> <!-- DRAFT -->
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- PARKS AND WILDLIFE (not part of DES; kept here so the menu link has somewhere to go) -->
+  <section class="group group-parks-dept" id="parks">
+    <div class="group-inner">
+      <h2>Parks and Wildlife</h2>
+      <p class="group-text">Looks after Yellonia's parks and wild places, under the Ministry of Internal Affairs.</p> <!-- DRAFT -->
+    </div>
+  </section>
+
+  <!-- NEWS: the latest stories from the DES outlet in Yellonia News (filled in by des-home.js).
+       data-outlet is the outlet's address name; change it if the outlet is named differently. -->
+  <section class="group group-des-news" id="news">
+    <div class="group-inner">
+      <h2>News</h2>
+      <div class="des-news" data-outlet="department-of-emergency-services">
+        <p class="group-text">No news yet.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- RECRUITMENT: closing section (an application form comes in a later update) -->
+  <section class="join join-short" id="recruitment">
+    <img src="images/yeloria.png" alt="">
+    <div class="join-text">
+      <h2>Join Emergency Services</h2>
+      <p>Police and Fire recruitment runs through our Discord. Join the server and we'll get you started.</p> <!-- DRAFT -->
+      <a class="join-button" href="https://discord.gg/zYhWhzVcMX" target="_blank" rel="noopener">Join the Discord</a>
+    </div>
+  </section>
+
+</main>
+
+
+<!-- FOOTER: shared by every page. To change it, edit footer.js -->
+<script src="footer.js"></script>
+
+<!-- SHARED SCRIPT: topbar hide on scroll. To change it, edit script.js -->
+<script src="script.js"></script>
+
+<!-- THIS PAGE'S SCRIPT: the latest DES news -->
+<script src="des-home.js"></script>
+
+</body>
+</html>

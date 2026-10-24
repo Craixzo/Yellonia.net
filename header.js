@@ -68,8 +68,10 @@ document.currentScript.insertAdjacentHTML('beforebegin', `
           <a href="emergency-services.html">Emergency Services</a>
           <ul class="dropdown">
             <li><a href="emergency-services.html#police">Police Department</a></li>
-            <li><a href="emergency-services.html#fire">Fire Service</a></li>
+            <li><a href="emergency-services.html#fire">Fire Department</a></li>
             <li><a href="emergency-services.html#parks">Parks and Wildlife</a></li>
+            <li><a href="board-of-commissioners.html">Board of Commissioners</a></li>
+            <li><a href="des/login.html">Service Login</a></li>
           </ul>
         </li>
 

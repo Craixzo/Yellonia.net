@@ -1,0 +1,222 @@
+/* ==============================================================
+   des/des.css - the DES back-end look (dark "operator" style)
+
+   Used only by the pages in des/. The public site uses style.css.
+
+   CONTENTS
+     1. SETTINGS ......... colors and fonts. Change these first.
+     2. BASE
+     3. LOGIN AND SETUP PAGES (the centered card)
+     4. FORMS AND BUTTONS
+     5. BACK-END SHELL (top bar, side menu, main area)
+     6. DASHBOARD
+     7. SMALL SCREENS
+   ============================================================== */
+
+
+/* ---------- 1. SETTINGS ---------- */
+:root {
+  --bg:        #0b0c0e;    /* page background */
+  --panel:     #111317;    /* cards and bars */
+  --panel-2:   #0e1013;    /* side menu */
+  --line:      #1f2328;    /* borders */
+  --line-2:    #2a2f36;    /* input borders */
+  --text:      #e6e9ec;
+  --dim:       #9aa3ad;    /* quieter text */
+  --faint:     #6f7883;    /* quietest text */
+  --lime:      #bed215;    /* accent, from the flag */
+  --blue:      #3f95ce;
+  --green:     #5db54a;
+  --amber:     #e8a33d;
+  --red:       #ff8f86;
+  --sans:      "IBM Plex Sans", system-ui, sans-serif;
+  --mono:      "IBM Plex Mono", ui-monospace, monospace;
+}
+
+
+/* ---------- 2. BASE ---------- */
+*, *::before, *::after { box-sizing: border-box; }
+html, body { margin: 0; }
+body { background: var(--bg); color: var(--text); font-family: var(--sans); font-size: 15px; line-height: 1.5; }
+a { color: var(--lime); }
+a:hover { color: #d6ea4a; }
+:focus-visible { outline: 2px solid var(--lime); outline-offset: 2px; }
+.mono { font-family: var(--mono); }
+.label { font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--dim); font-weight: 600; }
+.visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+[hidden] { display: none !important; }
+
+
+/* ---------- 3. LOGIN AND SETUP PAGES ---------- */
+.auth-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  padding: 32px 16px;
+}
+
+.auth-brand { display: flex; align-items: center; gap: 12px; color: var(--text); text-decoration: none; }
+.auth-brand img { width: 44px; height: 44px; }
+.auth-brand strong { display: block; letter-spacing: .04em; }
+
+.auth-card {
+  width: 100%;
+  max-width: 420px;
+  padding: 28px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-top: 3px solid var(--lime);
+  border-radius: 8px;
+}
+.auth-card h1 { margin: 0 0 4px; font-size: 22px; }
+.auth-card > p { margin: 0 0 20px; color: var(--dim); }
+.auth-links { display: flex; flex-direction: column; gap: 8px; margin-top: 18px; font-size: 14px; }
+.auth-foot { max-width: 420px; color: var(--faint); font-size: 13px; text-align: center; }
+
+
+/* ---------- 4. FORMS AND BUTTONS ---------- */
+.form { display: flex; flex-direction: column; gap: 14px; }
+.field { display: flex; flex-direction: column; gap: 6px; }
+.field label { font-size: 13px; font-weight: 600; }
+.field input {
+  height: 44px;
+  padding: 0 12px;
+  background: var(--bg);
+  border: 1px solid var(--line-2);
+  border-radius: 6px;
+  color: var(--text);
+  font: 500 15px var(--sans);
+}
+.field input.mono { font-family: var(--mono); }
+.field input:focus { outline: 2px solid var(--lime); outline-offset: 0; border-color: transparent; }
+.field input[readonly] { color: var(--dim); }
+.field-hint { font-size: 12.5px; color: var(--dim); }
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 44px;
+  padding: 0 18px;
+  border: 1px solid var(--line-2);
+  border-radius: 6px;
+  background: #14171a;
+  color: var(--text);
+  font: 600 14px var(--sans);
+  text-decoration: none;
+  cursor: pointer;
+}
+.btn:hover { border-color: var(--dim); color: var(--text); }
+.btn-primary { background: var(--lime); border-color: var(--lime); color: #111214; }
+.btn-primary:hover { background: #d3e63a; color: #111214; }
+.btn-discord { background: #5865f2; border-color: #5865f2; color: #ffffff; }
+.btn-discord:hover { background: #4752c4; color: #ffffff; }
+.btn-discord::before { content: ""; width: 20px; height: 20px; background: url("../images/Discordthingy.png") center / contain no-repeat; }
+.btn:disabled { opacity: .6; cursor: wait; }
+
+.message { min-height: 1.5em; margin: 0; font-size: 14px; }
+.message-error { color: var(--red); }
+.message-ok { color: var(--green); }
+
+
+/* ---------- 5. BACK-END SHELL ---------- */
+.shell { min-height: 100vh; display: flex; flex-direction: column; }
+
+.topbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px;
+  padding: 10px 20px;
+  background: var(--panel);
+  border-bottom: 1px solid var(--line);
+}
+.topbar-brand { display: flex; align-items: center; gap: 10px; color: var(--text); text-decoration: none; }
+.topbar-brand img { width: 34px; height: 34px; }
+.topbar-brand strong { letter-spacing: .04em; }
+.topbar-brand strong span { color: var(--dim); font-weight: 500; }
+.topbar-right { display: flex; align-items: center; gap: 18px; margin-left: auto; flex-wrap: wrap; }
+.clock { font-family: var(--mono); font-size: 18px; font-weight: 600; letter-spacing: .04em; }
+.who { display: flex; align-items: center; gap: 10px; }
+.who-badge { width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; background: #1d3a52; color: #8fd0f0; font-weight: 700; font-size: 13px; }
+.who-name { font-weight: 600; line-height: 1.25; }
+.who-sub { font-size: 12px; color: var(--dim); }
+
+.body { flex: 1; display: flex; flex-wrap: wrap; }
+
+.sidenav {                               /* the side menu, built by des.js from the member's roles */
+  flex: 1 1 240px;
+  max-width: 260px;
+  padding: 16px 12px;
+  background: var(--panel-2);
+  border-right: 1px solid var(--line);
+}
+.sidenav h2 { margin: 18px 10px 6px; }
+.sidenav h2:first-child { margin-top: 4px; }
+.sidenav ul { list-style: none; margin: 0; padding: 0; }
+.sidenav a, .sidenav .soon {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  min-height: 40px;
+  padding: 8px 10px;
+  border-radius: 6px;
+  color: #c3c9d1;
+  text-decoration: none;
+  font-size: 14px;
+}
+.sidenav a:hover { background: #151820; color: var(--text); }
+.sidenav a.current { background: #1c2410; color: var(--lime); font-weight: 600; }
+.sidenav .soon { color: var(--faint); }
+.soon-tag { font-family: var(--mono); font-size: 10.5px; color: var(--faint); border: 1px solid var(--line-2); border-radius: 4px; padding: 1px 5px; white-space: nowrap; }
+
+.main { flex: 999 1 560px; min-width: 0; padding: 22px 24px 40px; display: flex; flex-direction: column; gap: 18px; }
+.main h1 { margin: 0; font-size: 26px; }
+
+.panel { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; }
+.panel-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; padding: 12px 16px; border-bottom: 1px solid var(--line); }
+.panel-head h2 { margin: 0; font-size: 15px; }
+.panel-body { padding: 16px; }
+
+.statusbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding: 6px 20px;
+  background: var(--panel);
+  border-top: 1px solid var(--line);
+  font-family: var(--mono);
+  font-size: 11.5px;
+  color: var(--dim);
+}
+
+
+/* ---------- 6. DASHBOARD ---------- */
+.dash-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 18px; align-items: start; }
+
+.kv { display: grid; grid-template-columns: 130px minmax(0, 1fr); gap: 8px 14px; margin: 0; font-size: 14px; }
+.kv dt { color: var(--dim); }
+.kv dd { margin: 0; font-family: var(--mono); }
+
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { padding: 3px 9px; border-radius: 4px; background: #1b1f25; color: #c3c9d1; font-size: 12px; font-weight: 600; }
+.chip-lime { background: #1c2410; color: var(--lime); }
+
+.access-section { scroll-margin-top: 16px; }
+.access-list { list-style: none; margin: 0; padding: 0; }
+.access-list li { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; padding: 10px 16px; border-bottom: 1px solid #181b20; }
+.access-list li:last-child { border-bottom: 0; }
+.access-none { color: var(--faint); }
+
+
+/* ---------- 7. SMALL SCREENS ---------- */
+@media (max-width: 640px) {
+  .sidenav { max-width: none; border-right: 0; border-bottom: 1px solid var(--line); }
+  .main { padding: 18px 16px 32px; }
+  .topbar-right { margin-left: 0; }
+}

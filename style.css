@@ -2673,4 +2673,79 @@ a.chart-box:hover { border-color: var(--box-color); box-shadow: 0 0 0 2px var(--
 .structure-pages .pillar { min-height: 0; padding: 24px 28px; }
 .structure-pages .pillar p { margin-bottom: 16px; }
 .structure-pages .pillar-go { margin-top: auto; }
-.structure-pages .minor { min-height: 0; }
+.structure-pages .pillar-grid { grid-template-columns: repeat(3, 1fr); }   /* three cards in one row */
+.pillar-bills { --pillar-color: var(--gold); }
+
+@media (max-width: 900px) {
+  .structure-pages .pillar-grid { grid-template-columns: 1fr; }   /* stacked on smaller screens */
+}
+
+
+/* ---------- 31. EMERGENCY SERVICES HOME (emergency-services.html, board-of-commissioners.html) ---------- */
+.des-login-button {                      /* the Service Login button on the banner */
+  display: inline-block;
+  margin-top: 20px;
+  padding: 12px 24px;
+  border-radius: 4px;
+  background: var(--gold);
+  color: #111214;
+  font-weight: 700;
+  text-decoration: none;
+}
+.des-login-button:hover { background: #d3e63a; }
+
+.des-menu-section { padding-bottom: 0; }
+
+.des-menu {                              /* the four big choices */
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.des-tile {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-height: 170px;
+  padding: 24px;
+  background: var(--bar-bg);
+  border-top: 3px solid var(--gold);
+  color: var(--text);
+  text-decoration: none;
+  transition: background 0.2s ease;
+}
+.des-tile:hover { background: #17191c; }
+.des-tile h2 { margin: 0; font-size: 1.375rem; line-height: 1.2; }
+.des-tile p { margin: 0; color: var(--text-dim); }
+
+.des-tile-tag {                          /* "Members" / "Public" label */
+  align-self: flex-start;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: rgba(148, 155, 164, 0.18);
+  color: var(--text-dim);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.des-tile-public { background: rgba(93, 181, 74, 0.18); color: var(--flag-green); }
+
+.group-police-dept { --group-color: var(--flag-blue); }
+.group-fire-dept   { --group-color: #e8a33d; }
+.group-parks-dept  { --group-color: var(--flag-green); }
+.group-des-news    { --group-color: var(--gold); }
+.group-commissioners { --group-color: var(--gold); }
+
+.des-news .unit-grid { margin-bottom: 16px; }
+.des-news-card { color: var(--text); text-decoration: none; }
+.des-news-card:hover h3 { color: var(--gold); }
+
+@media (max-width: 900px) {
+  .des-menu { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 520px) {
+  .des-menu { grid-template-columns: 1fr; }
+  .des-tile { min-height: 0; }
+}

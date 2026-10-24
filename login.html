@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>Service Login | YES Emergency Services</title>
+  <link rel="icon" href="../images/TYEcoatofarms.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="des.css">
+</head>
+<body>
+
+<!-- ============================================================
+     DES back-end: SERVICE LOGIN
+     Username (Roblox username) + Badge ID + password.
+     The form is handled by login.js.
+     ============================================================ -->
+<main class="auth-page">
+
+  <a class="auth-brand" href="../emergency-services.html">
+    <img src="../images/TYEcoatofarms.png" alt="">
+    <span><strong>YES · Emergency Services</strong><span class="label">Service Login</span></span>
+  </a>
+
+  <section class="auth-card">
+    <h1>Service Login</h1>
+    <p>For members of the Police and Fire Departments.</p>
+
+    <form class="form" id="login-form" novalidate>
+      <div class="field">
+        <label for="username">Username</label>
+        <input id="username" name="username" autocomplete="username" spellcheck="false" required>
+        <span class="field-hint">Your Roblox username.</span>
+      </div>
+      <div class="field">
+        <label for="badge">Badge ID</label>
+        <input id="badge" name="badge" class="mono" inputmode="text" autocomplete="off" spellcheck="false" required>
+      </div>
+      <div class="field">
+        <label for="password">Password</label>
+        <input id="password" name="password" type="password" autocomplete="current-password" required>
+      </div>
+      <p class="message" id="login-message" role="alert"></p>
+      <button class="btn btn-primary" type="submit">Log in</button>
+    </form>
+
+    <div class="auth-links">
+      <a href="setup.html">First time? Set up your account</a>
+      <a href="setup.html">Forgot your password? Reset it with Discord</a>
+    </div>
+  </section>
+
+  <p class="auth-foot">Every login is recorded. Don't share your password; staff will never ask for it.</p>
+</main>
+
+<script src="des.js"></script>
+<script src="login.js"></script>
+</body>
+</html>

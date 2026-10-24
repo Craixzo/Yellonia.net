@@ -3,319 +3,53 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Yellonia</title>
-  <link rel="icon" href="images/TYEcoatofarms.png">
-
-  <!-- FONT: swap the family here AND in style.css (--font) to change it -->
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-
-  <link rel="stylesheet" href="style.css">
+  <meta name="robots" content="noindex">
+  <title>Dashboard | YES Emergency Services</title>
+  <link rel="icon" href="../images/TYEcoatofarms.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="des.css">
 </head>
 <body>
 
-<!-- TOPBAR: shared by every page. To change it, edit header.js -->
-<script src="header.js"></script>
-
-
 <!-- ============================================================
-     PAGE CONTENT: the homepage
+     DES back-end: DASHBOARD (the first page after logging in)
+     The top bar and side menu are filled in by des.js; the rest
+     by dashboard.js. Everything here needs a Service Login.
      ============================================================ -->
-<main>
+<div class="shell">
 
-  <!-- HERO: image with the title and text centered on top of it -->
-  <section class="hero">
-    <img src="images/yeloria.png" alt="" width="1914" height="960">
-    <div class="hero-text">
-      <h1>THE EMPIRE OF YELLONIA</h1>
-      <p>The official website for Yellonia.</p>
+  <!-- TOP BAR -->
+  <header class="topbar">
+    <a class="topbar-brand" href="index.html">
+      <img src="../images/TYEcoatofarms.png" alt="">
+      <span><strong>YES <span>/ Emergency Services</span></strong><br><span class="label">Department back-end</span></span>
+    </a>
+    <div class="topbar-right">
+      <span class="clock" data-des="clock">--:--:--</span>
+      <div class="who" data-des="who"></div>
     </div>
-        <!-- EXPLORE BUTTON: scrolls down to the section with id="explore" -->
-    <a class="hero-explore" href="#explore">Explore</a>
-  </section>
+  </header>
 
-  <!-- STATS STRIP (the Explore button scrolls here) -->
-  <section class="stats" id="explore">
-    <ul class="stats-list">
-      <li><strong data-count data-stat="roblox">1,483</strong><span>Group members</span></li>
-      <li><strong data-count data-stat="discord">0</strong><span>Discord members</span></li>
-      <li><strong>1643</strong><span>Year founded (in lore)</span></li>
-    </ul>
-  </section>
+  <div class="body">
+    <!-- SIDE MENU: built from the member's roles by des.js -->
+    <nav class="sidenav" data-des="nav" aria-label="Back-end sections"></nav>
 
-  <!-- ABOUT + CAROUSEL: intro text with a screenshot carousel under it -->
-  <section class="page about">
-    <h2>What is Yellonia?</h2>
-    <p class="about-text">Yellonia is a military simulation nation on Roblox. Enlist in the Army, Navy, Air Force, Special Forces or Military Police and serve in a living capital city, in a nation run by its own members through an Emperor, a Parliament and a Supreme Court. Out of uniform, there are player-run corporations, a stock market and housing.</p>
+    <!-- MAIN -->
+    <main class="main" id="dashboard">
+      <p class="label">Loading…</p>
+    </main>
+  </div>
 
-    <!-- CAROUSEL
-         One <figure class="carousel-slide"> per screenshot. Copy a whole <figure> block to add a slide.
-         Change src to the image file, alt to a short description, and the figcaption to the caption. -->
-    <div class="carousel">
-      <div class="carousel-track">
+  <!-- STATUS BAR -->
+  <footer class="statusbar">
+    <span>Every action in the back-end is recorded in the audit log.</span>
+    <span style="margin-left: auto"><a href="../emergency-services.html">Public site</a></span>
+  </footer>
+</div>
 
-        <figure class="carousel-slide">
-          <img src="images/yeloria.png" alt="The capital's reflecting pool at dusk">
-          <figcaption>The capital at dusk</figcaption>
-        </figure>
-
-        <figure class="carousel-slide">
-          <img src="images/yeloria.png" alt="">  <!-- TODO: replace with a second screenshot -->
-          <figcaption>Second screenshot goes here</figcaption>
-        </figure>
-
-        <figure class="carousel-slide">
-          <img src="images/yeloria.png" alt="">  <!-- TODO: replace with a third screenshot -->
-          <figcaption>Third screenshot goes here</figcaption>
-        </figure>
-
-      </div>
-      <button class="carousel-button carousel-prev" type="button" aria-label="Previous screenshot"></button>
-      <button class="carousel-button carousel-next" type="button" aria-label="Next screenshot"></button>
-    </div>
-
-    <!-- CONTINUE BUTTON: scrolls down to the section with id="structure" -->
-    <a class="next-section" href="#structure">Continue</a>
-  </section>
-
-  <!-- PILLARS: the two big buttons -->
-  <section class="page pillars" id="structure">
-    <h2>Explore the Empire</h2>
-    <div class="pillar-grid">
-
-      <!-- PILLAR: GOVERNMENT -->
-      <a class="pillar pillar-government" href="government.html">
-        <h3>Government</h3>
-        <p>The Emperor, Parliament, the Imperial Supreme Court and the ministries that run the nation.</p>
-        <span class="pillar-go">See how Yellonia is governed</span>
-      </a>
-
-      <!-- PILLAR: MILITARY -->
-      <a class="pillar pillar-military" href="armed-forces.html">
-        <h3>Military</h3>
-        <p>Army, Special Forces, Navy, Air Force and Military Police. Find the branch that fits you.</p>
-        <span class="pillar-go">See the armed forces</span>
-      </a>
-
-    </div>
-
-    <!-- MINOR LINKS: the smaller row under the two big buttons -->
-    <div class="minor-grid">
-
-      <a class="minor" href="economy.html">
-        <h3>Economy</h3>
-        <p>Corporations, the stock market and housing.</p>
-      </a>
-
-      <a class="minor" href="emergency-services.html">
-        <h3>Emergency Services</h3>
-        <p>Police, fire, and parks and wildlife.</p>
-      </a>
-
-      <a class="minor" href="nation.html">
-        <h3>Nation</h3>
-        <p>History, the states and the capital.</p>
-      </a>
-
-    </div>
-
-    <!-- CONTINUE BUTTON: scrolls down to the section with id="safety" -->
-    <a class="next-section" href="#safety">Continue</a>
-  </section>
-
-  <!-- SAFETY: centered title + text, with a slowly scrolling row of logos -->
-  <section class="safety" id="safety">
-    <div class="safety-text">
-      <img class="safety-emblem" src="images/TYEcoatofarms.png" alt="Coat of arms of Yellonia" width="112" height="112">
-      <h2>Safety comes first</h2>
-      <p>Yellonia is meant to be a fair and safe place to play. These are the tools and partners we rely on to catch cheaters, moderate the community and protect our members.</p>
-    </div>
-
-    <!-- LOGO STRIP
-         One <li> per logo. To use a real logo, replace the text inside the <li> with:
-           <img src="images/logos/filename.png" alt="Name of the tool or partner">
-         To make a logo clickable, wrap the <img> in <a href="https://..."> ... </a>
-         Only list each logo once: the script at the bottom of the page repeats the row so it loops. -->
-    <div class="logo-strip">
-      <ul class="logo-track">
-        <li><img src="images/logos/ACSJudiciary.png" alt="ACS Blacklists"></li>
-        <li><img src="images/logos/MFD.png" alt="Moderation For Dummies"></li>
-        <li><img src="images/logos/mavyntrace.png" alt=".trace"></li>
-        <li><img src="images/logos/CatWatcher.png" alt="CatWatcher"></li>
-        <li><img src="images/logos/XTracker.png" alt="XTracker"></li>
-        <li><img src="images/logos/FPSCR.png" alt="FPS: Cheater Registry"></li>
-        <li><img src="images/logos/WASPtransparent.png" alt="WASP Database"></li>
-        <li><img src="images/logos/TASE.png" alt="TASE"></li>
-        <li><img src="images/logos/rotectorforsite.png" alt="Rotector Database"></li>
-        <li><img src="images/logos/UNCCyberAffairs.png" alt="UNC Cyber Affairs"></li>
-      </ul>
-    </div>
-
-    <!-- CONTINUE BUTTON: scrolls down to the section with id="final" -->
-    <a class="next-section" href="#final">Continue</a>
-  </section>
-
-  <!-- SECTION 5: JOIN (the last section of the homepage) -->
-  <section class="join" id="final">
-    <img src="images/yeloria.png" alt="">
-    <div class="join-text">
-      <h2>Take your place in the Empire</h2>
-      <p>Recruitment, events and announcements all run through our Discord. Join the server and we'll get you started.</p>
-      <a class="join-button" href="https://discord.gg/zYhWhzVcMX" target="_blank" rel="noopener">Join the Discord</a>
-      <a class="join-secondary" href="https://www.roblox.com/groups/5801322" target="_blank" rel="noopener">or visit the Roblox group</a>
-    </div>
-  </section>
-
-</main>
-
-<!-- FOOTER: shared by every page. To change it, edit footer.js -->
-<script src="footer.js"></script>
-  
-<!-- SHARED SCRIPT: topbar hide on scroll. To change it, edit script.js -->
-<script src="script.js"></script>
-
-<!-- STATS SCRIPT: counts the numbers up, using live figures from /api/stats when available -->
-<script>
-  (function () {
-    var strip = document.querySelector('.stats');
-    if (!strip) return;
-    var items = strip.querySelectorAll('[data-count]');
-    var DURATION = 1500;                         /* length of the count-up, in milliseconds */
-    var still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-    /* Ask our own function for the live numbers; give up quietly if it fails */
-    var live = fetch('/api/stats')
-      .then(function (reply) { return reply.ok ? reply.json() : {}; })
-      .catch(function () { return {}; });
-    var giveUp = new Promise(function (done) { setTimeout(function () { done({}); }, 2500); });
-
-    function show(el, n) { el.textContent = n.toLocaleString('en-US'); }
-
-    function countUp(el, target) {
-      if (still) { show(el, target); return; }
-      var began = null;
-      function frame(now) {
-        if (began === null) began = now;
-        var progress = Math.min((now - began) / DURATION, 1);
-        var eased = 1 - Math.pow(1 - progress, 3);     /* fast at first, slows near the end */
-        show(el, Math.round(target * eased));
-        if (progress < 1) requestAnimationFrame(frame);
-      }
-      requestAnimationFrame(frame);
-    }
-
-    function start() {
-      Promise.race([live, giveUp]).then(function (data) {
-        items.forEach(function (el) {
-          var key = el.getAttribute('data-stat');
-          var typed = parseInt(el.textContent.replace(/\D/g, ''), 10) || 0;   /* the number written in the HTML */
-          var target = (key && typeof data[key] === 'number') ? data[key] : typed;
-          countUp(el, target);
-        });
-      });
-      /* If the live numbers arrive late, swap them in once the count-up is done */
-      live.then(function (data) {
-        setTimeout(function () {
-          items.forEach(function (el) {
-            var key = el.getAttribute('data-stat');
-            if (key && typeof data[key] === 'number') show(el, data[key]);
-          });
-        }, DURATION + 2600);
-      });
-    }
-
-    /* Wait until the strip is actually on screen */
-    var watcher = new IntersectionObserver(function (entries) {
-      if (entries[0].isIntersecting) { watcher.disconnect(); start(); }
-    }, { threshold: 0.4 });
-    watcher.observe(strip);
-  })();
-</script>
-<!-- CAROUSEL SCRIPT: arrow buttons move one slide; the carousel also moves on by itself every few seconds -->
-<script>
-  (function () {
-    var carousel = document.querySelector('.carousel');
-    if (!carousel) return;
-    var track = carousel.querySelector('.carousel-track');
-    var WAIT = 6000;                                             /* time each slide stays up, in milliseconds */
-    var still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    var timer = null;
-    var onScreen = false;
-    var hovering = false;
-
-    function move(direction) {
-      var slide = track.clientWidth;                             /* width of one slide */
-      var last = track.scrollWidth - slide;                      /* scroll position of the final slide */
-      var next = track.scrollLeft + direction * slide;
-      if (next > last + 5) next = 0;                             /* past the end: wrap to the first slide */
-      if (next < -5) next = last;                                /* before the start: wrap to the last slide */
-      track.scrollTo({ left: next });
-    }
-
-    /* Runs the timer only while the carousel is on screen and nobody is pointing at it */
-    function update() {
-      clearInterval(timer);
-      timer = null;
-      if (!still && onScreen && !hovering) {
-        timer = setInterval(function () { move(1); }, WAIT);
-      }
-    }
-
-    carousel.querySelector('.carousel-prev').addEventListener('click', function () { move(-1); update(); });
-    carousel.querySelector('.carousel-next').addEventListener('click', function () { move(1); update(); });
-
-    carousel.addEventListener('mouseenter', function () { hovering = true; update(); });
-    carousel.addEventListener('mouseleave', function () { hovering = false; update(); });
-    carousel.addEventListener('focusin', function () { hovering = true; update(); });
-    carousel.addEventListener('focusout', function () { hovering = false; update(); });
-
-    new IntersectionObserver(function (entries) {
-      onScreen = entries[0].isIntersecting;
-      update();
-    }, { threshold: 0.5 }).observe(carousel);
-  })();
-</script>
-<!-- LOGO STRIP SCRIPT: repeats the row of logos once so the scroll loops without a gap -->
-<script>
-  (function () {
-    var track = document.querySelector('.logo-track');
-    if (!track) return;
-    var copies = track.innerHTML;
-    track.insertAdjacentHTML('beforeend', copies);
-    /* hide the repeated logos from screen readers and keyboard users */
-    var items = track.children;
-    for (var i = items.length / 2; i < items.length; i++) {
-      items[i].setAttribute('aria-hidden', 'true');
-      var links = items[i].querySelectorAll('a');
-      for (var j = 0; j < links.length; j++) links[j].setAttribute('tabindex', '-1');
-    }
-    track.classList.add('logo-track-moving');
-  })();
-</script>
-<!-- FADE-IN SCRIPT: the heading and buttons in section 3 fade in one after another when scrolled to -->
-<script>
-  (function () {
-    var section = document.querySelector('.pillars');
-    if (!section) return;
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-
-    /* The things that fade in, in order */
-    var items = section.querySelectorAll('h2, .pillar, .minor');
-    for (var i = 0; i < items.length; i++) {
-      items[i].classList.add('fade-item');
-      items[i].style.setProperty('--fade-order', i);
-    }
-    section.classList.add('fade-waiting');                       /* hides them until the section is on screen */
-
-    var watcher = new IntersectionObserver(function (entries) {
-      if (entries[0].isIntersecting) {
-        watcher.disconnect();
-        section.classList.add('fade-go');
-      }
-    }, { threshold: 0.25 });
-    watcher.observe(section);
-  })();
-</script>
+<script src="des.js"></script>
+<script src="dashboard.js"></script>
 </body>
 </html>
