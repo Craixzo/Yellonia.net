@@ -19,7 +19,7 @@
     dots: 18,                 /* dots moving at once (half on phones) */
     speed: 3,              /* pixels per frame at 60 fps */
     turnChance: 0,         /* chance a dot turns a corner at each crossing */
-    tail: 36,                 /* length of the fading tail, in pixels */
+    tail: 56,                 /* length of the fading tail, in pixels */
     size: 1.6,                /* dot radius */
     glow: 7,                  /* soft glow around each dot */
     life: [500, 1400],        /* how long a dot lives, in frames (shortest, longest) */
