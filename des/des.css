@@ -16,6 +16,7 @@
      11. CAD (phase 4)
      12. OIA AND OFI CASES (phase 5)
      13. POSTS, DES NEWS AND RECRUITMENT (phase 6)
+     14. SYNAPSE GRID BACKGROUND (login page)
      9. TEMPORARY preview banner (remove with preview.js)
    ============================================================== */
 
@@ -586,6 +587,19 @@ a.subject-row:hover .subject-row-name { text-decoration: underline; }
 @media (min-width: 1300px) { .dash-posts { grid-column: span 2; } }
 .dash-posts .panel-head a { font-size: 14px; }
 .app-flags { margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--line); }
+
+
+/* ---------- 14. SYNAPSE GRID BACKGROUND (login page; drawn by synapse.js) ---------- */
+canvas.synapse { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+canvas.synapse ~ .auth-page { position: relative; z-index: 1; }
+canvas.synapse ~ .auth-page::before {    /* darkens the middle a little so the login card stays easy to read */
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background: radial-gradient(ellipse 520px 460px at 50% 50%, rgba(11, 12, 14, 0.82), rgba(11, 12, 14, 0) 100%);
+  pointer-events: none;
+}
 
 
 /* ---------- 9. TEMPORARY: the AveYellonia preview banner (remove with preview.js) ---------- */
