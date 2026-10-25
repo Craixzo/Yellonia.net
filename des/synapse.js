@@ -17,8 +17,8 @@
     lineColor: 'rgba(150, 170, 185, 0.045)',   /* the grid lines: keep them very faint */
     colors: ['#bed215', '#bed215', '#3f95ce', '#5db54a'],   /* dot colors (lime listed twice = more lime) */
     dots: 22,                 /* dots moving at once (half on phones) */
-    speed: 0.45,              /* pixels per frame at 60 fps */
-    turnChance: 0.25,         /* chance a dot turns a corner at each crossing */
+    speed: 1.2,              /* pixels per frame at 60 fps */
+    turnChance: 0,         /* chance a dot turns a corner at each crossing */
     tail: 26,                 /* length of the fading tail, in pixels */
     size: 1.6,                /* dot radius */
     glow: 7,                  /* soft glow around each dot */
