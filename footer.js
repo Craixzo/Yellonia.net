@@ -65,6 +65,11 @@ document.currentScript.insertAdjacentHTML('beforebegin', `
   <!-- FOOTER: BOTTOM LINE -->
   <div class="footer-bottom">
     <p>&copy; 2026 Yellonia. A community project, not affiliated with Roblox Corporation.</p>
+    <!-- LEGAL LINKS: the pages are privacy.html and terms.html -->
+    <ul class="footer-legal">
+      <li><a href="privacy.html">Privacy Policy</a></li>
+      <li><a href="terms.html">Terms of Service</a></li>
+    </ul>
   </div>
 </footer>
 <!-- ===================== END FOOTER ===================== -->
