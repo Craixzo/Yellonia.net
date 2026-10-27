@@ -101,13 +101,8 @@ document.currentScript.insertAdjacentHTML('beforebegin', `
         </li>
 
         <!-- NAV: JOIN (add class="nav-cta" to make any item the gold button) -->
-        <li class="has-dropdown">
-          <a href="join.html" class="nav-cta">Join</a>
-          <ul class="dropdown">
-            <li><a href="join.html">How to enlist</a></li>
-            <li><a href="https://www.roblox.com/groups/5801322">Roblox group</a></li>
-            <li><a href="https://discord.gg/zYhWhzVcMX" target="_blank" rel="noopener">Discord</a></li>
-          </ul>
+        <li>
+          <a href="https://discord.gg/zYhWhzVcMX" class="nav-cta" target="_blank" rel="noopener">Join</a>
         </li>
 
       </ul>
