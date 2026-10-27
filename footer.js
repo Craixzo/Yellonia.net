@@ -33,7 +33,6 @@ document.currentScript.insertAdjacentHTML('beforebegin', `
           <li><a href="structure.html">Structure</a></li>
           <li><a href="economy.html">Economy</a></li>
           <li><a href="emergency-services.html">Emergency Services</a></li>
-          <li><a href="nation.html">Nation</a></li>
           <li><a href="news.html">News</a></li>
         </ul>
       </div>
@@ -42,6 +41,7 @@ document.currentScript.insertAdjacentHTML('beforebegin', `
       <div>
         <h2>Related Sites</h2>
         <ul>
+          <li><a href="https://wiki.yellonia.net/" target="_blank" rel="noopener">Empire of Yellonia Wiki</a></li>
           <li><a href="https://ssd-secure-portal.vercel.app/" target="_blank" rel="noopener">State Security Directorate</a></li>
           <li><a href="https://catwatcher.org/" target="_blank" rel="noopener">CatWatcher</a></li>
         </ul>
