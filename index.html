@@ -256,6 +256,10 @@
     var timer = null;
     var onScreen = false;
     var hovering = false;
+    var watching = false;                                        /* true once someone clicks into the video */
+    window.addEventListener('blur', function () {                /* clicking an embedded video moves focus into it */
+      if (carousel.contains(document.activeElement)) { watching = true; update(); }
+    });
 
     function move(direction) {
       var slide = track.clientWidth;                             /* width of one slide */
@@ -270,7 +274,7 @@
     function update() {
       clearInterval(timer);
       timer = null;
-      if (!still && onScreen && !hovering) {
+      if (!still && onScreen && !hovering && !watching) {
         timer = setInterval(function () { move(1); }, WAIT);
       }
     }
