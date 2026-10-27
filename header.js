@@ -89,13 +89,14 @@ document.currentScript.insertAdjacentHTML('beforebegin', `
           </ul>
         </li>
 
-        <!-- NAV: NATION (history and lore) -->
+        <!-- NAV: WIKI (the Empire of Yellonia Wiki, hosted separately on Railway) -->
         <li class="has-dropdown">
-          <a href="nation.html">Nation</a>
+          <a href="https://wiki.yellonia.net/">Wiki</a>
           <ul class="dropdown">
-            <li><a href="nation.html#history">History</a></li>
-            <li><a href="nation.html#states">States</a></li>
-            <li><a href="nation.html#capital">The Capital</a></li>
+            <li><a href="https://wiki.yellonia.net/">Main page</a></li>
+            <li><a href="https://wiki.yellonia.net/wiki/Lore">Lore &amp; History</a></li>
+            <li><a href="https://wiki.yellonia.net/wiki/Divisions">Divisions</a></li>
+            <li><a href="https://wiki.yellonia.net/wiki/Special:Random">Random article</a></li>
           </ul>
         </li>
 
