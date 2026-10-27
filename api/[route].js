@@ -15,6 +15,7 @@
 const ROUTES = {
   apply:       require('./_routes/apply'),
   des:         require('./_routes/des'),
+  economy:     require('./_routes/economy'),
   government:  require('./_routes/government'),
   legislation: require('./_routes/legislation'),
   news:        require('./_routes/news'),
