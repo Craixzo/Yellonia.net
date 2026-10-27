@@ -1,5 +1,5 @@
 {
-  "cleanUrls": true
+  "cleanUrls": true,
     "redirects": [
     { "source": "/invite", "destination": "https://discord.gg/zYhWhzVcMX", "permanent": false }
   ]
