@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Corporation | Yellonia</title>
+  <!-- DISCORD / SOCIAL EMBED: the card shown when this page is linked on Discord (and X, etc.).
+       The image and address must be full links. If the site moves to a new domain, change https://yellonianet.vercel.app here. -->
+  <meta name="description" content="A corporation on the Yellonia stock market: share price, chart and trading.">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Yellonia">
+  <meta property="og:title" content="Yellonia Stock Market">
+  <meta property="og:description" content="A corporation on the Yellonia stock market: share price, chart and trading.">
+  <meta property="og:url" content="https://yellonianet.vercel.app/company">
+  <meta property="og:image" content="https://yellonianet.vercel.app/images/embed.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="theme-color" content="#bed215">   <!-- the colored bar on the left of the Discord card -->
+  <link rel="icon" href="images/TYEcoatofarms.png">
+
+  <!-- FONT: swap the family here AND in style.css (--font) to change it -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- TOPBAR: shared by every page. To change it, edit header.js -->
+<script src="header.js"></script>
+
+
+<!-- ============================================================
+     PAGE CONTENT: one corporation (company.html?t=KLBR)
+     Price, chart, buying and selling with your brokerage balance, and
+     what the corporation needs before it can list. company.js fills it in.
+     ============================================================ -->
+<main class="page company-page">
+  <p><a class="text-link" href="economy.html#stock-market">&larr; Stock Market</a></p>
+
+  <!-- FILLED IN BY company.js -->
+  <div id="company-root">
+    <p class="news-loading">Loading&hellip;</p>
+  </div>
+</main>
+
+
+<!-- FOOTER: shared by every page. To change it, edit footer.js -->
+<script src="footer.js"></script>
+
+<!-- SHARED SCRIPT: topbar hide on scroll. To change it, edit script.js -->
+<script src="script.js"></script>
+
+<!-- SHARED ECONOMY HELPERS: money format, the chart, talking to /api/economy -->
+<script src="economy-common.js"></script>
+
+<!-- THIS PAGE'S SCRIPT: the corporation, its chart and the trade box -->
+<script src="company.js"></script>
+
+</body>
+</html>

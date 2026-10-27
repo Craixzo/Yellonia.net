@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Economy | Yellonia</title>
+  <!-- DISCORD / SOCIAL EMBED: the card shown when this page is linked on Discord (and X, etc.).
+       The image and address must be full links. If the site moves to a new domain, change https://yellonianet.vercel.app here. -->
+  <meta name="description" content="Yellonia's corporations and stock market: live prices, trading and registering a corporation.">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Yellonia">
+  <meta property="og:title" content="Economy of Yellonia">
+  <meta property="og:description" content="Yellonia's corporations and stock market: live prices, trading and registering a corporation.">
+  <meta property="og:url" content="https://yellonianet.vercel.app/economy">
+  <meta property="og:image" content="https://yellonianet.vercel.app/images/embed.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="theme-color" content="#bed215">   <!-- the colored bar on the left of the Discord card -->
+  <link rel="icon" href="images/TYEcoatofarms.png">
+
+  <!-- FONT: swap the family here AND in style.css (--font) to change it -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- TOPBAR: shared by every page. To change it, edit header.js -->
+<script src="header.js"></script>
+
+
+<!-- ============================================================
+     PAGE CONTENT: Economy
+     Corporations and the stock market. The numbers come from Centurion,
+     the same place the game reads them, so a trade made in-game shows up
+     here and the other way round. economy.js fills in every section.
+     Lines marked DRAFT were written as placeholders; reword them freely.
+     ============================================================ -->
+<main>
+
+  <!-- BANNER -->
+  <section class="page-banner">
+    <img src="images/yeloria.png" alt="">
+    <div class="page-banner-text">
+      <h1>Economy</h1>
+      <p>Corporations, shares and the Yellonia stock market.</p> <!-- DRAFT -->
+    </div>
+  </section>
+
+  <!-- SECTION LINKS (the Economy menu in the topbar jumps to these) -->
+  <nav class="subnav" aria-label="Economy sections">
+    <ul>
+      <li><a href="#stock-market">Stock Market</a></li>
+      <li><a href="#corporations">Corporations</a></li>
+      <li><a href="#portfolio">Your Portfolio</a></li>
+      <li><a href="#housing">Housing</a></li>
+    </ul>
+  </nav>
+
+  <!-- STOCK MARKET: every listed corporation, live prices -->
+  <section class="group group-market" id="stock-market">
+    <div class="group-inner">
+      <h2>Stock Market</h2>
+      <p class="group-text">Share prices rise as people buy and fall as they sell. Trade in-game, here, or on Discord with <code>/buy</code> and <code>/sell</code>. It's all one market.</p> <!-- DRAFT -->
+      <div class="market-stats" id="market-stats" aria-live="polite"></div>
+      <div id="market-root"><p class="news-loading">Loading the market&hellip;</p></div>
+    </div>
+  </section>
+
+  <!-- CORPORATIONS: everything founded, the ones raising money, and registering one -->
+  <section class="group group-corps" id="corporations">
+    <div class="group-inner">
+      <h2>Corporations</h2>
+      <p class="group-text">Every corporation in Yellonia. New ones start by raising money at a fixed price, then list on the market once they have enough shareholders.</p> <!-- DRAFT -->
+      <div id="corps-root"><p class="news-loading">Loading&hellip;</p></div>
+
+      <h3 class="econ-subhead" id="register">Register a corporation</h3>
+      <div id="register-root"><p class="news-loading">Loading&hellip;</p></div>
+    </div>
+  </section>
+
+  <!-- PORTFOLIO: your shares and brokerage balance (Discord login) -->
+  <section class="group group-portfolio" id="portfolio">
+    <div class="group-inner">
+      <h2>Your Portfolio</h2>
+      <p class="group-text">Your shares and your brokerage balance. The balance is what you trade with here and on Discord; deposit and withdraw it in-game.</p> <!-- DRAFT -->
+      <div id="portfolio-root"><p class="news-loading">Loading&hellip;</p></div>
+    </div>
+  </section>
+
+  <!-- HOUSING: not built yet -->
+  <section class="group group-housing" id="housing">
+    <div class="group-inner">
+      <h2>Housing</h2>
+      <p class="group-text">Property listings are coming soon.</p> <!-- DRAFT -->
+    </div>
+  </section>
+
+</main>
+
+
+<!-- FOOTER: shared by every page. To change it, edit footer.js -->
+<script src="footer.js"></script>
+
+<!-- SHARED SCRIPT: topbar hide on scroll. To change it, edit script.js -->
+<script src="script.js"></script>
+
+<!-- SHARED ECONOMY HELPERS: money format, the chart, talking to /api/economy -->
+<script src="economy-common.js"></script>
+
+<!-- THIS PAGE'S SCRIPT: the market, corporations, registering, your portfolio -->
+<script src="economy.js"></script>
+
+</body>
+</html>
