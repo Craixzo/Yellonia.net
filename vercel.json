@@ -1,6 +1,9 @@
 {
   "cleanUrls": true,
-    "redirects": [
+  "redirects": [
     { "source": "/invite", "destination": "https://discord.gg/zYhWhzVcMX", "permanent": false }
+  ],
+  "rewrites": [
+    { "source": "/jobs/:id", "destination": "/api/job?id=:id" }
   ]
 }
