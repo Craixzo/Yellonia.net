@@ -84,7 +84,7 @@ a { color: inherit; }
 }
 
 .topbar-inner {
-  max-width: var(--site-width);
+  max-width: 1400px;
   min-height: var(--bar-height);
   margin: 0 auto;
   padding: 0 var(--side-gap);
