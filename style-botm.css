@@ -89,3 +89,9 @@
   .botm-banner-links a { margin: 0 12px 0 0; }
   .botm-row { grid-template-columns: 110px 1fr 32px; }
 }
+
+/* ---------- 5. HOMEPAGE FIT ----------
+   The about section fills the window minus the stats strip (style.css, .about).
+   While the banner shows, also take off its height so "Continue" stays on screen.
+   48px = the banner's height; change it if you change the banner's padding. */
+.botm-banner:not([hidden]) + .about { min-height: calc(100vh - 135px - 48px); }
