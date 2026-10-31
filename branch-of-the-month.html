@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Branch of the Month | Yellonia</title>
+  <!-- DISCORD / SOCIAL EMBED: the card shown when this page is linked on Discord (and X, etc.).
+       The image and address must be full links. If the site moves to a new domain, change https://yellonianet.vercel.app here. -->
+  <meta name="description" content="Which branch of the Yellonian Armed Forces hosted the most events, month by month.">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Yellonia">
+  <meta property="og:title" content="Branch of the Month">
+  <meta property="og:description" content="Which branch of the Yellonian Armed Forces hosted the most events, month by month.">
+  <meta property="og:url" content="https://yellonianet.vercel.app/branch-of-the-month">
+  <meta property="og:image" content="https://yellonianet.vercel.app/images/embed.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="theme-color" content="#bed215">   <!-- the colored bar on the left of the Discord card -->
+  <link rel="icon" href="images/TYEcoatofarms.png">
+
+  <!-- FONT: swap the family here AND in style.css (--font) to change it -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style-botm.css">
+</head>
+<body>
+
+<!-- TOPBAR: shared by every page. To change it, edit header.js -->
+<script src="header.js"></script>
+
+
+<!-- ============================================================
+     PAGE CONTENT: everything unique to this page goes inside <main>
+     ============================================================ -->
+<main>
+
+  <!-- INTRO -->
+  <section class="page">
+    <h1>Branch of the Month</h1>
+    <p>Each month, the branch that hosts the most events is crowned Branch of the Month. Every training, patrol, tryout and joint event counts.</p>  <!-- DRAFT -->
+  </section>
+
+  <!-- THIS MONTH: live standings, filled in by botm.js -->
+  <section class="page" id="botm-standings">
+    <p class="botm-note">Loading standings&hellip;</p>
+  </section>
+
+  <!-- HALL OF FAME: every past winner, filled in by botm.js -->
+  <section class="page">
+    <h2>Hall of Fame</h2>
+    <div id="botm-history"></div>
+  </section>
+
+</main>
+
+
+<!-- FOOTER: shared by every page. To change it, edit footer.js -->
+<script src="footer.js"></script>
+
+<!-- SHARED SCRIPT: topbar hide on scroll. To change it, edit script.js -->
+<script src="script.js"></script>
+
+<!-- BRANCH OF THE MONTH: fills in the standings and Hall of Fame. To change it, edit botm.js -->
+<script src="botm.js"></script>
+
+</body>
+</html>

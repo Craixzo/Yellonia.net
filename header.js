@@ -57,6 +57,7 @@ document.currentScript.insertAdjacentHTML('beforebegin', `
             <li><a href="armed-forces.html#navy">Navy</a></li>
             <li><a href="armed-forces.html#air-force">Air Force</a></li>
             <li><a href="armed-forces.html#military-police">Military Police</a></li>
+            <li><a href="branch-of-the-month.html">Branch of the Month</a></li>
           </ul>
         </li>
 

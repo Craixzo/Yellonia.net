@@ -25,6 +25,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style-botm.css">
 </head>
 <body>
 
@@ -57,6 +58,26 @@
       <li><strong data-count data-stat="stocks">0</strong><span>Stocks listed</span></li>
       <li><strong>1643</strong><span>Year founded (in lore)</span></li>
     </ul>
+  </section>
+
+  <!-- BRANCH OF THE MONTH BANNER: hidden until Centurion has crowned a branch.
+       botm.js fills in every data-botm="..." part. Styles are in style-botm.css -->
+  <section class="botm-banner" id="botm-banner" hidden>
+    <div class="botm-banner-inner">
+      <span class="botm-banner-crest" aria-hidden="true">&#9733;</span>
+      <div class="botm-banner-text">
+        <p class="botm-kicker">Branch of the Month &middot; <span data-botm="month"></span></p>
+        <h2 data-botm="name"></h2>
+        <p data-botm="blurb"></p>
+      </div>
+      <div class="botm-banner-side">
+        <span class="botm-banner-count" data-botm="count"></span>
+        <span class="botm-banner-links">
+          <a data-botm="link" href="armed-forces.html">Join them</a>
+          <a href="branch-of-the-month.html">Standings</a>
+        </span>
+      </div>
+    </div>
   </section>
 
   <!-- ABOUT + CAROUSEL: intro text with a screenshot carousel under it -->
@@ -332,5 +353,7 @@
     watcher.observe(section);
   })();
 </script>
+<!-- BRANCH OF THE MONTH: fills in the banner above. To change it, edit botm.js -->
+<script src="botm.js"></script>
 </body>
 </html>

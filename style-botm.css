@@ -1,0 +1,96 @@
+/* ==============================================================
+   style-botm.css - Branch of the Month
+   Used by index.html (banner), armed-forces.html (badge) and
+   branch-of-the-month.html (standings + Hall of Fame). Filled in by botm.js.
+   ============================================================== */
+
+/* ---------- 1. HOMEPAGE BANNER ---------- */
+.botm-banner {
+  background: linear-gradient(90deg, rgba(190, 210, 21, 0.14), rgba(190, 210, 21, 0) 70%), var(--bar-bg);
+  border-top: 2px solid var(--flag-lime);
+  border-bottom: 2px solid var(--flag-lime);
+}
+.botm-banner[hidden] { display: none; }
+.botm-banner-inner {
+  max-width: var(--site-width);
+  margin: 0 auto;
+  padding: 28px var(--side-gap);
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  flex-wrap: wrap;
+}
+.botm-banner-crest {                       /* the big star on the left */
+  font-size: 3rem;
+  line-height: 1;
+  color: var(--flag-lime);
+}
+.botm-banner-text { flex: 1 1 320px; }
+.botm-kicker {
+  margin: 0 0 4px;
+  font-size: 0.8rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--flag-lime);
+}
+.botm-banner h2 { margin: 0 0 6px; font-size: 2rem; }
+.botm-banner-text p { margin: 0; color: var(--text-dim); }
+.botm-banner-side { text-align: right; }
+.botm-banner-count { display: block; font-size: 1.25rem; font-weight: 700; margin-bottom: 10px; }
+.botm-banner-links a { color: var(--text); margin-left: 16px; }
+.botm-banner-links a:hover { color: var(--gold); }
+
+/* ---------- 2. ARMED FORCES BADGE ---------- */
+.botm-badge {
+  display: block;
+  width: fit-content;
+  margin-top: 10px;                        /* sits under the branch name, inside its h2 */
+  line-height: 1.4;
+  letter-spacing: normal;
+  padding: 4px 12px;
+  border: 1px solid var(--flag-lime);
+  border-radius: 999px;
+  color: var(--flag-lime);
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+.botm-badge::before { content: "\2605  "; }
+.botm-badge:hover { background: var(--flag-lime); color: var(--bar-bg); }
+.af-tile.botm-tile { outline: 2px solid var(--flag-lime); outline-offset: -2px; }
+.af-tile.botm-tile strong::after { content: "  \2605"; color: var(--flag-lime); }
+
+/* ---------- 3. STANDINGS (bar list) ---------- */
+.botm-standings-list { list-style: none; margin: 0; padding: 0; }
+.botm-row {
+  display: grid;
+  grid-template-columns: 140px 1fr 40px;
+  align-items: center;
+  gap: 12px;
+  padding: 6px 0;
+}
+.botm-row-name { font-weight: 700; }
+.botm-row-bar { height: 10px; background: rgba(255, 255, 255, 0.06); border-radius: 5px; overflow: hidden; }
+.botm-row-fill { display: block; height: 100%; background: var(--flag-blue); border-radius: 5px; }
+.botm-row-win .botm-row-fill { background: var(--flag-lime); }
+.botm-row-count { text-align: right; font-variant-numeric: tabular-nums; }
+.botm-note { color: var(--text-dim); font-size: 0.9rem; }
+
+/* ---------- 4. HALL OF FAME ---------- */
+.botm-tally { list-style: none; display: flex; flex-wrap: wrap; gap: 12px; padding: 0; margin: 0 0 24px; }
+.botm-tally li { background: var(--bar-bg); padding: 12px 18px; border-bottom: 3px solid var(--flag-lime); }
+.botm-tally strong { display: block; font-size: 1.75rem; color: var(--flag-lime); }
+.botm-tally span { color: var(--text-dim); font-size: 0.85rem; }
+.botm-history-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 16px; }
+.botm-card { background: var(--bar-bg); padding: 18px; border-top: 3px solid var(--flag-lime); }
+.botm-card-month { margin: 0; font-size: 0.8rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-dim); }
+.botm-card h3 { margin: 4px 0; font-size: 1.4rem; }
+.botm-card-count { margin: 0 0 8px; color: var(--flag-lime); }
+.botm-card summary { cursor: pointer; color: var(--text-dim); font-size: 0.9rem; }
+.botm-card .botm-row { grid-template-columns: 100px 1fr 30px; font-size: 0.85rem; }
+
+@media (max-width: 560px) {
+  .botm-banner-side { text-align: left; }
+  .botm-banner-links a { margin: 0 16px 0 0; }
+  .botm-row { grid-template-columns: 110px 1fr 32px; }
+}
