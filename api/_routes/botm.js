@@ -49,8 +49,9 @@ function cleanMonth(entry) {
 function clean(data) {
   if (!data || !data.current) return null;
   return {
+    mode:    data.mode === 'automatic' ? 'automatic' : 'manual',
     holder:  cleanMonth(data.holder),
-    current: cleanMonth(data.current),
+    current: data.current ? Object.assign(cleanMonth(data.current) || {}, { decided: data.current.decided === true }) : null,
     history: (Array.isArray(data.history) ? data.history : []).slice(0, 60).map(cleanMonth).filter(Boolean),
   };
 }
@@ -71,7 +72,7 @@ module.exports = async (request, response) => {
     } catch (error) { /* Centurion didn't answer; fall back below */ }
   }
 
-  if (!answer) answer = lastGood || { holder: null, current: null, history: [] };
+  if (!answer) answer = lastGood || { mode: 'manual', holder: null, current: null, history: [] };
 
   response.setHeader('Cache-Control', 's-maxage=' + CACHE_SECONDS + ', stale-while-revalidate=86400');
   response.status(200).json(Object.assign({ live: live }, answer));
