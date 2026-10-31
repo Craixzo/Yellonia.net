@@ -56,7 +56,7 @@ function readDesSession(request) {
 
 /* Calls a protected Centurion route */
 async function centurion(path, payload) {
-  if (!CENTURION_URL || !process.env.CENTURION_API_KEY) return { success: false, msg: 'The DES system isn\'t connected to Centurion yet.' };
+  if (!CENTURION_URL || !process.env.CENTURION_API_KEY) return { success: false, msg: 'This part of the site isn\'t connected to Centurion yet.' };
   try {
     const reply = await fetch(CENTURION_URL + path, {
       method: 'POST',
@@ -67,7 +67,7 @@ async function centurion(path, payload) {
     const data = await reply.json();
     if (data.msg === 'Unauthorized') {
       console.error('[des] Centurion rejected the API key; check CENTURION_API_KEY matches API_KEY on Railway.');
-      return { success: false, msg: 'The DES system couldn\'t reach Centurion. Please tell a developer.' };
+      return { success: false, msg: 'The site couldn\'t reach Centurion. Please tell a developer.' };
     }
     return data;
   } catch (error) {
