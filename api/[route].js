@@ -22,6 +22,7 @@ const ROUTES = {
   newsroom:    require('./_routes/newsroom'),
   parliament:  require('./_routes/parliament'),
   report:      require('./_routes/report'),
+  site:        require('./_routes/site'),
   stats:       require('./_routes/stats'),
   wanted:      require('./_routes/wanted'),
 };
