@@ -31,7 +31,7 @@
     var cap = listed.reduce(function (sum, c) { return sum + c.marketCap; }, 0);
 
     statsRoot.textContent = '';
-    [['Listed', E.count(listed.length)], ['Raising', E.count(companies.length - listed.length)], ['Market value', E.money(cap)]].forEach(function (s) {
+    [['Corporations', E.count(companies.length)], ['Stocks listed', E.count(listed.length)], ['Raising', E.count(companies.length - listed.length)], ['Market value', E.money(cap)]].forEach(function (s) {
       var tile = el('div', 'market-stat');
       tile.appendChild(el('span', 'market-stat-label', s[0]));
       tile.appendChild(el('strong', null, s[1]));

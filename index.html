@@ -53,6 +53,8 @@
     <ul class="stats-list">
       <li><strong data-count data-stat="roblox">1,483</strong><span>Group members</span></li>
       <li><strong data-count data-stat="discord">0</strong><span>Discord members</span></li>
+      <li><strong data-count data-stat="corporations">0</strong><span>Corporations</span></li>
+      <li><strong data-count data-stat="stocks">0</strong><span>Stocks listed</span></li>
       <li><strong>1643</strong><span>Year founded (in lore)</span></li>
     </ul>
   </section>
@@ -74,13 +76,13 @@
         </figure>
 
         <figure class="carousel-slide">
-          <img src="images/CMEX003-2.png" alt="">  <!-- TODO: replace with a second screenshot -->
-          <figcaption>Picture of a milsim operation from Yellonia.</figcaption>
+          <img src="images/yeloria.png" alt="">  <!-- TODO: replace with a second screenshot -->
+          <figcaption>Second screenshot goes here</figcaption>
         </figure>
 
-        <figure class="carousel-slide carousel-video">
-          <iframe src="https://www.youtube-nocookie.com/embed/icwkvSun-Vg" title="Yellonia video"
-                  allow="encrypted-media; picture-in-picture; fullscreen" allowfullscreen loading="lazy"></iframe>
+        <figure class="carousel-slide">
+          <img src="images/yeloria.png" alt="">  <!-- TODO: replace with a third screenshot -->
+          <figcaption>Third screenshot goes here</figcaption>
         </figure>
 
       </div>
@@ -126,9 +128,9 @@
         <p>Police, fire, and parks and wildlife.</p>
       </a>
 
-      <a class="minor" href="https://wiki.yellonia.net/">
-        <h3>Wiki</h3>
-        <p>History, lore, divisions and more.</p>
+      <a class="minor" href="nation.html">
+        <h3>Nation</h3>
+        <p>History, the states and the capital.</p>
       </a>
 
     </div>
@@ -256,10 +258,6 @@
     var timer = null;
     var onScreen = false;
     var hovering = false;
-    var watching = false;                                        /* true once someone clicks into the video */
-    window.addEventListener('blur', function () {                /* clicking an embedded video moves focus into it */
-      if (carousel.contains(document.activeElement)) { watching = true; update(); }
-    });
 
     function move(direction) {
       var slide = track.clientWidth;                             /* width of one slide */
@@ -274,7 +272,7 @@
     function update() {
       clearInterval(timer);
       timer = null;
-      if (!still && onScreen && !hovering && !watching) {
+      if (!still && onScreen && !hovering) {
         timer = setInterval(function () { move(1); }, WAIT);
       }
     }

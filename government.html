@@ -64,8 +64,39 @@
   </nav>
 
 
+  <!-- AT A GLANCE: the three branches of government, each linking to its part of the page -->
+  <section class="gov-glance">
+    <div class="gov-glance-inner">
+      <p class="gov-kicker">How Yellonia is governed</p>
+      <h2>Three branches, one Constitution</h2>
+      <div class="gov-branches">
+        <a class="gov-branch gov-branch-exec" href="#emperor">
+          <span class="gov-branch-label">Executive</span>
+          <strong>The Emperor and Cabinet</strong>
+          <span>Leads the Empire and runs the six ministries day to day.</span> <!-- DRAFT -->
+        </a>
+        <a class="gov-branch gov-branch-leg" href="#parliament">
+          <span class="gov-branch-label">Legislative</span>
+          <strong>Parliament</strong>
+          <span>80 seats. Writes and votes on the laws of the Empire.</span> <!-- DRAFT -->
+        </a>
+        <a class="gov-branch gov-branch-jud" href="#court">
+          <span class="gov-branch-label">Judicial</span>
+          <strong>Imperial Supreme Court</strong>
+          <span>Five judges who interpret the laws and the Constitution.</span> <!-- DRAFT -->
+        </a>
+      </div>
+      <a class="gov-constitution" href="constitution.html">
+        <img src="images/TYEcoatofarms.png" alt="" width="40" height="40">
+        <span><strong>The Constitution</strong> The supreme law the three branches answer to</span>
+        <span class="gov-arrow" aria-hidden="true">&rarr;</span>
+      </a>
+    </div>
+  </section>
+
+
   <!-- THE EMPEROR -->
-  <section class="group group-emperor" id="emperor">
+  <section class="group group-emperor group-split" id="emperor">
     <div class="group-inner">
       <h2>The Emperor</h2>
       <p class="group-text">The head of state and Commander in Chief of the Armed Forces. The Emperor signs or rejects the laws Parliament passes, and directs changes to government that don't require a law.</p> <!-- DRAFT -->
@@ -83,7 +114,7 @@
 
 
   <!-- THE IMPERIAL CABINET -->
-  <section class="group group-cabinet" id="cabinet">
+  <section class="group group-cabinet group-split group-split-reverse group-band" id="cabinet">
     <div class="group-inner">
       <h2>The Imperial Cabinet</h2>
       <p class="group-text">The Cabinet runs the ministries and carries out the work of government day to day. It is chaired by the Chancellor.</p> <!-- DRAFT -->
@@ -124,6 +155,16 @@
     <div class="group-inner">
       <h2>The Imperial Supreme Court</h2>
       <p class="group-text">The Court interprets the laws and the Constitution. It has five judges, each put forward by the Chancellor and confirmed by the Emperor.</p> <!-- DRAFT -->
+
+      <!-- THE BENCH: five seats. Change the labels if the Court's titles differ. -->
+      <div class="court-bench" aria-label="The five seats of the Supreme Court">
+        <div class="court-seat"><span class="court-pillar" aria-hidden="true"></span><strong>Justice</strong></div>
+        <div class="court-seat"><span class="court-pillar" aria-hidden="true"></span><strong>Justice</strong></div>
+        <div class="court-seat court-seat-chief"><span class="court-pillar" aria-hidden="true"></span><strong>Chief Justice</strong></div>
+        <div class="court-seat"><span class="court-pillar" aria-hidden="true"></span><strong>Justice</strong></div>
+        <div class="court-seat"><span class="court-pillar" aria-hidden="true"></span><strong>Justice</strong></div>
+      </div>
+      <p class="court-steps"><span>Put forward by the Chancellor</span><span aria-hidden="true">&rarr;</span><span>Confirmed by the Emperor</span><span aria-hidden="true">&rarr;</span><span>Sits on the Court</span></p> <!-- DRAFT -->
     </div>
   </section>
 
@@ -133,7 +174,7 @@
     <div class="group-inner">
       <h2>Ministries</h2>
       <p class="group-text">Six ministries carry out the work of government, each overseen by the Imperial Cabinet.</p> <!-- DRAFT -->
-      <div class="unit-grid">
+      <div class="unit-grid ministry-grid">
 
         <article class="unit">
           <h3>Ministry of Defense</h3>
@@ -196,6 +237,19 @@
           </ul>
         </article>
 
+      </div>
+    </div>
+  </section>
+
+
+  <!-- THE LAW: links to the Constitution, bills and official documents -->
+  <section class="law-band">
+    <div class="law-band-inner">
+      <h2>Read the law</h2>
+      <div class="law-links">
+        <a href="constitution.html"><strong>The Constitution</strong><span>The supreme law of the Empire</span></a>
+        <a href="legislation.html"><strong>Bills and laws</strong><span>What Parliament is voting on, and what passed</span></a>
+        <a href="documents.html"><strong>Official documents</strong><span>Laws, decrees, treaties and policies</span></a>
       </div>
     </div>
   </section>

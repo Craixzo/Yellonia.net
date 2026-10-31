@@ -342,6 +342,18 @@
 
   function zoomCenter(factor) { zoomAt(factor, viewport.clientWidth / 2, viewport.clientHeight / 2); }
 
+  /* Used by structure-search.js: moves the chart so a box sits in the middle */
+  window.STRUCTURE_CHART = {
+    focus: function (box) {
+      view.scale = Math.max(view.scale, viewport.clientWidth < 600 ? 0.85 : 1);
+      view.x = viewport.clientWidth / 2 - (box.offsetLeft + BOX_W / 2) * view.scale;
+      view.y = viewport.clientHeight / 2 - (box.offsetTop + BOX_H / 2) * view.scale;
+      stage.style.transition = 'transform 0.35s ease';
+      apply();
+      setTimeout(function () { stage.style.transition = ''; }, 400);
+    },
+  };
+
   /* Dragging with a mouse or one finger; pinching with two fingers */
   var pointers = {}, dragged = false, last = null, pinch = null;
 

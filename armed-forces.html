@@ -40,7 +40,7 @@
 
   <!-- BANNER: image with the page title on top -->
   <section class="page-banner">
-    <img src="images/CMEX003-2.png" alt="">
+    <img src="images/yeloria.png" alt="">
     <div class="page-banner-text">
       <h1>Armed Forces</h1>
       <p>Five branches under one flag. Find the one that fits you.</p> <!-- DRAFT -->
@@ -59,13 +59,31 @@
     </ul>
   </nav>
 
-  <!-- INTRO: how the Armed Forces are commanded -->
-  <section class="page page-intro">
-    <p>The Armed Forces answer to the Emperor as Commander in Chief. Day to day they are led by the Chairman of the Joint Chiefs of Staff, with the Joint Staff running administration behind the lines.</p> <!-- DRAFT -->
+  <!-- CHAIN OF COMMAND: who the Armed Forces answer to -->
+  <section class="af-command">
+    <div class="af-command-inner">
+      <p class="gov-kicker">Chain of command</p>
+      <ol class="af-chain">
+        <li><strong>The Emperor</strong><span>Commander in Chief</span></li>
+        <li><strong>Chairman of the Joint Chiefs</strong><span>Leads the forces day to day</span></li>
+        <li><strong>Joint Staff</strong><span>Administration behind the lines</span></li>
+        <li><strong>Five branches</strong><span>Below</span></li>
+      </ol>
+      <p class="af-command-text">The Armed Forces answer to the Emperor as Commander in Chief. Day to day they are led by the Chairman of the Joint Chiefs of Staff, with the Joint Staff running administration behind the lines.</p> <!-- DRAFT -->
+    </div>
+  </section>
+
+  <!-- PICK A BRANCH: one tile per branch, jumping to it. The unit counts are written by hand. -->
+  <section class="af-picker" aria-label="Branches">
+    <a class="af-tile group-army" href="#army"><span class="af-tile-num">01</span><strong>Army</strong><span>Ground force &middot; 2 units</span></a>
+    <a class="af-tile group-special" href="#special-forces"><span class="af-tile-num">02</span><strong>Special Forces</strong><span>Selective missions &middot; 8 units</span></a>
+    <a class="af-tile group-navy" href="#navy"><span class="af-tile-num">03</span><strong>Navy</strong><span>Sea and shore &middot; 2 units</span></a>
+    <a class="af-tile group-air" href="#air-force"><span class="af-tile-num">04</span><strong>Air Force</strong><span>The skies &middot; 2 units</span></a>
+    <a class="af-tile group-police" href="#military-police"><span class="af-tile-num">05</span><strong>Military Police</strong><span>Law and ceremony &middot; 4 units</span></a>
   </section>
 
   <!-- BRANCH: ARMY -->
-  <section class="group group-army" id="army">
+  <section class="group group-army group-split group-split-wide" id="army">
     <div class="group-inner">
       <h2>Army</h2>
       <p class="group-text">The ground force of the Empire. The Army takes and holds territory with infantry and armor.</p> <!-- DRAFT -->
@@ -86,7 +104,7 @@
   </section>
 
   <!-- BRANCH: SPECIAL FORCES -->
-  <section class="group group-special" id="special-forces">
+  <section class="group group-special group-split group-split-wide group-band" id="special-forces">
     <div class="group-inner">
       <h2>Special Forces</h2>
       <p class="group-text">Small, selective units that take on the missions the regular forces can't.</p> <!-- DRAFT -->
@@ -138,7 +156,7 @@
   </section>
 
   <!-- BRANCH: NAVY -->
-  <section class="group group-navy" id="navy">
+  <section class="group group-navy group-split group-split-wide" id="navy">
     <div class="group-inner">
       <h2>Navy</h2>
       <p class="group-text">Control of the sea, and the force that carries the fight ashore.</p> <!-- DRAFT -->
@@ -171,7 +189,7 @@
   </section>
 
   <!-- BRANCH: AIR FORCE -->
-  <section class="group group-air" id="air-force">
+  <section class="group group-air group-split group-split-wide group-band" id="air-force">
     <div class="group-inner">
       <h2>Air Force</h2>
       <p class="group-text">Control of the skies, and air support for the forces below.</p> <!-- DRAFT -->
@@ -192,7 +210,7 @@
   </section>
 
   <!-- BRANCH: MILITARY POLICE -->
-  <section class="group group-police" id="military-police">
+  <section class="group group-police group-split group-split-wide" id="military-police">
     <div class="group-inner">
       <h2>Military Police</h2>
       <p class="group-text">Law, order and ceremony across the Armed Forces, on land, at sea and in the air.</p> <!-- DRAFT -->
@@ -223,9 +241,22 @@
     </div>
   </section>
 
+  <!-- ENLIST: open Armed Forces positions on the job board -->
+  <section class="law-band af-enlist">
+    <div class="law-band-inner">
+      <h2>Ready to serve?</h2>
+      <div class="law-links">
+        <a href="jobs.html?category=Armed%20Forces"><strong>Open positions</strong><span>Armed Forces listings on the job board</span></a>
+        <a href="structure.html"><strong>Structure chart</strong><span>Every unit and who it answers to</span></a>
+        <a href="https://discord.gg/zYhWhzVcMX" target="_blank" rel="noopener"><strong>Join the Discord</strong><span>Enlistment and training run there</span></a>
+      </div>
+    </div>
+  </section>
+
+
   <!-- JOIN: same closing section as the homepage, at a shorter height -->
   <section class="join join-short">
-    <img src="images/CMEX003-2.png" alt="">
+    <img src="images/yeloria.png" alt="">
     <div class="join-text">
       <h2>Ready to enlist?</h2>
       <p>Recruitment for every branch runs through our Discord. Join the server and we'll get you started.</p> <!-- DRAFT -->

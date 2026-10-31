@@ -7,6 +7,14 @@
    A page includes it with:   <script src="header.js"></script>
    ============================================================== */
 
+/* ---------- LIGHT / DARK THEME ----------
+   Dark by default. The sun/moon button switches it, and the browser remembers. */
+(function () {
+  var saved = null;
+  try { saved = localStorage.getItem('yn-theme'); } catch (e) {}
+  if (saved === 'light') document.documentElement.setAttribute('data-theme', 'light');
+})();
+
 document.currentScript.insertAdjacentHTML('beforebegin', `
 
 <!-- ======================= TOPBAR ======================= -->
@@ -44,6 +52,8 @@ document.currentScript.insertAdjacentHTML('beforebegin', `
             <li><a href="government.html#court">Imperial Supreme Court</a></li>
             <li><a href="government.html#ministries">Ministries</a></li>
             <li><a href="legislation.html">Bills and laws</a></li>
+            <li><a href="constitution.html">The Constitution</a></li>
+            <li><a href="documents.html">Official Documents</a></li>
             <li class="dropdown-label">Armed Forces</li>
             <li><a href="armed-forces.html#army">Army</a></li>
             <li><a href="armed-forces.html#special-forces">Special Forces</a></li>
@@ -89,15 +99,33 @@ document.currentScript.insertAdjacentHTML('beforebegin', `
           </ul>
         </li>
 
-        <!-- NAV: WIKI (the Empire of Yellonia Wiki, hosted separately on Railway) -->
+        <!-- NAV: NATION (history and lore) -->
         <li class="has-dropdown">
-          <a href="https://wiki.yellonia.net/">Wiki</a>
+          <a href="nation.html">Nation</a>
           <ul class="dropdown">
-            <li><a href="https://wiki.yellonia.net/">Main page</a></li>
-            <li><a href="https://wiki.yellonia.net/wiki/Lore">Lore &amp; History</a></li>
-            <li><a href="https://wiki.yellonia.net/wiki/Divisions">Divisions</a></li>
-            <li><a href="https://wiki.yellonia.net/wiki/Special:Random">Random article</a></li>
+            <li><a href="nation.html#history">History</a></li>
+            <li><a href="nation.html#states">States</a></li>
+            <li><a href="nation.html#capital">The Capital</a></li>
           </ul>
+        </li>
+
+        <!-- NAV: COMMUNITY -->
+        <li class="has-dropdown">
+          <a href="jobs.html">Community</a>
+          <ul class="dropdown">
+            <li><a href="jobs.html">Job Board</a></li>
+            <li><a href="contact.html">Contact Staff</a></li>
+            <li><a href="brand.html">Brand Kit</a></li>
+            <li><a href="staff.html">Staff Area</a></li>
+          </ul>
+        </li>
+
+        <!-- NAV: THEME (sun/moon button) -->
+        <li class="nav-theme">
+          <button type="button" class="theme-toggle" aria-label="Switch to light theme">
+            <svg class="theme-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+            <svg class="theme-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+          </button>
         </li>
 
         <!-- NAV: JOIN (add class="nav-cta" to make any item the gold button) -->
@@ -115,6 +143,26 @@ document.currentScript.insertAdjacentHTML('beforebegin', `
 `);
 
 
+/* ---------- THEME BUTTON ---------- */
+(function () {
+  var button = document.querySelector('.theme-toggle');
+  if (!button) return;
+  function label() {
+    var light = document.documentElement.getAttribute('data-theme') === 'light';
+    button.setAttribute('aria-label', light ? 'Switch to dark theme' : 'Switch to light theme');
+    button.title = light ? 'Dark theme' : 'Light theme';
+  }
+  label();
+  button.addEventListener('click', function () {
+    var light = document.documentElement.getAttribute('data-theme') !== 'light';
+    if (light) document.documentElement.setAttribute('data-theme', 'light');
+    else document.documentElement.removeAttribute('data-theme');
+    try { localStorage.setItem('yn-theme', light ? 'light' : 'dark'); } catch (e) {}
+    label();
+  });
+})();
+
+
 /* ---------- HIGHLIGHT THE CURRENT PAGE ----------
    Looks at each top-level nav item. If it, or any link in its dropdown,
    points at the page being viewed, its top-level link gets class="current"
@@ -126,7 +174,7 @@ document.currentScript.insertAdjacentHTML('beforebegin', `
   for (var i = 0; i < items.length; i++) {
     var links = items[i].querySelectorAll('a');
     for (var j = 0; j < links.length; j++) {
-      var target = links[j].getAttribute('href').split('#')[0].replace('.html', '');
+      var target = (links[j].getAttribute('href') || '').split('#')[0].replace('.html', '');
       if (target === page) {
         items[i].querySelector('a').classList.add('current');
         break;

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Staff Area | Yellonia</title>
+  <!-- DISCORD / SOCIAL EMBED: the card shown when this page is linked on Discord (and X, etc.).
+       The image and address must be full links. If the site moves to a new domain, change https://yellonianet.vercel.app here. -->
+  <meta name="description" content="For Yellonia staff: modmail, official documents and site activity.">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Yellonia">
+  <meta property="og:title" content="Yellonia Staff Area">
+  <meta property="og:description" content="For Yellonia staff: modmail, official documents and site activity.">
+  <meta property="og:url" content="https://yellonianet.vercel.app/staff">
+  <meta property="og:image" content="https://yellonianet.vercel.app/images/embed.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="theme-color" content="#bed215">   <!-- the colored bar on the left of the Discord card -->
+  <meta name="robots" content="noindex">
+  <link rel="icon" href="images/TYEcoatofarms.png">
+
+  <!-- FONT: swap the family here AND in style.css (--font) to change it -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+<!-- the document text font -->
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400..700;1,8..60,400..700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- TOPBAR: shared by every page. To change it, edit header.js -->
+<script src="header.js"></script>
+
+
+<!-- ============================================================
+     PAGE CONTENT: Staff Area. Discord login, checked against staff roles by Centurion.
+     Lines marked DRAFT were written as placeholders; reword them freely.
+     ============================================================ -->
+<main class="page staff-page">
+
+  <!-- FILLED IN BY staff.js: the login button, or the Staff Area.
+       Who counts as staff is set in Centurion (src/handlers/site/settings.ts): roles in the Discord server. -->
+  <div id="staff-root"><p class="news-loading">Loading&hellip;</p></div>
+
+</main>
+
+
+<!-- FOOTER: shared by every page. To change it, edit footer.js -->
+<script src="footer.js"></script>
+
+<!-- SHARED SCRIPT: topbar hide on scroll. To change it, edit script.js -->
+<script src="script.js"></script>
+
+<!-- SHARED: talking to /api/site, login, document text. See site-common.js -->
+<script src="site-common.js"></script>
+
+<!-- THIS PAGE'S SCRIPT: the Staff Area -->
+<script src="staff.js"></script>
+
+</body>
+</html>

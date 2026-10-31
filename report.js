@@ -3,12 +3,13 @@
 
    1. Not logged in: a "Log in with Discord" card.
    2. Logged in: pick what you're reporting, fill in the form, send.
-      You get a reference number (OIA-2026-0001 or OFI-2026-0001).
+      You get a reference number (OIA-2026-0001, OFI-2026-0001, or for a
+      crime C-2026-00001: crimes go straight to police dispatch).
    3. "Your reports": everything you've filed, its status, and the
       outcome once it's finished.
 
    CONTENTS
-     1. SETTINGS: the three kinds of report and their wording
+     1. SETTINGS: the four kinds of report and their wording
      2. HELPERS
      3. START-UP AND LOGIN
      4. THE FORM
@@ -21,6 +22,10 @@
 
   /* ---------- 1. SETTINGS ---------- */
   var KINDS = {
+    crime: {
+      key: 'CRIME', name: 'A crime', blurb: 'A robbery, assault, theft or anything else the police should know about.', /* DRAFT */
+      goesTo: 'Goes straight to police dispatch as a call. In an emergency, also tell an officer in-game.',
+    },
     officer: {
       key: 'OFFICER', name: 'An officer or firefighter', blurb: 'Something a member of the Police or Fire Department did.', /* DRAFT */
       goesTo: 'Goes to the Office of Internal Affairs.',
@@ -35,6 +40,7 @@
     },
   };
   var DEPARTMENTS = [['POLICE', 'Yellonia Police Department'], ['FIRE', 'Yellonia Fire Department']];
+  var crimeTypes = ['Robbery', 'Assault', 'Theft', 'Burglary', 'Shots fired', 'Disturbance', 'Suspicious person', 'Other'];   /* replaced by Centurion's list on load */
 
 
   /* ---------- 2. HELPERS ---------- */
@@ -121,7 +127,7 @@
   /* ---------- 4. THE FORM ---------- */
   function buildForm(box, onSent) {
     box.appendChild(el('h2', null, 'What are you reporting?'));
-    var choices = el('div', 'report-choices');
+    var choices = el('div', 'report-choices report-choices-4');
     choices.setAttribute('role', 'radiogroup');
     choices.setAttribute('aria-label', 'What are you reporting?');
     var holder = el('div');
@@ -152,7 +158,58 @@
     if (KINDS[start]) pick(start, false);
   }
 
+  function crimeForm(onSent) {
+    var f = el('form', 'news-form report-form');
+    f.noValidate = true;
+    f.appendChild(el('p', 'form-note', KINDS.crime.goesTo));
+    var type = el('select');
+    type.appendChild(option('', 'Pick one…'));
+    crimeTypes.forEach(function (t) { type.appendChild(option(t, t)); });
+    f.appendChild(field('What kind of crime?', type));
+    var where = textInput(120, 'Street, landmark or area');
+    f.appendChild(field('Where did it happen?', where));
+    var description = el('textarea');
+    description.rows = 6;
+    description.maxLength = 2000;
+    f.appendChild(field('What happened?', description, 'What you saw, in order, and when.'));
+    var suspect = textInput(200, 'e.g. Username, clothing, vehicle and plate');
+    f.appendChild(field('Suspect (optional)', suspect, 'Anything that helps officers find them.'));
+    var msg = el('p', 'form-message');
+    msg.setAttribute('role', 'status');
+    f.appendChild(msg);
+    var send = el('button', 'button-primary', 'Send to police');
+    send.type = 'submit';
+    f.appendChild(send);
+    f.addEventListener('submit', function (e) {
+      e.preventDefault();
+      if (!type.value) { message(msg, 'error', 'Pick what kind of crime it was.'); type.focus(); return; }
+      if (where.value.trim().length < 2) { message(msg, 'error', 'Say where it happened.'); where.focus(); return; }
+      if (description.value.trim().length < 20) { message(msg, 'error', 'Describe what happened (at least 20 characters).'); description.focus(); return; }
+      send.disabled = true;
+      message(msg, '', 'Sending…');
+      api('crime', { type: type.value, location: where.value.trim(), description: description.value.trim(), suspect: suspect.value.trim() }).then(function (answer) {
+        send.disabled = false;
+        if (answer.needsLogin) { location.reload(); return; }
+        if (!answer.success) { message(msg, 'error', answer.msg); return; }
+        var done = el('div', 'login-card report-done');
+        done.appendChild(el('h2', null, 'Sent to police dispatch'));
+        var p = el('p', null, 'Your reference number is ');
+        p.appendChild(el('strong', 'report-number', answer.number));
+        p.appendChild(document.createTextNode('. You can follow it under "Your reports" below.'));
+        done.appendChild(p);
+        var again = el('button', 'button-secondary', 'Report another');
+        again.type = 'button';
+        again.addEventListener('click', function () { done.parentNode.replaceChild(crimeForm(onSent), done); });
+        done.appendChild(again);
+        f.parentNode.replaceChild(done, f);
+        onSent();
+      });
+    });
+    return f;
+  }
+
   function form(key, onSent) {
+    if (key === 'crime') return crimeForm(onSent);
     var kind = KINDS[key];
     var f = el('form', 'news-form report-form');
     f.noValidate = true;
@@ -233,13 +290,33 @@
 
 
   /* ---------- 5. YOUR REPORTS ---------- */
+  var CRIME_CLASS = { PENDING: 'new', ACTIVE: 'open', CLOSED: 'closed' };
+
   function loadMine(box) {
-    api('mine').then(function (answer) {
+    Promise.all([api('mine'), api('crime-mine')]).then(function (both) {
+      var answer = both[0], crimes = both[1];
       box.textContent = '';
       box.appendChild(el('h2', null, 'Your reports'));
       if (!answer.success) { box.appendChild(el('p', 'form-message form-message-error', answer.msg)); return; }
-      if (!answer.reports.length) { box.appendChild(el('p', 'form-note', 'You haven\'t sent any reports yet.')); return; }
+      if (crimes.success && crimes.types && crimes.types.length) crimeTypes = crimes.types;
+      var crimeList = crimes.success ? crimes.reports : [];
+      if (!answer.reports.length && !crimeList.length) { box.appendChild(el('p', 'form-note', 'You haven\'t sent any reports yet.')); return; }
       var list = el('div', 'report-list');
+      crimeList.forEach(function (r) {
+        var card = el('article', 'report-card report-' + (CRIME_CLASS[r.status] || 'new'));
+        var top = el('div', 'report-card-top');
+        top.appendChild(el('span', 'report-number', r.number));
+        top.appendChild(el('span', 'report-status', r.statusName));
+        card.appendChild(top);
+        card.appendChild(el('h3', null, r.type + ' at ' + r.location));
+        card.appendChild(el('p', 'report-meta', 'Crime report · police · sent ' + day(r.createdAt)));
+        if (r.outcome) {
+          var o = el('p', 'report-outcome');
+          o.appendChild(el('strong', null, 'Outcome: ' + r.outcome));
+          card.appendChild(o);
+        }
+        list.appendChild(card);
+      });
       answer.reports.forEach(function (r) {
         var card = el('article', 'report-card report-' + r.status.toLowerCase());
         var top = el('div', 'report-card-top');
