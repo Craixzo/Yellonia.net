@@ -11,6 +11,8 @@
         kind: "OFFICER"     complaint about an officer
               "DEPARTMENT"  complaint about a department
               "FIRE"        report a fire to Fire Investigations
+     { "action": "crime", "type": ... }   report a crime: becomes a pending police call on the CAD board
+     { "action": "crime-mine" }           the crime reports this account has sent, and the crime types
 
    Centurion checks everything again and limits how many reports one
    account can send. Only the reporter's own reports are ever returned,
@@ -21,7 +23,7 @@ const { getSession, siteOrigin } = require('../_lib/session');
 const { centurion } = require('../_lib/des');
 
 /* Only these fields are passed on to Centurion */
-const FIELDS = ['kind', 'title', 'description', 'location', 'occurredAt', 'evidence', 'accused', 'department'];
+const FIELDS = ['kind', 'title', 'description', 'location', 'occurredAt', 'evidence', 'accused', 'department', 'type', 'suspect'];
 
 module.exports = async (request, response) => {
   response.setHeader('Cache-Control', 'no-store');
@@ -46,6 +48,16 @@ module.exports = async (request, response) => {
     const payload = { discordId: user.id, discordName: user.name || user.username };
     FIELDS.forEach((field) => { if (body[field] !== undefined) payload[field] = body[field]; });
     return response.status(200).json(await centurion('/des/public/report', payload));
+  }
+
+  if (body.action === 'crime-mine') {
+    return response.status(200).json(await centurion('/des/public/crime-mine', { discordId: user.id }));
+  }
+
+  if (body.action === 'crime') {
+    const payload = { discordId: user.id, discordName: user.name || user.username };
+    FIELDS.forEach((field) => { if (body[field] !== undefined) payload[field] = body[field]; });
+    return response.status(200).json(await centurion('/des/public/crime', payload));
   }
 
   return response.status(400).json({ success: false, msg: 'Unknown action.' });
