@@ -96,21 +96,12 @@ document.currentScript.insertAdjacentHTML('beforebegin', `
           </ul>
         </li>
 
-        <!-- NAV: NATION (history and lore) -->
-        <li class="has-dropdown">
-          <a href="nation.html">Nation</a>
-          <ul class="dropdown">
-            <li><a href="nation.html#history">History</a></li>
-            <li><a href="nation.html#states">States</a></li>
-            <li><a href="nation.html#capital">The Capital</a></li>
-          </ul>
-        </li>
-
         <!-- NAV: COMMUNITY -->
         <li class="has-dropdown">
           <a href="jobs.html">Community</a>
           <ul class="dropdown">
             <li><a href="jobs.html">Job Board</a></li>
+            <li><a href="https://wiki.yellonia.net" target="_blank" rel="noopener">Wiki</a></li>
             <li><a href="contact.html">Contact Staff</a></li>
             <li><a href="brand.html">Brand Kit</a></li>
             <li><a href="staff.html">Staff Area</a></li>
