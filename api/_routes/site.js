@@ -4,7 +4,7 @@
 
    The pages send  POST /api/site  with JSON { "scope": ..., "action": ... }.
 
-   scope "public" (no login):  documents, document, jobs, job, counts
+   scope "public" (no login):  documents, document, jobs, job, job-track, counts
    scope "user"   (Discord login):
        me, modmail-mine, modmail-thread, modmail-send,
        jobs-me, job-apply, job-withdraw, job-post, job-update, job-close, job-apps, job-decide
@@ -20,7 +20,7 @@ const { getSession, siteOrigin } = require('../_lib/session');
 const { centurion } = require('../_lib/des');
 
 const ACTIONS = {
-  public: ['documents', 'document', 'jobs', 'job', 'counts'],
+  public: ['documents', 'document', 'jobs', 'job', 'job-track', 'counts'],
   user: ['me', 'modmail-mine', 'modmail-thread', 'modmail-send', 'jobs-me', 'job-apply', 'job-withdraw', 'job-post', 'job-update', 'job-close', 'job-apps', 'job-decide'],
   staff: ['overview', 'modmail-inbox', 'modmail-thread', 'modmail-reply', 'modmail-close', 'docs', 'doc', 'doc-save', 'doc-status', 'doc-delete', 'job-remove'],
 };
