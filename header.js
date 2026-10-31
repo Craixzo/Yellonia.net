@@ -38,9 +38,6 @@ document.currentScript.insertAdjacentHTML('beforebegin', `
     <nav class="nav" aria-label="Main">
       <ul class="nav-list">
 
-        <!-- NAV: HOME (no dropdown) -->
-        <li><a href="index.html">Home</a></li>
-
         <!-- NAV: ORGANIZATION (government + armed forces) -->
         <li class="has-dropdown">
           <a href="structure.html">Structure</a>
