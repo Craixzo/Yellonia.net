@@ -97,13 +97,13 @@
         </figure>
 
         <figure class="carousel-slide">
-          <img src="images/yeloria.png" alt="">  <!-- TODO: replace with a second screenshot -->
-          <figcaption>Second screenshot goes here</figcaption>
+          <img src="images/CMEX003-2.png" alt="">
+          <figcaption>Picture of a milsim operation from Yellonia.</figcaption>
         </figure>
 
-        <figure class="carousel-slide">
-          <img src="images/yeloria.png" alt="">  <!-- TODO: replace with a third screenshot -->
-          <figcaption>Third screenshot goes here</figcaption>
+        <figure class="carousel-slide carousel-video">
+          <iframe src="https://www.youtube-nocookie.com/embed/icwkvSun-Vg" title="Yellonia video"
+                  allow="encrypted-media; picture-in-picture; fullscreen" allowfullscreen loading="lazy"></iframe>
         </figure>
 
       </div>
@@ -149,9 +149,9 @@
         <p>Police, fire, and parks and wildlife.</p>
       </a>
 
-      <a class="minor" href="nation.html">
-        <h3>Nation</h3>
-        <p>History, the states and the capital.</p>
+      <a class="minor" href="jobs.html">
+        <h3>Community</h3>
+        <p>The job board, the wiki and contacting staff.</p>
       </a>
 
     </div>
@@ -279,6 +279,10 @@
     var timer = null;
     var onScreen = false;
     var hovering = false;
+    var watching = false;                                        /* true once someone clicks into the video */
+    window.addEventListener('blur', function () {                /* clicking an embedded video moves focus into it */
+      if (carousel.contains(document.activeElement)) { watching = true; update(); }
+    });
 
     function move(direction) {
       var slide = track.clientWidth;                             /* width of one slide */
@@ -293,7 +297,7 @@
     function update() {
       clearInterval(timer);
       timer = null;
-      if (!still && onScreen && !hovering) {
+      if (!still && onScreen && !hovering && !watching) {
         timer = setInterval(function () { move(1); }, WAIT);
       }
     }
