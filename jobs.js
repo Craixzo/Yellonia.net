@@ -1,7 +1,7 @@
 /* ==============================================================
    jobs.js - the Job Board (jobs.html)
 
-   jobs.html                 every open listing, with search and category filters
+   jobs.html                 where to serve, open listings, recruitment posters, follow an application
    jobs.html#job/<id>        one listing, and the form to apply
    jobs.html#post            post a listing (officers)
    jobs.html#edit/<id>       change your listing (officers)
@@ -17,8 +17,46 @@
   var root = document.getElementById('jobs-root');
   if (!root) return;
 
+  /* ---------- SETTINGS: "Where do you want to serve?" ----------
+     One card per place people can serve. A listing counts for a card when its
+     category matches, and (if words are given) its organisation contains one of them.
+       emblem: a picture (e.g. 'images/emblems/army.png'). Without one, the card
+               shows a badge with the letters in "badge", in the card's color. */
+  var SERVICES = [
+    { name: 'Government',      color: '#bed215', badge: 'GOV', emblem: 'images/TYEcoatofarms.png', category: 'Government' },
+    { name: 'Army',            color: '#5bbf49', badge: 'A',   category: 'Armed Forces', words: ['army', 'infantry', 'armored', 'armoured'] },
+    { name: 'Special Forces',  color: '#bed215', badge: 'SF',  category: 'Armed Forces', words: ['special', 'ceres'] },
+    { name: 'Navy',            color: '#369cd3', badge: 'N',   category: 'Armed Forces', words: ['navy', 'naval', 'fleet', 'marine'] },
+    { name: 'Air Force',       color: '#8fd0f0', badge: 'AF',  category: 'Armed Forces', words: ['air', 'helicopter', 'wing', 'squadron'] },
+    { name: 'Military Police', color: '#c3c9d1', badge: 'MP',  category: 'Armed Forces', words: ['military police', 'ceremonial', 'guard'] },
+    { name: 'Police',          color: '#369cd3', badge: 'PD',  category: 'Emergency Services', words: ['police'] },
+    { name: 'Fire',            color: '#e8a33d', badge: 'FD',  category: 'Emergency Services', words: ['fire'] },
+    { name: 'Parks & Wildlife',color: '#5bbf49', badge: 'PW',  category: 'Emergency Services', words: ['park', 'wildlife', 'ranger'] },
+    { name: 'Corporations',    color: '#e8a33d', badge: 'CO',  category: 'Corporations' },
+    { name: 'Media',           color: '#d9534f', badge: 'M',   category: 'Media' },
+    { name: 'Other',           color: '#949ba4', badge: '+',   category: 'Other' },
+  ];
+
+  /* ---------- SETTINGS: "Answer the call" posters ----------
+     image:    the background (a screenshot works best; put them in images/posters/)
+     position: which part of the image to show ('center', 'left top', '30% 70%'...)
+     tint:     a color laid over the image
+     kicker / title / sub: the small line, the big words, the line under them
+     footer:   the small text at the bottom
+     service:  clicking the poster shows that card's jobs (a name from SERVICES above) */
+  var POSTERS = [
+    { image: 'images/yeloria.png', position: '20% 60%', tint: '#5bbf49', kicker: 'Boots on the ground', title: 'Hold the line', footer: 'Join the Army', service: 'Army', color: '#ffffff' },
+    { image: 'images/yeloria.png', position: '85% 30%', tint: '#369cd3', kicker: 'Run towards danger', title: 'Yellonia Police', sub: 'is recruiting', footer: 'Join the Police', service: 'Police', color: '#8fd0f0' },
+    { image: 'images/yeloria.png', position: '50% 90%', tint: '#1d3b5c', kicker: 'From the water, without a trace', title: 'Marine Division', sub: 'The sea needs you', footer: 'Volunteer', service: 'Navy', color: '#ffffff' },
+    { image: 'images/yeloria.png', position: '60% 20%', tint: '#7a5a1c', kicker: 'Every street. Every stone.', title: 'Defend Yeloria', footer: 'Enlist today', service: 'Military Police', color: '#f3c98a' },
+    { image: 'images/yeloria.png', position: '10% 10%', tint: '#2a2c30', kicker: 'You won\'t see our faces.', title: 'You\'ll see our results', footer: 'Special Forces · Apply', service: 'Special Forces', color: '#dbdee1' },
+    { image: 'images/yeloria.png', position: '95% 70%', tint: '#26485e', kicker: 'Learn to fly', title: 'Take the skies', footer: 'Join the Air Force', service: 'Air Force', color: '#ffffff' },
+    { image: 'images/yeloria.png', position: '40% 40%', tint: '#5c2a1c', kicker: 'When it burns', title: 'We answer', footer: 'Join the Fire Department', service: 'Fire', color: '#f3c98a' },
+    { image: 'images/yeloria.png', position: '70% 55%', tint: '#4a5200', kicker: 'Serve the Empire', title: 'Guard the Palace', footer: 'Government service', service: 'Government', color: '#e2ea9a' },
+  ];
+
   var user = null, me = null, listings = [], categories = [];
-  var filter = { category: new URLSearchParams(location.search).get('category') || '', q: '' };   /* jobs.html?category=Armed%20Forces opens filtered */
+  var filter = { category: new URLSearchParams(location.search).get('category') || '', service: new URLSearchParams(location.search).get('service') || '', q: '' };
 
   function card(l) {
     var a = S.link('', '#job/' + encodeURIComponent(l.id), 'job-card job-cat-' + catClass(l.category));
@@ -37,45 +75,178 @@
   function catClass(c) { return String(c || '').toLowerCase().replace(/[^a-z]+/g, '-'); }
 
   /* ---------- The board ---------- */
+  function serviceOf(name) { for (var i = 0; i < SERVICES.length; i++) if (SERVICES[i].name === name) return SERVICES[i]; return null; }
+  function inService(l, sv) {
+    if (sv.category && l.category !== sv.category) return false;
+    if (!sv.words) return true;
+    var org = (l.organisation + ' ' + l.title).toLowerCase();
+    return sv.words.some(function (w) { return org.indexOf(w) !== -1; });
+  }
+  function emblem(sv, className) {
+    var wrap = el('span', className);
+    wrap.style.setProperty('--svc', sv.color);
+    if (sv.emblem) { var img = el('img'); img.src = sv.emblem; img.alt = ''; img.loading = 'lazy'; wrap.appendChild(img); }
+    else { wrap.classList.add('svc-badge'); wrap.appendChild(el('span', null, sv.badge || sv.name.charAt(0))); }
+    return wrap;
+  }
+  function head(kicker, title, text) {
+    var h = el('header', 'jb-head');
+    if (kicker) h.appendChild(el('p', 'gov-kicker', kicker));
+    h.appendChild(el('h2', null, title));
+    if (text) h.appendChild(el('p', 'jb-head-text', text));
+    return h;
+  }
+
   function drawBoard() {
     root.textContent = '';
-    var tools = el('div', 'job-tools');
-    var search = el('input'); search.type = 'search'; search.placeholder = 'Search jobs'; search.value = filter.q;
-    search.setAttribute('aria-label', 'Search jobs');
-    tools.appendChild(search);
-    var chips = el('div', 'job-chips'); chips.setAttribute('role', 'group'); chips.setAttribute('aria-label', 'Category');
-    [''].concat(categories).forEach(function (c) {
-      var b = el('button', 'job-chip', c || 'All');
-      b.type = 'button';
-      b.setAttribute('aria-pressed', filter.category === c ? 'true' : 'false');
-      b.addEventListener('click', function () { filter.category = c; drawBoard(); });
-      chips.appendChild(b);
-    });
-    tools.appendChild(chips);
-    root.appendChild(tools);
 
-    var actions = el('div', 'job-actions');
+    /* Officer / account buttons */
+    var actions = el('div', 'job-actions jb-actions');
     if (me && me.isOfficer) actions.appendChild(S.link('Post a job', '#post', 'button-primary'));
     if (user) actions.appendChild(S.link(me && me.isOfficer ? 'Your listings and applications' : 'Your applications', '#mine', 'button-secondary'));
     else actions.appendChild(S.link('Log in with Discord', '/api/auth/login?next=' + encodeURIComponent('/jobs.html'), 'button-discord'));
-    root.appendChild(actions);
 
+    /* 1. Where do you want to serve? */
+    var serve = el('section', 'jb-section');
+    var serveHead = head('Job Board', 'Where do you want to serve?', null);
+    serveHead.appendChild(actions);
+    serve.appendChild(serveHead);
+    var cards = el('div', 'svc-grid');
+    SERVICES.forEach(function (sv) {
+      var n = listings.filter(function (l) { return inService(l, sv); }).length;
+      var c = el('button', 'svc-card' + (n ? ' svc-card-open' : '')); c.type = 'button';
+      c.style.setProperty('--svc', sv.color);
+      c.setAttribute('aria-pressed', filter.service === sv.name ? 'true' : 'false');
+      c.appendChild(emblem(sv, 'svc-emblem'));
+      c.appendChild(el('strong', null, sv.name));
+      c.appendChild(el('span', 'svc-count', n ? n + (n === 1 ? ' opening' : ' openings') : 'No openings yet'));
+      c.addEventListener('click', function () {
+        filter.service = filter.service === sv.name ? '' : sv.name;
+        Array.prototype.forEach.call(cards.children, function (x) { x.setAttribute('aria-pressed', 'false'); });
+        if (filter.service) c.setAttribute('aria-pressed', 'true');
+        fill();
+        if (filter.service) openings.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+      cards.appendChild(c);
+    });
+    serve.appendChild(cards);
+    root.appendChild(serve);
+
+    /* 2. Open positions */
+    var openings = el('section', 'jb-section jb-openings'); openings.id = 'openings';
+    var oh = head(null, 'Open positions', null);
+    var tools = el('div', 'jb-tools');
+    var search = el('input'); search.type = 'search'; search.placeholder = 'Search jobs'; search.value = filter.q;
+    search.setAttribute('aria-label', 'Search jobs');
+    tools.appendChild(search);
+    var showing = el('div', 'jb-showing');
+    tools.appendChild(showing);
+    oh.appendChild(tools);
+    openings.appendChild(oh);
     var grid = el('div', 'job-grid');
-    root.appendChild(grid);
+    openings.appendChild(grid);
+    root.appendChild(openings);
+
     function fill() {
-      grid.textContent = '';
+      grid.textContent = ''; showing.textContent = '';
+      var sv = serviceOf(filter.service);
+      var label = sv ? sv.name : filter.category;
+      if (label) {
+        var pill = el('button', 'jb-pill', 'Showing: ' + label + '  ✕'); pill.type = 'button';
+        pill.setAttribute('aria-label', 'Show all jobs');
+        pill.addEventListener('click', function () {
+          filter.service = ''; filter.category = '';
+          Array.prototype.forEach.call(cards.children, function (x) { x.setAttribute('aria-pressed', 'false'); });
+          fill();
+        });
+        showing.appendChild(pill);
+      }
       var q = filter.q.toLowerCase();
       var shown = listings.filter(function (l) {
-        if (filter.category && l.category !== filter.category) return false;
+        if (sv && !inService(l, sv)) return false;
+        if (!sv && filter.category && l.category !== filter.category) return false;
         if (!q) return true;
         return (l.title + ' ' + l.organisation + ' ' + l.description).toLowerCase().indexOf(q) !== -1;
       });
-      if (!shown.length) grid.appendChild(el('p', 'form-note job-empty', listings.length ? 'No jobs match.' : 'No open jobs right now. Check back soon.'));
+      if (!shown.length) {
+        grid.appendChild(el('p', 'jb-empty', listings.length
+          ? (label ? 'No open positions in ' + label + ' right now. Check back soon.' : 'No jobs match your search.')
+          : 'There are no open positions right now. Check back soon.'));
+      }
       shown.forEach(function (l) { grid.appendChild(card(l)); });
     }
     var t;
     search.addEventListener('input', function () { clearTimeout(t); t = setTimeout(function () { filter.q = search.value.trim(); fill(); }, 150); });
     fill();
+
+    /* 3. Answer the call */
+    var call = el('section', 'jb-section jb-call');
+    call.appendChild(head(null, 'Answer the call', null));
+    var posters = el('div', 'poster-grid');
+    POSTERS.forEach(function (p) {
+      var sv = serviceOf(p.service) || {};
+      var a = el('button', 'poster'); a.type = 'button';
+      a.style.setProperty('--tint', p.tint || '#111214');
+      a.style.setProperty('--poster-color', p.color || '#ffffff');
+      var bg = el('span', 'poster-bg'); bg.style.backgroundImage = 'url("' + p.image + '")'; bg.style.backgroundPosition = p.position || 'center';
+      a.appendChild(bg);
+      var text = el('span', 'poster-text');
+      if (p.kicker) text.appendChild(el('span', 'poster-kicker', p.kicker));
+      text.appendChild(el('span', 'poster-title', p.title));
+      if (p.sub) text.appendChild(el('span', 'poster-sub', p.sub));
+      a.appendChild(text);
+      var foot = el('span', 'poster-foot');
+      var arms = el('img'); arms.src = sv.emblem || 'images/TYEcoatofarms.png'; arms.alt = ''; foot.appendChild(arms);
+      foot.appendChild(el('span', null, (p.footer || '') + ' · yellonia.net/jobs'));
+      a.appendChild(foot);
+      a.setAttribute('aria-label', (p.kicker ? p.kicker + ' ' : '') + p.title + '. Show ' + (p.service || 'all') + ' jobs');
+      a.addEventListener('click', function () {
+        filter.service = p.service || '';
+        Array.prototype.forEach.call(cards.children, function (x, i) { x.setAttribute('aria-pressed', SERVICES[i].name === filter.service ? 'true' : 'false'); });
+        fill();
+        openings.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+      posters.appendChild(a);
+    });
+    call.appendChild(posters);
+    root.appendChild(call);
+
+    /* 4. Follow an application */
+    var track = el('section', 'jb-section jb-track');
+    var box = el('div', 'track-box');
+    box.appendChild(el('h2', null, 'Follow an application'));
+    box.appendChild(el('p', 'jb-head-text', 'Enter the application number you received.'));
+    var f = el('form', 'track-form'); f.noValidate = true;
+    var num = el('input'); num.type = 'text'; num.placeholder = 'JOB-XXXXXXXX'; num.maxLength = 12; num.autocomplete = 'off';
+    num.setAttribute('aria-label', 'Application number'); num.spellcheck = false;
+    var go = el('button', 'button-primary track-go'); go.type = 'submit';
+    go.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg><span>Check</span>';
+    f.appendChild(num); f.appendChild(go);
+    box.appendChild(f);
+    var result = el('div', 'track-result'); result.setAttribute('role', 'status');
+    box.appendChild(result);
+    f.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var v = num.value.trim().toUpperCase();
+      if (!v) { num.focus(); return; }
+      go.disabled = true; result.textContent = ''; result.appendChild(el('p', 'news-loading', 'Checking…'));
+      S.api('public', 'job-track', { number: v }).then(function (r) {
+        go.disabled = false; result.textContent = '';
+        if (!r.success) { result.appendChild(el('p', 'form-message form-message-error', r.msg)); return; }
+        var app = r.application;
+        var card = el('div', 'track-card');
+        var top = el('div', 'track-card-top');
+        top.appendChild(el('span', 'report-number', app.number));
+        top.appendChild(el('span', 'job-status job-status-' + app.status.toLowerCase(), app.statusName));
+        card.appendChild(top);
+        card.appendChild(el('strong', null, app.title));
+        if (app.organisation) card.appendChild(el('span', 'job-org', app.organisation));
+        card.appendChild(el('p', 'job-foot', 'Applied ' + S.day(app.createdAt) + (app.decidedAt ? ' · decided ' + S.day(app.decidedAt) : '')));
+        result.appendChild(card);
+      });
+    });
+    track.appendChild(box);
+    root.appendChild(track);
   }
 
   /* ---------- One listing ---------- */
@@ -98,6 +269,19 @@
       S.renderText(main, l.description);
       if (l.requirements) { main.appendChild(el('h3', null, 'Requirements')); S.renderText(main, l.requirements); }
       main.appendChild(el('p', 'job-foot', 'Posted by ' + l.postedName + ' on ' + S.day(l.createdAt) + (l.closesAt ? ' · closes ' + S.day(l.closesAt) : '')));
+
+      /* Share: yellonia.net/jobs/<id> shows the job's details as an embed in Discord */
+      var shareUrl = location.origin + '/jobs/' + encodeURIComponent(l.id);
+      var share = el('div', 'job-share');
+      var copy = S.button('Copy link to share', 'button-secondary job-share-button');
+      var copied = el('span', 'job-share-note', 'Paste it in Discord to show the job as an embed.');
+      copy.addEventListener('click', function () {
+        function done() { copy.textContent = 'Link copied'; setTimeout(function () { copy.textContent = 'Copy link to share'; }, 2500); }
+        if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(shareUrl).then(done, function () { window.prompt('Copy this link:', shareUrl); });
+        else window.prompt('Copy this link:', shareUrl);
+      });
+      share.appendChild(copy); share.appendChild(copied);
+      main.appendChild(share);
       layout.appendChild(main);
 
       var side = el('aside', 'job-apply');
@@ -112,7 +296,8 @@
         side.appendChild(el('p', null, 'Log in with the Discord account linked to your Roblox account.'));
         side.appendChild(S.link('Log in with Discord', '/api/auth/login?next=' + encodeURIComponent('/jobs.html#job/' + l.id), 'button-discord'));
       } else if (a.application && a.application.status !== 'WITHDRAWN') {
-        side.appendChild(el('p', null, 'You applied on ' + S.day(a.application.createdAt) + '.'));
+        side.appendChild(el('p', null, 'You applied on ' + S.day(a.application.createdAt) + '. Application number: '));
+        side.appendChild(el('p', 'report-number job-app-number', a.application.number));
         side.appendChild(el('p', 'job-status job-status-' + a.application.status.toLowerCase(), a.application.statusName));
         if (a.application.note) side.appendChild(el('p', 'report-note', a.application.note));
       } else if (l.status === 'OPEN') {
@@ -267,7 +452,7 @@
         var row = el('div', 'job-row');
         var info = el('div');
         if (app.listing) info.appendChild(S.link(app.listing.title, '#job/' + encodeURIComponent(app.listing.id), 'job-row-title'));
-        info.appendChild(el('p', 'job-foot', (app.listing ? app.listing.organisation + ' · ' : '') + 'applied ' + S.day(app.createdAt)));
+        info.appendChild(el('p', 'job-foot', app.number + ' · ' + (app.listing ? app.listing.organisation + ' · ' : '') + 'applied ' + S.day(app.createdAt)));
         if (app.note) info.appendChild(el('p', 'report-note', app.note));
         row.appendChild(info);
         var right = el('div', 'job-row-buttons');
