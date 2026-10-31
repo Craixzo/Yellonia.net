@@ -101,11 +101,22 @@
   /* ---------- 3. LIVE STANDINGS ---------- */
   function fillStandings(data) {
     var box = document.getElementById('botm-standings');
-    if (!box || !data.current) return;
+    if (!box) return;
     box.textContent = '';
-    box.appendChild(el('h2', null, data.current.label + ' so far'));
-    box.appendChild(standingsList(data.current.standings, null));
-    box.appendChild(el('p', 'botm-note', 'Every event hosted counts. The month closes at midnight (Eastern) on the 1st.'));
+    /* Manual mode: nothing to show until the month's winner has been set */
+    if (!data.current || !data.current.standings.length) {
+      box.appendChild(el('p', 'botm-note', 'This month\'s Branch of the Month will be announced when the month ends.'));
+      return;
+    }
+    var decided = data.current.decided;                         /* true once the month's winner has been set */
+    var winners = decided && data.holder && data.holder.month === data.current.month ? data.holder.winners : null;
+    box.appendChild(el('h2', null, data.current.label + (decided ? ' (final)' : ' so far')));
+    box.appendChild(standingsList(data.current.standings, winners));
+    box.appendChild(el('p', 'botm-note', decided
+      ? 'This month\'s Branch of the Month has been decided.'
+      : data.mode === 'automatic'
+        ? 'Every event hosted counts. The month closes at midnight (Eastern) on the 1st.'
+        : 'Events are logged by staff. The winner is announced when the month ends.'));
   }
 
 
@@ -115,7 +126,7 @@
     if (!box) return;
     box.textContent = '';
     if (!data.history.length) {
-      box.appendChild(el('p', 'botm-note', 'The first Branch of the Month is crowned when this month ends.'));
+      box.appendChild(el('p', 'botm-note', 'No Branch of the Month has been crowned yet.'));
       return;
     }
 
@@ -139,10 +150,12 @@
       card.appendChild(el('p', 'botm-card-month', month.label));
       card.appendChild(el('h3', null, month.winners.length ? winnerNames(month.winners) : 'No winner'));
       if (month.winners.length) card.appendChild(el('p', 'botm-card-count', plural(month.winners[0].count)));
-      var more = el('details');
-      more.appendChild(el('summary', null, 'Full standings'));
-      more.appendChild(standingsList(month.standings, month.winners));
-      card.appendChild(more);
+      if (month.standings.length > 1) {                          /* only when other branches were counted too */
+        var more = el('details');
+        more.appendChild(el('summary', null, 'Full standings'));
+        more.appendChild(standingsList(month.standings, month.winners));
+        card.appendChild(more);
+      }
       grid.appendChild(card);
     });
     box.appendChild(grid);
