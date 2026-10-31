@@ -4,40 +4,36 @@
    branch-of-the-month.html (standings + Hall of Fame). Filled in by botm.js.
    ============================================================== */
 
-/* ---------- 1. HOMEPAGE BANNER ---------- */
+/* ---------- 1. HOMEPAGE BANNER (one slim strip) ---------- */
 .botm-banner {
   background: linear-gradient(90deg, rgba(190, 210, 21, 0.14), rgba(190, 210, 21, 0) 70%), var(--bar-bg);
-  border-top: 2px solid var(--flag-lime);
-  border-bottom: 2px solid var(--flag-lime);
+  border-top: 1px solid var(--flag-lime);
+  border-bottom: 1px solid var(--flag-lime);
 }
 .botm-banner[hidden] { display: none; }
 .botm-banner-inner {
   max-width: var(--site-width);
   margin: 0 auto;
-  padding: 28px var(--side-gap);
+  padding: 10px var(--side-gap);           /* strip height: change the 10px */
   display: flex;
   align-items: center;
-  gap: 28px;
+  gap: 12px;
   flex-wrap: wrap;
 }
-.botm-banner-crest {                       /* the big star on the left */
-  font-size: 3rem;
-  line-height: 1;
-  color: var(--flag-lime);
-}
-.botm-banner-text { flex: 1 1 320px; }
+.botm-banner-crest { font-size: 1.25rem; line-height: 1; color: var(--flag-lime); }
+.botm-banner-text { flex: 1 1 auto; display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
 .botm-kicker {
-  margin: 0 0 4px;
-  font-size: 0.8rem;
+  margin: 0;
+  font-size: 0.75rem;
   letter-spacing: 0.15em;
   text-transform: uppercase;
   color: var(--flag-lime);
 }
-.botm-banner h2 { margin: 0 0 6px; font-size: 2rem; }
-.botm-banner-text p { margin: 0; color: var(--text-dim); }
-.botm-banner-side { text-align: right; }
-.botm-banner-count { display: block; font-size: 1.25rem; font-weight: 700; margin-bottom: 10px; }
-.botm-banner-links a { color: var(--text); margin-left: 16px; }
+.botm-banner h2 { margin: 0; font-size: 1.1rem; }
+.botm-banner-text p:not(.botm-kicker) { display: none; }   /* the blurb; remove this line to show it */
+.botm-banner-side { display: flex; align-items: center; gap: 16px; font-size: 0.9rem; }
+.botm-banner-count { font-weight: 700; }
+.botm-banner-links a { color: var(--text); margin-left: 12px; }
 .botm-banner-links a:hover { color: var(--gold); }
 
 /* ---------- 2. ARMED FORCES BADGE ---------- */
@@ -90,7 +86,6 @@
 .botm-card .botm-row { grid-template-columns: 100px 1fr 30px; font-size: 0.85rem; }
 
 @media (max-width: 560px) {
-  .botm-banner-side { text-align: left; }
-  .botm-banner-links a { margin: 0 16px 0 0; }
+  .botm-banner-links a { margin: 0 12px 0 0; }
   .botm-row { grid-template-columns: 110px 1fr 32px; }
 }
