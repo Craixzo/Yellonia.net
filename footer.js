@@ -44,6 +44,7 @@ document.currentScript.insertAdjacentHTML('beforebegin', `
           <li><a href="https://wiki.yellonia.net/" target="_blank" rel="noopener">Empire of Yellonia Wiki</a></li>
           <li><a href="https://ssd-secure-portal.vercel.app/" target="_blank" rel="noopener">State Security Directorate</a></li>
           <li><a href="https://catwatcher.org/" target="_blank" rel="noopener">CatWatcher</a></li>
+          <li><a href="https://kaliber-tech.com/" target="_blank" rel="noopener">Kaliber Tech</a></li>
         </ul>
       </div>
 
