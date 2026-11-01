@@ -73,7 +73,6 @@
     banner.querySelector('[data-botm="month"]').textContent = holder.label;
     banner.querySelector('[data-botm="name"]').textContent = winnerNames(holder.winners);
     banner.querySelector('[data-botm="blurb"]').textContent = holder.winners.length > 1 ? 'Tied for the most events hosted.' : first.blurb;
-    banner.querySelector('[data-botm="count"]').textContent = plural(holder.winners[0].count) + ' hosted';
     var link = banner.querySelector('[data-botm="link"]');
     if (link && first.section) link.href = 'armed-forces.html#' + first.section;
     banner.hidden = false;
