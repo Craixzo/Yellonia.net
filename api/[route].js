@@ -13,6 +13,7 @@
    ============================================================== */
 
 const ROUTES = {
+  afterimage:  require('./_routes/afterimage'),
   apply:       require('./_routes/apply'),
   botm:        require('./_routes/botm'),
   des:         require('./_routes/des'),
