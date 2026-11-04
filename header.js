@@ -102,6 +102,7 @@ document.currentScript.insertAdjacentHTML('beforebegin', `
           <a href="jobs.html">Community</a>
           <ul class="dropdown">
             <li><a href="jobs.html">Job Board</a></li>
+            <li><a href="afterimage.html">Afterimage</a></li>
             <li><a href="https://wiki.yellonia.net" target="_blank" rel="noopener">Wiki</a></li>
             <li><a href="contact.html">Contact Staff</a></li>
             <li><a href="brand.html">Brand Kit</a></li>

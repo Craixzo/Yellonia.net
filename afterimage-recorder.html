@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Recorder | Afterimage | Yellonia</title>
+  <!-- DISCORD / SOCIAL EMBED: the card shown when this page is linked on Discord (and X, etc.). -->
+  <meta name="description" content="Keep this tab open and your F8 clips get real video. No install.">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Yellonia">
+  <meta property="og:title" content="Afterimage recorder">
+  <meta property="og:description" content="Keep this tab open and your F8 clips get real video. No install.">
+  <meta property="og:url" content="https://yellonianet.vercel.app/afterimage-recorder">
+  <meta property="og:image" content="https://yellonianet.vercel.app/images/embed.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="theme-color" content="#bed215">
+  <link rel="icon" href="images/TYEcoatofarms.png">
+
+  <!-- FONT: swap the family here AND in style.css (--font) to change it -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style-afterimage.css">
+
+  <!-- BROADCASTS: the LiveKit browser library, loaded from a CDN -->
+  <script type="importmap">
+  { "imports": { "livekit-client": "https://cdn.jsdelivr.net/npm/livekit-client@2/+esm" } }
+  </script>
+</head>
+<body>
+
+<!-- TOPBAR: shared by every page. To change it, edit header.js -->
+<script src="header.js"></script>
+
+
+<!-- ============================================================
+     PAGE CONTENT: everything unique to this page goes inside <main>
+     ============================================================ -->
+<main>
+
+  <section class="page">
+    <a class="text-link ai-back" href="afterimage.html">&larr; Afterimage</a>
+    <p class="ai-kicker">AFTERIMAGE</p>
+    <h1>Recorder</h1>
+    <p>Keep this tab open while you play. When you press <kbd>F8</kbd> in-game, it uploads the last 30 seconds of your screen with the clip. Nothing to install. Works in Chrome, Edge and Opera on a computer.</p> <!-- DRAFT -->
+  </section>
+
+  <section class="page" style="padding-top: 0">
+    <!-- Filled in by afterimage-recorder.js -->
+    <div id="ai-recorder"><p class="ai-note">Loading&hellip;</p></div>
+  </section>
+
+</main>
+
+
+<!-- FOOTER: shared by every page. To change it, edit footer.js -->
+<script src="footer.js"></script>
+
+<!-- SHARED SCRIPT: topbar hide on scroll. To change it, edit script.js -->
+<script src="script.js"></script>
+
+<!-- AFTERIMAGE: shared helpers, then the recorder -->
+<script src="afterimage-common.js"></script>
+<script type="module" src="afterimage-recorder.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Clip | Afterimage | Yellonia</title>
+  <!-- DISCORD / SOCIAL EMBED: the card shown when this page is linked on Discord (and X, etc.). -->
+  <meta name="description" content="A clip from Yellonia, watched back in 3D.">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Yellonia">
+  <meta property="og:title" content="Afterimage clip">
+  <meta property="og:description" content="A clip from Yellonia, watched back in 3D.">
+  <meta property="og:url" content="https://yellonianet.vercel.app/afterimage-view">
+  <meta property="og:image" content="https://yellonianet.vercel.app/images/embed.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="theme-color" content="#bed215">
+  <link rel="icon" href="images/TYEcoatofarms.png">
+
+  <!-- FONT: swap the family here AND in style.css (--font) to change it -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style-afterimage.css">
+
+  <!-- 3D: three.js, loaded from a CDN. To update it, change the version number in both lines. -->
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js",
+      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"
+    }
+  }
+  </script>
+</head>
+<body>
+
+<!-- TOPBAR: shared by every page. To change it, edit header.js -->
+<script src="header.js"></script>
+
+
+<!-- ============================================================
+     PAGE CONTENT: everything unique to this page goes inside <main>
+     ============================================================ -->
+<main>
+
+  <section class="ai-viewer-page">
+
+    <!-- 1. TITLE STRIP: what this is, its code, when it expires -->
+    <a class="text-link ai-back" href="afterimage.html">&larr; Afterimage</a>
+    <div class="ai-title-strip">
+      <div>
+        <p class="ai-kicker" id="ai-kind">Clip</p>
+        <h1 id="ai-title">Loading&hellip;</h1>
+        <p class="ai-meta" id="ai-sub"></p>
+      </div>
+      <div class="ai-title-side" id="ai-title-side" hidden>
+        <button type="button" class="ai-code-chip" id="ai-copy" title="Copy the link"><code id="ai-code"></code><span id="ai-copied">Copy link</span></button>
+        <span class="ai-meta" id="ai-expires"></span>
+      </div>
+    </div>
+
+    <!-- Shown instead of the viewer when something's wrong (bad code, not logged in ...) -->
+    <div class="ai-missing" id="ai-missing" hidden></div>
+
+    <div class="ai-viewer" id="ai-viewer" hidden>
+
+      <div class="ai-stage">
+        <!-- 3D / VIDEO switch: only shown when the clip has real video -->
+        <div class="ai-view-switch" id="ai-view-switch" role="group" aria-label="Show" hidden>
+          <button type="button" class="ai-chip is-on" data-view="3d">3D replay</button>
+          <button type="button" class="ai-chip" data-view="video">Video</button>
+          <span class="ai-note" id="ai-video-note"></span>
+        </div>
+
+        <!-- 2. THE 3D VIEW: drawn by afterimage-view.js -->
+        <div class="ai-viewport" id="ai-viewport">
+          <div class="ai-labels" id="ai-labels"></div>
+          <div class="ai-hud-top">
+            <span class="ai-score" id="ai-score"></span>
+            <span class="ai-live-dot" id="ai-live-badge" hidden>Live</span>
+          </div>
+          <div class="ai-hud-mode" role="group" aria-label="Camera">
+            <button type="button" class="ai-mode" data-mode="map">Map</button>
+            <button type="button" class="ai-mode is-on" data-mode="free">Freecam</button>
+            <button type="button" class="ai-mode" data-mode="follow">Follow</button>
+            <button type="button" class="ai-mode" data-mode="pov">Their view</button>
+          </div>
+          <p class="ai-hud-hint" id="ai-hint">Drag to look around, right-drag to move, scroll to zoom.</p>
+          <p class="ai-loading" id="ai-loading">Loading the map&hellip;</p>
+        </div>
+
+        <!-- The real video (recorder tab), when there is one -->
+        <div class="ai-video-box" id="ai-video-box" hidden>
+          <video id="ai-video" controls playsinline preload="metadata"></video>
+        </div>
+
+        <!-- 3. CONTROLS + TIMEBAR (kills are the ticks) -->
+        <div class="ai-controls" id="ai-controls">
+          <button type="button" class="ai-play" id="ai-play" aria-label="Play">
+            <svg viewBox="0 0 24 24" class="ai-icon-play"><path d="M7 4l13 8-13 8z"/></svg>
+            <svg viewBox="0 0 24 24" class="ai-icon-pause"><path d="M6 4h4v16H6zM14 4h4v16h-4z"/></svg>
+          </button>
+          <span class="ai-time" id="ai-time">00:00 / 00:00</span>
+          <div class="ai-timebar" id="ai-timebar">
+            <div class="ai-timebar-fill" id="ai-fill"></div>
+            <div class="ai-timebar-marks" id="ai-marks"></div>
+            <div class="ai-timebar-head" id="ai-head"></div>
+          </div>
+          <select class="ai-speed" id="ai-speed" aria-label="Playback speed">
+            <option value="0.25">0.25&times;</option>
+            <option value="0.5">0.5&times;</option>
+            <option value="1" selected>1&times;</option>
+            <option value="2">2&times;</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- 4. SIDE PANEL: players, the selected player, kill feed -->
+      <aside class="ai-side">
+
+        <div class="ai-panel">
+          <h2>Players</h2>
+          <p class="ai-note">Pick someone to follow them.</p>
+          <div id="ai-teams"></div>
+        </div>
+
+        <div class="ai-panel ai-player-card" id="ai-player-card" hidden>
+          <p class="ai-kicker">Selected</p>
+          <h2 id="ai-pc-name"></h2>
+          <p class="ai-meta" id="ai-pc-team"></p>
+          <dl class="ai-stats" id="ai-pc-stats"></dl>
+          <!-- CATWATCHER: filled in by afterimage-view.js once the CatWatcher API is added on Railway (src/catwatcher.js) -->
+          <div class="ai-catwatcher" id="ai-pc-catwatcher">
+            <img src="images/logos/CatWatcher.png" alt="">
+            <div>
+              <strong>CatWatcher</strong>
+              <span class="ai-note" id="ai-pc-cw-text">Not connected yet.</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="ai-panel">
+          <h2>Kill feed</h2>
+          <p class="ai-note">Click a kill to jump to just before it and see how far it was.</p>
+          <ol class="ai-feed" id="ai-feed"></ol>
+        </div>
+
+      </aside>
+    </div>
+  </section>
+
+</main>
+
+
+<!-- FOOTER: shared by every page. To change it, edit footer.js -->
+<script src="footer.js"></script>
+
+<!-- SHARED SCRIPT: topbar hide on scroll. To change it, edit script.js -->
+<script src="script.js"></script>
+
+<!-- AFTERIMAGE: shared helpers, then the 3D viewer -->
+<script src="afterimage-common.js"></script>
+<script type="module" src="afterimage-view.js"></script>
+
+</body>
+</html>

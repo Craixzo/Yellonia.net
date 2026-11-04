@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Afterimage | Yellonia</title>
+  <!-- DISCORD / SOCIAL EMBED: the card shown when this page is linked on Discord (and X, etc.).
+       The image and address must be full links. If the site moves to a new domain, change https://yellonianet.vercel.app here. -->
+  <meta name="description" content="Clips and live events from Yellonia's games, right in your browser.">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Yellonia">
+  <meta property="og:title" content="Afterimage">
+  <meta property="og:description" content="Clips and live events from Yellonia's games, right in your browser.">
+  <meta property="og:url" content="https://yellonianet.vercel.app/afterimage">
+  <meta property="og:image" content="https://yellonianet.vercel.app/images/embed.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="theme-color" content="#bed215">   <!-- the colored bar on the left of the Discord card -->
+  <link rel="icon" href="images/TYEcoatofarms.png">
+
+  <!-- FONT: swap the family here AND in style.css (--font) to change it -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style-afterimage.css">
+</head>
+<body>
+
+<!-- TOPBAR: shared by every page. To change it, edit header.js -->
+<script src="header.js"></script>
+
+
+<!-- ============================================================
+     PAGE CONTENT: everything unique to this page goes inside <main>
+     ============================================================ -->
+<main>
+
+  <!-- BANNER -->
+  <section class="page-banner page-banner-short">
+    <img src="images/yeloria.png" alt="">
+    <div class="page-banner-text">
+      <p class="ai-kicker">AFTERIMAGE</p>
+      <h1>Clips and live events</h1>
+      <p>Press F8 in-game to save the last 30 seconds. Watch it back here from any angle.</p> <!-- DRAFT -->
+    </div>
+  </section>
+
+  <!-- SECTION LINKS: pinned under the topbar -->
+  <nav class="subnav" aria-label="Afterimage sections">
+    <ul>
+      <li><a href="#find">Open a clip</a></li>
+      <li><a href="#live">Live now</a></li>
+      <li><a href="#clips">Latest clips</a></li>
+      <li><a href="afterimage-recorder.html">Recorder</a></li>
+      <li><a href="#rules">How it works</a></li>
+    </ul>
+  </nav>
+
+  <!-- 1. OPEN A CLIP: type a three-word code -->
+  <section class="page ai-find" id="find">
+    <h2>Open a clip</h2>
+    <p>Every clip gets a three-word code in-game. Paste it here.</p>
+    <form class="ai-code-form" id="ai-code-form">
+      <input id="ai-code-input" type="text" placeholder="neon-harbor-falcon" autocomplete="off" spellcheck="false" aria-label="Clip code">
+      <button class="button-primary" type="submit">Open</button>
+    </form>
+    <p class="ai-form-message" id="ai-code-message" role="status"></p>
+  </section>
+
+  <!-- 2. LIVE NOW: game-data spectating and video broadcasts, filled in by afterimage-hub.js -->
+  <section class="page" id="live">
+    <div class="ai-section-head">
+      <h2>Live now</h2>
+      <span class="ai-note" id="ai-live-note">Live views run a little behind the game. You can't watch a server you're playing in.</span>
+    </div>
+    <div class="ai-live-grid" id="ai-live"></div>
+  </section>
+
+  <!-- 3. LATEST CLIPS: filled in by afterimage-hub.js -->
+  <section class="page" id="clips">
+    <div class="ai-section-head">
+      <h2>Latest clips</h2>
+      <span class="ai-note">Press <kbd>F8</kbd> in-game to save the last 30 seconds. Clips are kept for <span id="ai-days">30</span> days.</span>
+    </div>
+    <div class="ai-clip-grid" id="ai-clips"></div>
+  </section>
+
+  <!-- 4. HOW IT WORKS: the rules, in plain words -->
+  <section class="page" id="rules">
+    <h2>How it works</h2>
+    <div class="ai-rule-grid">
+      <div class="ai-rule">
+        <h3>Nothing to install</h3>
+        <p>F8 saves the last 30 seconds of the game as a 3D clip. Open the <a class="text-link" href="afterimage-recorder.html">recorder</a> in a browser tab and your clips get real video too.</p>
+      </div>
+      <div class="ai-rule">
+        <h3>Live, with a delay</h3>
+        <p>Officers can show an event live. Viewers are a little behind the game, and nobody can watch a server they're playing in.</p>
+      </div>
+      <div class="ai-rule">
+        <h3>Display names only</h3>
+        <p>No chat, no voice, no usernames. Clips show display names, teams, movement, shots and kills.</p>
+      </div>
+      <div class="ai-rule">
+        <h3>Kept for 30 days</h3>
+        <p>Clips are deleted after 30 days. Want one removed sooner? Ask through <a class="text-link" href="contact.html">Contact Staff</a>.</p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+
+<!-- FOOTER: shared by every page. To change it, edit footer.js -->
+<script src="footer.js"></script>
+
+<!-- SHARED SCRIPT: topbar hide on scroll. To change it, edit script.js -->
+<script src="script.js"></script>
+
+<!-- AFTERIMAGE: shared helpers, then this page -->
+<script src="afterimage-common.js"></script>
+<script src="afterimage-hub.js"></script>
+
+</body>
+</html>
